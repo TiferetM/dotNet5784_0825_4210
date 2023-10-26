@@ -1,11 +1,12 @@
 ﻿using System;
 namespace Targil0
 {
-    class Program
+    partial class Program
     {
-        static void Main(string[] args)
+        static void Main(string[]args)
         {
             Welcome0825();
+            Welcome4210();
             Console.ReadKey();
         }
 
@@ -16,5 +17,6 @@ namespace Targil0
             Console.WriteLine("{0} ,welcome to my first console application", username);
             Console.ReadKey( );
         }
+        static partial void Welcome4210();
     }
 }
