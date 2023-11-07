@@ -1,8 +1,5 @@
-﻿
-namespace DalApi;
-
+﻿namespace DalApi;
 using DO;
-
 public interface IEngineer
 {
     int Create(Engineer item); //Creates new entity object in DAL
@@ -11,4 +8,3 @@ public interface IEngineer
     void Update(Engineer item); //Updates entity object
     void Delete(int id); //Deletes an object by is Id
 }
-

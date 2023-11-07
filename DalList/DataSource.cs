@@ -5,13 +5,12 @@ internal static class DataSource
     {
         internal const int startTaskId = 1000;
         private static int nextTaskId = startTaskId;
-        private static int NextTaskId { get => nextTaskId++; }
-        //
+        public static int NextTaskId { get => nextTaskId++; }
         internal const int startDependencyId = 1000;
         private static int nextDependencyId = startDependencyId;
-        private static int NextDependencyId { get => nextDependencyId++; }
+        public static int NextDependencyId { get => nextDependencyId++; }
     }
-    internal static List<DO.Task> Tasks { get; } = new();
+    internal static List<DO.Task> Tasks { get; } = new();//
     internal static List<DO.Engineer> Engineers { get; } = new();
     internal static List<DO.Dependency> Dependencies { get; } = new();
     //....

@@ -12,7 +12,7 @@ namespace DO;
 public record Engineer
 {
     #region characters
-    int Id;
+     public int Id { get; set; }
     string? Name;
     string? email;
     EngineerExperience level;
