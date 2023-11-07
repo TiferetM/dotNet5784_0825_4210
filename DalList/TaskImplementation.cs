@@ -31,7 +31,7 @@ public class TaskImplementation : ITask
         throw new NotImplementedException();
     }
 
-    public List<Task?> ReadAll()
+    public List<Task> ReadAll()
     {
         return new List<Task>(DataSource.Tasks);
     }//done
@@ -45,6 +45,6 @@ public class TaskImplementation : ITask
         }
         Delete(item.Id);
         Create(item);
-        throw new NotImplementedException();
+       // throw new NotImplementedException();
     }
 }
