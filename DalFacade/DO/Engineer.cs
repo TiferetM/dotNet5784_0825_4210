@@ -15,7 +15,7 @@ public record Engineer
      public int Id { get; set; }
     string? Name;
     string? email;
-    EngineerExperience level;
+   public EngineerExperience level { get; set; }
     #endregion
     public Engineer(int myId,string myName,string myEmail,int myCost)  // ctor 
     {
