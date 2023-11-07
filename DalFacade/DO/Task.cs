@@ -1,5 +1,4 @@
-﻿
-namespace DO;
+﻿namespace DO;
 ///<summary>
 ///<param name="Id">Personal unique ID and its a primary key</param>
 ///<param name="description"></param>description of the task
@@ -17,11 +16,11 @@ namespace DO;
 public record Task
 {
     public int Id { get; set; }
-    string? description=null;
-    string? Alias=null;
-    bool Milestone=false;
-    DateTime createdat;
-    DateTime start;
+    public string? description{ get; set; } = null;
+    public string? Alias { get; set; } = null;
+    public bool Milestone { get; set; }
+    public DateTime createdat { get; set; }
+    public DateTime start { get; set; }
     DateTime schedudalDate;
     DateTime DeadLine;
     DateTime Complete;
@@ -34,7 +33,7 @@ public record Task
     //param c-tor
     public Task(int myId,string? mydescription,string? myAlias,bool myMilestone,DateTime mycreatedat,
 DateTime mystart,DateTime myschedudalDate,DateTime myDeadLine,DateTime myComplete,string myDelivrables,
-string? myRemarks,int myEngineerid,string myComplexityLevel)
+string? myRemarks,int myEngineerid,string myComplexityLevel)//c-tor
     {
         Id = myId;
         description = mydescription;
