@@ -1,4 +1,5 @@
 ﻿namespace Dal;
+using DO;
 internal static class DataSource
 {
     internal static class Config
@@ -10,8 +11,8 @@ internal static class DataSource
         private static int nextDependencyId = startDependencyId;
         public static int NextDependencyId { get => nextDependencyId++; }
     }
-    internal static List<DO.Task> Tasks { get; } = new();//
-    internal static List<DO.Engineer> Engineers { get; } = new();
-    internal static List<DO.Dependency> Dependencies { get; } = new();
+    internal static List<Task>? Tasks { get; } = new();//
+    internal static List<Engineer> ?Engineers { get; } = new();
+    internal static List<Dependency>? Dependencies { get; } = new();
     //....
 }

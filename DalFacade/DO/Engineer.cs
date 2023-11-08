@@ -1,6 +1,5 @@
-﻿using System.Xml.Linq;
-
-namespace DO;
+﻿namespace DO;
+using System.Xml.Linq;
 /// <summary>
 /// an intety that has :ID number, a Name, an email, a Engineer Level and the Cost;
 /// </summary>
