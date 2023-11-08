@@ -8,8 +8,8 @@
 public record Dependency
 {
     public int Id { get; set; }
-    int DependenceTask;
-    int DependenceOnTask;
+    public int DependenceTask{ get; set; }
+    public int DependenceOnTask{ get; set; }
 
     public Dependency(int myId, int myDependenceTask, int myDependenceOnTask)  // ctor 
     {
