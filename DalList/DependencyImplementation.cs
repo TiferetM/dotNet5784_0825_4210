@@ -3,12 +3,12 @@
 using System.Collections.Generic;
 using DalApi;
 using DO;
-internal class DependencyImplementation : IDependency
+public class DependencyImplementation : IDependency
 {
     public int Create(Dependency item)//done
     {
         int newId = DataSource.Config.NextTaskId;
-        Dependency tempdependency = item with { Id = DataSource.Config.NextTaskId };
+        Dependency  tempdependency = item with { Id = DataSource.Config.NextTaskId };
         DataSource.Dependencies.Add(item);
         return newId;
 
@@ -16,7 +16,7 @@ internal class DependencyImplementation : IDependency
 
     public void Delete(int id)//done
     {
-        Dependency deleteDependency = DataSource.Dependencies.FirstOrDefault(obj => obj.Id == id);
+        Dependency ? deleteDependency = DataSource.Dependencies.FirstOrDefault(obj => obj.Id == id);
         if (deleteDependency != null)
         {
             DataSource.Dependencies.Remove(deleteDependency);
@@ -48,23 +48,3 @@ internal class DependencyImplementation : IDependency
         Create(item);
     }
 }
-//public void Delete(int id)
-//{
-//    throw new NotImplementedException();
-//}
-
-//public Dependency? Read(int id)
-//{
-//    throw new NotImplementedException();
-//}
-
-//public List<Dependency?> ReadAll()
-//{
-//    throw new NotImplementedException();
-//}
-
-//public void Update(Dependency item)
-//{
-//    throw new NotImplementedException();
-//}
-

@@ -16,7 +16,7 @@ public class TaskImplementation : ITask
     //
     public void Delete(int id)///done
     {
-        Task deleteTask = DataSource.Tasks.FirstOrDefault(obj => obj.Id == id);
+        Task ? deleteTask = DataSource.Tasks.FirstOrDefault(obj => obj.Id == id);
       if(deleteTask!=null)
         {
             DataSource.Tasks.Remove(deleteTask);

@@ -27,13 +27,13 @@ public record Task
     string Delivrables;
     string? Remarks= null;
     int Engineerid;
-    string? ComplexityLevel = null;
+    EngineerExperience? ComplexityLevel = null;
     public int newId;
 
     //param c-tor
     public Task(int myId,string? mydescription,string? myAlias,bool myMilestone,DateTime mycreatedat,
 DateTime mystart,DateTime myschedudalDate,DateTime myDeadLine,DateTime myComplete,string myDelivrables,
-string? myRemarks,int myEngineerid,string myComplexityLevel)//c-tor
+string? myRemarks,int myEngineerid, EngineerExperience myComplexityLevel)//c-tor
     {
         Id = myId;
         description = mydescription;

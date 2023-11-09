@@ -10,13 +10,14 @@ using System.Xml.Linq;
 /// <param name="cost"></param>
 public record Engineer
 {
+    //titi
     #region characters
      public int Id { get; set; }
     string? Name;
     string? email;
    public EngineerExperience level { get; set; }
     #endregion
-    public Engineer(int myId,string myName,string myEmail,int myCost)  // ctor 
+    public Engineer(int myId,string myName,string myEmail, EngineerExperience level)  // ctor 
     {
         Id = myId;
         Name = myName;
