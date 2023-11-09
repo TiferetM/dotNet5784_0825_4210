@@ -10,6 +10,7 @@ using System.Xml.Linq;
 /// <param name="cost"></param>
 public record Engineer
 {
+    //titi
     #region characters
      public int Id { get; set; }
     string? Name;
