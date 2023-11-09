@@ -10,7 +10,7 @@ public static class Initialization
     private static readonly Random s_rand = new();
     public static void createEngineer()
     {
-        //40 nanes
+       //40 nanes
          string[] names = new string[]{
     "Fazlur Rahman Khan",
     "Duff Abrams",
@@ -68,19 +68,8 @@ public static class Initialization
     public static void createTask()
     {
         string[] tasks = new string[]
-        {
-            "Hello!","Good morning.","How are you?","I am fine.","Nice to meet you.","Thank you.","You're welcome.","Please wait.",
-            "Let's go.","Have a nice day.","I love you.","See you later.","It's a cat.","This is a dog.","I am here.",
-            "Where are you?","What's up?","Open the door.","Close the window.","Go away.","Come back.","hello people","i love choclate",
-            "No problem.","Great job!", "That's cool.", "Yes, please.", "No, thanks.","What's your name?","My name is John.",
-            "Call me tomorrow.","This is easy.","I don't know.","I'm sorry.","Let's eat.","Time to go.","Read a book.",
-            "Write a letter.","Speak slowly.", "Listen carefully.", "Watch TV.","Turn it on.","Turn it off.","Look at this.",
-            "That's mine.","I'm coming.", "Wait a moment.", "Take a break.", "Don't worry.","Happy birthday.","Good night.",
-            "Hello!","Good morning.","How are you?","I am fine.","Nice to meet you.","Thank you.","You're welcome.","Please wait.",
-            "Let's go.","Have a nice day.","I love you.","See you later.","It's a cat.","This is a dog.","I am here.","Where are you?",
-            "What's up?","Open the door.", "Close the window.","Go away.","Come back.","No problem.","Great job!","That's cool.",
+        {"No problem.","Great job!","That's cool.",
             "Yes, please.", "No, thanks.", "What's your name?", "My name is John.","Call me tomorrow.","This is easy.","I don't know.",
-            "I'm sorry.","Let's eat.","Time to go.", "Read a book.", "Write a letter.","Speak slowly.","Listen carefully.","Watch TV.",
             "Turn it on.","Turn it off.", "Look at this.","That's mine.","I'm coming.", "Wait a moment.", "Take a break.", "Don't worry.", "Happy birthday.", "Good night."
         };
         string[] descriptions = {
@@ -118,23 +107,26 @@ public static class Initialization
         string[] Difficulty = { "  Novice", " AdvancedBeginner", "Competent", "Proficient", " Expert" };
         List<Engineer> list = s_dalEngineer.ReadAll();
         int i = 0;
-        
         foreach (var _task in tasks)
         { 
-            DateTime createdat = createRandomDate();
-            DateTime start = createRandomDate();//תאריך התחלה בפועל
-            DateTime schedudalDate = start.AddDays(-3);//תאריך מתוכנן לתחילת ביצוע
-            DateTime Complete = start.AddDays(s_rand.Next(0, 35));//תאריך סיום
-            DateTime DeadLine = Complete.AddDays(3);//דד-ליין
-            EngineerExperience ComplexityLevel = (EngineerExperience)s_rand.Next(0, 5);//רמת קושי
-            string Delivrables = drlivrables[s_rand.Next(0, 7)];
-            string Remarks="remark";// למשימה הערות
-            int randID = list[s_rand.Next(0, 39)].Id;
-            int Engineerid = randID;
-            i++;
-            Task newtask = new(0, descriptions[i], _task, false, createdat,
-                start, schedudalDate, DeadLine, Complete, Delivrables,Remarks,Engineerid, ComplexityLevel);
-            s_dalTask!.Create(newtask);
+            if(i<20)
+            {
+                DateTime createdat = createRandomDate();
+                DateTime start = createRandomDate();//תאריך התחלה בפועל
+                DateTime schedudalDate = start.AddDays(-3);//תאריך מתוכנן לתחילת ביצוע
+                DateTime Complete = start.AddDays(s_rand.Next(0, 35));//תאריך סיום
+                DateTime DeadLine = Complete.AddDays(3);//דד-ליין
+                EngineerExperience ComplexityLevel = (EngineerExperience)s_rand.Next(0, 5);//רמת קושי
+                string Delivrables = drlivrables[s_rand.Next(0, 7)];
+                string Remarks = "remark";// למשימה הערות
+                int randID = list[s_rand.Next(0, 4)].Id;
+                int Engineerid = randID;
+                Task newTask = new(0, descriptions[i], myAlias: _task, false, createdat,
+                    start, schedudalDate, DeadLine, Complete, Delivrables, Remarks, Engineerid, ComplexityLevel);
+                s_dalTask!.Create(newTask);
+                i++;
+            }
+          
         }
     }
     private static void createDependencies()//initialize the dependency's list with random values
@@ -159,7 +151,6 @@ public static class Initialization
         createEngineer();
         createTask();
         createDependencies();
-
     }
     public static DateTime createRandomDate()
     {
