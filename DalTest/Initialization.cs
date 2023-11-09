@@ -10,7 +10,45 @@ public static class Initialization
     private static readonly Random s_rand = new();
     public static void createEngineer()
     {
-        string[] names = { "Nikola", "Tesla", " Edison", " Alexander", " Graham" };
+        //40 nanes
+         string[] names = new string[]{
+    "Fazlur Rahman Khan",
+    "Duff Abrams",
+    "Bahaedin Adab",
+    "Campbell W. Adams",
+    "Charles Adler, Jr.",
+    "Marcus Agrippa",
+    "Povl Ahm",
+    "Mahmoud Ahmadinejad",
+    "John Aird",
+    "Maurice L. Albertson",
+    "Truman H. Aldrich",
+    "Thomas Aldwell",
+    "Archie Alexander",
+    "Don A. Allen",
+    "Renato de Albuquerque",
+    "Horatio Allen",
+    "Braden Allenby",
+    "John Wolfe Ambrose",
+    "Othmar Ammann",
+    "David Anderson",
+    "Apollodorus of Damascus",
+    "Yasser Arafat",
+    "William George Armstrong",
+    "Ferdinand Arnodin",
+    "Sir William Arrol",
+    "Sir Ove Arup",
+    "John Aspinall",
+    "Sir William Sydney Atkins CBE",
+    "Stephanie DeCotiis",
+    "Dan Fox",
+    "Breanna Gribble",
+    "Aseem Gupta",
+    "Charlie Marino",
+    "Kelsey Rowe",
+    "Cheryl Saldanha",
+    "Priyanka Valletta"
+};
         int MAX_ID = 400000000;
         int MIN_ID = 200000000;
         foreach (var _name in names)
@@ -23,35 +61,28 @@ public static class Initialization
             EngineerExperience level = (EngineerExperience)s_rand.Next(0, 3);//שגיאה לתקן
             string email = names+"@gmail.com";
             email.Replace(" ", "");
-            Engineer newEngineer = new(_id, _name, email, cost);
+            Engineer newEngineer = new(_id, _name, email,level);
             s_dalEngineer!.Create(newEngineer);
         }
     }
     public static void createTask()
     {
-        string[] tasks = {
-    "Write a blog post",
-    "Create a presentation",
-    "Learn a new skill",
-    "Work on a side project",
-    "Volunteer your time",
-    "Clean and organize your home",
-    "Plan a trip",
-    "Cook a new meal",
-    "Read a book",
-    "Exercise",
-    "Spend time with loved ones",
-    "Write a thank-you note",
-    "Donate to a charity",
-    "Meditate",
-    "Take a walk in nature",
-    "Learn a new language",
-    "Play a game",
-    "Watch a documentary",
-    "Take a nap",
-    "Relax and do nothing",
-   
- };
+        string[] tasks = new string[]
+        {
+            "Hello!","Good morning.","How are you?","I am fine.","Nice to meet you.","Thank you.","You're welcome.","Please wait.",
+            "Let's go.","Have a nice day.","I love you.","See you later.","It's a cat.","This is a dog.","I am here.",
+            "Where are you?","What's up?","Open the door.","Close the window.","Go away.","Come back.","hello people","i love choclate",
+            "No problem.","Great job!", "That's cool.", "Yes, please.", "No, thanks.","What's your name?","My name is John.",
+            "Call me tomorrow.","This is easy.","I don't know.","I'm sorry.","Let's eat.","Time to go.","Read a book.",
+            "Write a letter.","Speak slowly.", "Listen carefully.", "Watch TV.","Turn it on.","Turn it off.","Look at this.",
+            "That's mine.","I'm coming.", "Wait a moment.", "Take a break.", "Don't worry.","Happy birthday.","Good night.",
+            "Hello!","Good morning.","How are you?","I am fine.","Nice to meet you.","Thank you.","You're welcome.","Please wait.",
+            "Let's go.","Have a nice day.","I love you.","See you later.","It's a cat.","This is a dog.","I am here.","Where are you?",
+            "What's up?","Open the door.", "Close the window.","Go away.","Come back.","No problem.","Great job!","That's cool.",
+            "Yes, please.", "No, thanks.", "What's your name?", "My name is John.","Call me tomorrow.","This is easy.","I don't know.",
+            "I'm sorry.","Let's eat.","Time to go.", "Read a book.", "Write a letter.","Speak slowly.","Listen carefully.","Watch TV.",
+            "Turn it on.","Turn it off.", "Look at this.","That's mine.","I'm coming.", "Wait a moment.", "Take a break.", "Don't worry.", "Happy birthday.", "Good night."
+        };
         string[] descriptions = {
     "Write a detailed blog post about a topic you're passionate about.",
     "Create an engaging presentation on a subject of your choice.",
@@ -95,7 +126,7 @@ public static class Initialization
             DateTime schedudalDate = start.AddDays(-3);//תאריך מתוכנן לתחילת ביצוע
             DateTime Complete = start.AddDays(s_rand.Next(0, 35));//תאריך סיום
             DateTime DeadLine = Complete.AddDays(3);//דד-ליין
-            string ComplexityLevel = Difficulty[s_rand.Next(0, 5)];//רמת קושי
+            EngineerExperience ComplexityLevel = (EngineerExperience)s_rand.Next(0, 5);//רמת קושי
             string Delivrables = drlivrables[s_rand.Next(0, 7)];
             string Remarks="remark";// למשימה הערות
             int randID = list[s_rand.Next(0, 39)].Id;
