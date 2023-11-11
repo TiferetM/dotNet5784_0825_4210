@@ -3,7 +3,7 @@
 using System.Collections.Generic;
 using DalApi;
 using DO;
-public class DependencyImplementation : IDependency
+internal class DependencyImplementation : IDependency
 {
     public int Create(Dependency item)//done
     {
@@ -25,11 +25,11 @@ public class DependencyImplementation : IDependency
             throw new Exception($"Dependency with ID={id} does not exist");
     }
 
-    public Dependency? Read(int id)//done
+    public Dependency Read(int id)
     {
         return DataSource.Dependencies.FirstOrDefault(p => p.Id == id);
-       
     }
+
 
     public List<Dependency> ReadAll()//done
     {

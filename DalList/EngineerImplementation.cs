@@ -4,7 +4,7 @@ using DO;
 using System;
 using Dal;
 
-public class EngineerImplementation : IEngineer
+internal class EngineerImplementation : IEngineer
 {
     public int Create(Engineer item)
     {
@@ -60,42 +60,7 @@ public class EngineerImplementation : IEngineer
         Create(item);
     }
 }
-//namespace Dal;
 
-//using System.Collections.Generic;
-//using DalApi;
-//using DO;
-//public class EngineerImplementation : IEngineer
-//{
-//    public int Create(Engineer item)
-//    {
-//        DataSource.Engineers.Add(item);
-//        return item.Id;
-//      // throw new NotImplementedException();
-//      // throw new Exception($"Engineer with ID={item.ToString} does Not exist");
-//    }
-
-//    public void Delete(int id)
-//    {
-//        throw new NotImplementedException();
-//    }
-
-//    public Engineer? Read(int id)
-//    {
-//        throw new NotImplementedException();
-//    }
-
-//    public List<Engineer?> ReadAll()
-//    {
-//        return ();
-//        //throw new NotImplementedException();
-//    }
-
-//    public void Update(Engineer item)
-//    {
-//        throw new NotImplementedException();
-//    }
-//}
 
 
 
