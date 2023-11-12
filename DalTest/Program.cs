@@ -6,24 +6,26 @@ using System.Xml.Linq;
 using Dal;
 using DalApi;
 using DO;
-//shuli
 internal class Program
 {
-    private static IEngineer? s_dalEngineer = new EngineerImplementation(); //stage 1
-    private static ITask? s_dalTask = new TaskImplementation(); //stage 1
-    private static IDependency s_dalDependency = new DependencyImplementation(); //stage 1
+
+    //private static IEngineer? s_dalEngineer = new EngineerImplementation(); //stage 1
+    //private static ITask? s_dalTask = new TaskImplementation(); //stage 1
+    //private static IDependency s_dalDependency = new DependencyImplementation(); //stage 1
     private static DateTime createdate;
+    static readonly IDal s_dal = new DalList(); //stage 2
 
     static void Main(string[] args)
     {
         try
         {
-            Initialization.Do(s_dalDependency, s_dalTask, s_dalEngineer);
+            //Initialization.Do(s_dalDependency, s_dalTask, s_dalEngineer);
+            Initialization.Do(s_dal); //stage 2
             mainMenu();
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.ToString());//to change to a more specifik
+            Console.WriteLine(ex.ToString());
         }
     }
 
@@ -227,7 +229,7 @@ internal class Program
         DO.Task new_task = ReadTaskFromUser();
         if (new_task != null)
         {
-            id = s_dalTask.Create(new_task);
+            id = s_dal.Task.Create(new_task);
             Console.WriteLine($"המשימה נוצרה בהצלחה, המספר המזהה הוא: {id}");
         }
     }//create a new task
@@ -239,7 +241,7 @@ internal class Program
         Console.WriteLine("הכנס מספר מזהה של המשימה שתרצה לראות:");
         int.TryParse(Console.ReadLine(), out id);
 
-        DO.Task task = s_dalTask.Read(id);
+        DO.Task task = s_dal.Task.Read(id);
         if (task != null)
         {
             Console.WriteLine(task);
@@ -252,7 +254,7 @@ internal class Program
     }//prints the task by it's id
     static void readAllTasks()
     {
-        List<DO.Task> tasks = s_dalTask.ReadAll();
+        List<DO.Task> tasks = s_dal.Task.ReadAll();
         if (tasks == null)
         {
             throw new Exception("הרשימה אינה קיימת");
@@ -267,7 +269,7 @@ internal class Program
         int id;
         Console.WriteLine("הכנס מספר מזהה של המשימה שברצונך לעדכן:");
         int.TryParse(Console.ReadLine(), out id);
-        DO.Task? task = s_dalTask.Read(id);
+        DO.Task? task = s_dal.Task.Read(id);
         if (task != null)
         {
             Console.WriteLine(task);
@@ -285,8 +287,8 @@ internal class Program
                 }
             }
             updatedTask.Id = id;//update the new task's id to be the same as the task the user want to update
-            s_dalTask.Update(updatedTask);
-            Console.WriteLine(s_dalTask.Read(id));//prints the task after the update
+            s_dal.Task.Update(updatedTask);
+            Console.WriteLine(s_dal.Task.Read(id));//prints the task after the update
         }
 
     }//update a specific task by the user's input
@@ -295,7 +297,7 @@ internal class Program
         int id;
         Console.WriteLine("הכנס מספר מזהה של המשימה שברצונך למחוק:");
         int.TryParse(Console.ReadLine(), out id);
-        s_dalTask.Delete(id);
+        s_dal.Task.Delete(id);
         Console.WriteLine("האובייקט נמחק בהצלחה");
     }//delete a task by it's id from the user's input
     static  DO.Task ? ReadTaskFromUser()
@@ -425,7 +427,7 @@ internal class Program
     {
         DO.Engineer newEngineer = ReadEngineerFromUser();
         if (newEngineer != null)
-            s_dalEngineer.Create(newEngineer);
+            s_dal.Engineer.Create(newEngineer);
     }//create a new engineer
 
     static void readEngineer()
@@ -434,7 +436,7 @@ internal class Program
         Console.WriteLine("הכנס מספר מזהה של המהנדס שתרצה לראות:");
         int.TryParse(Console.ReadLine(), out id);
 
-        DO.Engineer engineer = s_dalEngineer.Read(id);
+        DO.Engineer engineer = s_dal.Engineer.Read(id);
         if (engineer != null)
         {
             Console.WriteLine(engineer);
@@ -447,7 +449,7 @@ internal class Program
 
     static void readAllEngineers()
     {
-        List<DO.Engineer> engineers = s_dalEngineer.ReadAll();
+        List<DO.Engineer> engineers = s_dal.Engineer.ReadAll();
         if (engineers == null)
         {
             throw new Exception("הרשימה אינה קיימת");
@@ -463,7 +465,7 @@ internal class Program
         int id;
         Console.WriteLine("הכנס מספר מזהה של המהנדס שברצונך לעדכן:");
         int.TryParse(Console.ReadLine(), out id);
-        DO.Engineer? engineer = s_dalEngineer.Read(id);
+        DO.Engineer? engineer = s_dal.Engineer.Read(id);
         if (engineer != null)
         {
             Console.WriteLine(engineer);
@@ -480,8 +482,8 @@ internal class Program
                     field.SetValue(updatedEngineer, field.GetValue(engineer));
                 }
             }
-            s_dalEngineer.Update(updatedEngineer);
-            Console.WriteLine(s_dalEngineer.Read(id));//prints the updated engineer
+            s_dal.Engineer.Update(updatedEngineer);
+            Console.WriteLine(s_dal.Engineer.Read(id));//prints the updated engineer
         }
     }//update a specific engineer by the user's input
 
@@ -490,7 +492,7 @@ internal class Program
         int id;
         Console.WriteLine("הכנס מספר מזהה של המהנדס שברצונך למחוק:");
         int.TryParse(Console.ReadLine(), out id);
-        s_dalEngineer.Delete(id);
+        s_dal.Engineer.Delete(id);
         Console.WriteLine("האובייקט נמחק בהצלחה");
     }//delete a engineer by it's id from the user's input
     static void createDependency()
@@ -499,7 +501,7 @@ internal class Program
         DO.Dependency newDependency = ReadDependencyFromUser();
         if (newDependency != null)
         {
-            id = s_dalDependency.Create(newDependency);
+            id = s_dal.Dependency.Create(newDependency);
             Console.WriteLine($"התלות נוצרה בהצלחה, המספר המזהה הוא:{id}");
 
         }
@@ -511,7 +513,7 @@ internal class Program
         Console.WriteLine("הכנס מספר מזהה של התלות שתרצה לראות:");
         int.TryParse(Console.ReadLine(), out id);
 
-        DO.Dependency dependency = s_dalDependency.Read(id);
+        DO.Dependency dependency = s_dal.Dependency.Read(id);
         if (dependency != null)
         {
             Console.WriteLine(dependency);
@@ -524,7 +526,7 @@ internal class Program
 
     static void readAllDependencies()
     {
-        List<DO.Dependency> dependencies = s_dalDependency.ReadAll();
+        List<DO.Dependency> dependencies = s_dal.Dependency.ReadAll();
         if (dependencies == null)
         {
             throw new Exception("הרשימה אינה קיימת");
@@ -539,7 +541,7 @@ internal class Program
         int id;
         Console.WriteLine("הכנס מספר מזהה של התלות שברצונך לעדכן:");
         int.TryParse(Console.ReadLine(), out id);
-        DO.Dependency? dependency = s_dalDependency.Read(id);
+        DO.Dependency? dependency = s_dal.Dependency.Read(id);
         if (dependency != null)
         {
             Console.WriteLine(dependency);
@@ -557,8 +559,8 @@ internal class Program
                 }
             }
             updatedDependency.Id = id;//update the new dependency's id to be the same as the task the user want to update
-            s_dalDependency.Update(updatedDependency);
-            Console.WriteLine(s_dalDependency.Read(id));//prints the updated value
+            s_dal.Dependency.Update(updatedDependency);
+            Console.WriteLine(s_dal.Dependency.Read(id));//prints the updated value
         }
     }//update a dependency task by the user's input
 
@@ -567,7 +569,7 @@ internal class Program
         int id;
         Console.WriteLine("הכנס מספר מזהה של התלות שברצונך למחוק:");
         int.TryParse(Console.ReadLine(), out id);
-        s_dalDependency.Delete(id);
+        s_dal.Dependency.Delete(id);
         Console.WriteLine("האובייקט נמחק בהצלחה");
 
     }//delete a dependency by it's id from the user's input
