@@ -2,11 +2,11 @@
 using DalApi;
 using DO;
 public static class Initialization
-{ 
-    private static IEngineer? s_dalEngineer; //stage 1
-    private static ITask? s_dalTask; //stage 1
-    private static IDependency? s_dalDependency; //stage 1
-
+{
+    //private static IEngineer? s_dalEngineer; //stage 1
+    //private static ITask? s_dalTask; //stage 1
+    //private static IDependency? s_dalDependency; //stage 1
+    private static IDal? s_dal; //stage 2
     private static readonly Random s_rand = new();
     public static void createEngineer()
     {
@@ -56,13 +56,14 @@ public static class Initialization
             int _id;
             do
                 _id = s_rand.Next(MIN_ID, MAX_ID);
-            while (s_dalEngineer!.Read(_id) != null);
+            while (s_dal!.Engineer.Read(_id) != null);
             int cost = s_rand.Next(30, 100);
             EngineerExperience level = (EngineerExperience)s_rand.Next(0, 3);//שגיאה לתקן
             string email = names+"@gmail.com";
             email.Replace(" ", "");
             Engineer newEngineer = new(_id, _name, email,level);
-            s_dalEngineer!.Create(newEngineer);
+          
+            s_dal!.Engineer.Create(newEngineer);
         }
     }
     public static void createTask()
@@ -105,7 +106,10 @@ public static class Initialization
 "A service"};
         //אם נרצה לעשות מארך רשימות חלקי
         string[] Difficulty = { "  Novice", " AdvancedBeginner", "Competent", "Proficient", " Expert" };
-        List<Engineer> list = s_dalEngineer.ReadAll();
+        List<Engineer> list = s_dal!.Engineer.ReadAll();
+        //s_dalStudent!.Create(newStu); //stage 1
+        // s_dal!.Student.Create(newStu); //stage 2
+
         int i = 0;
         foreach (var _task in tasks)
         { 
@@ -123,7 +127,8 @@ public static class Initialization
                 int Engineerid = randID;
                 Task newTask = new(0, descriptions[i], myAlias: _task, false, createdat,
                     start, schedudalDate, DeadLine, Complete, Delivrables, Remarks, Engineerid, ComplexityLevel);
-                s_dalTask!.Create(newTask);
+                s_dal!.Task.Create(newTask);
+
                 i++;
             }
           
@@ -134,20 +139,22 @@ public static class Initialization
         for(int i = 0; i < 250; i++) 
         {
             Dependency item= new Dependency();
-            List<Task> tasks_list = s_dalTask.ReadAll();//get the tasks list in order to get a random task id's that exists 
+            List<Task> tasks_list = s_dal!.Task.ReadAll();//get the tasks list in order to get a random task id's that exists 
             int randomIndex1 = s_rand.Next(0, tasks_list.Count-1);
             int randomIndex2 = s_rand.Next(0, tasks_list.Count - 1);
             item.DependenceTask = tasks_list[randomIndex1].Id;
             item.DependenceOnTask = tasks_list[randomIndex2].Id;
-            s_dalDependency!.Create(item);
+            s_dal!.Dependency!.Create(item);
         }
 
     }
-    public static void Do(IDependency? dalDependency, ITask? dalTask, IEngineer? dalEngineer)
+    public static void Do(IDal dal) //stage 2
     {
-        s_dalDependency = dalDependency ?? throw new NullReferenceException("DAL can not be null!");
-        s_dalTask = dalTask ?? throw new NullReferenceException("DAL can not be null!");
-        s_dalEngineer = dalEngineer ?? throw new NullReferenceException("DAL can not be null!");
+        //s_dalDependency = dalDependency ?? throw new NullReferenceException("DAL can not be null!");
+        //s_dalTask = dalTask ?? throw new NullReferenceException("DAL can not be null!");
+        //s_dalEngineer = dalEngineer ?? throw new NullReferenceException("DAL can not be null!");
+        //s_dalLink = dalStudentInCourse ?? throw new NullReferenceException("DAL object can not be null!"); //stage 1
+        s_dal = dal ?? throw new NullReferenceException("DAL object can not be null!"); //stage 2
         createEngineer();
         createTask();
         createDependencies();
