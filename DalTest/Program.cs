@@ -2,6 +2,7 @@
 
 using System.Numerics;
 using System.Reflection;
+using System.Text;
 using System.Xml.Linq;
 using Dal;
 using DalApi;
@@ -21,6 +22,10 @@ internal class Program
         {
             //Initialization.Do(s_dalDependency, s_dalTask, s_dalEngineer);
             Initialization.Do(s_dal); //stage 2
+            Console.OutputEncoding = new UTF8Encoding();
+            Console.InputEncoding = new UTF8Encoding();
+          //  Console.WriteLine("Write your input:");
+          //  string Input = Console.ReadLine();
             mainMenu();
         }
         catch (Exception ex)
