@@ -32,7 +32,17 @@ internal  class EngineerImplementation : IEngineer
         {
             throw new Exception($"Engineer with ID={id} does not exist");
 
-        }
+}
+
+public Engineer? Read(func<Engineer, bool> filter)
+        //T? Read(func<T, bool> filter); // stage 2
+{
+      
+            var query = (from engineer in DataSource.Engineers//A query that returns the
+                                                              //first one that meets the condition:
+                                                              //engineer.Id == id
+                         where engineer.Id == id
+                         select engineer).FirstOrDefault();
 
     }
 
