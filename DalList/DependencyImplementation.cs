@@ -9,42 +9,82 @@ internal class DependencyImplementation : IDependency
     {
         int newId = DataSource.Config.NextTaskId;
         Dependency  tempdependency = item with { Id = DataSource.Config.NextTaskId };
-        DataSource.Dependencies.Add(item);
+        DataSource.Dependencies?.Add(item);
         return newId;
 
     }
 
     public void Delete(int id)//done
     {
-        Dependency ? deleteDependency = DataSource.Dependencies.FirstOrDefault(obj => obj.Id == id);
-        if (deleteDependency != null)
+        var deleteDependency = from Dependency in DataSource.Dependencies////A query that
+                                                                         //returns all objects whose  Engineer.Id !=id
+                               where Dependency.Id !=id
+                               select Dependency.Id;
+
+        if (deleteDependency.Any())////if exists
         {
-            DataSource.Dependencies.Remove(deleteDependency);
+            DataSource.Dependencies?.RemoveAll(Dependency => Dependency.Id == id);
         }
-        else
-            throw new Exception($"Dependency with ID={id} does not exist");
+        else//if not exists
+        {
+            throw new DalDoesNotExistException($"Dependency with ID={id} does not exist");
+        }
+
+    }
+    public Dependency? Read(int id)
+    {
+        var query = (from Dependency in DataSource.Dependencies//A query that returns the
+                                                               //first one that meets the condition:
+                                                               //engineer.Id == id
+                     where Dependency.Id == id
+                     select Dependency).FirstOrDefault();
+        return query;
+
+    }
+    public Dependency? Read(Func<Dependency, bool> filter)
+    { 
+        if (filter != null)
+        {
+            return (from item in DataSource.Dependencies
+                    where filter(item)
+                    select item).FirstOrDefault();
+        }
+        return (from item in DataSource.Dependencies
+                select item).FirstOrDefault();
     }
 
-    public Dependency Read(int id)
-    {
-        return DataSource.Dependencies.FirstOrDefault(p => p.Id == id);
-    }
 
-
-    public List<Dependency> ReadAll()//done
+    public IEnumerable<Dependency?> ReadAll(Func<Dependency, bool>? filter = null)//done
     {
-        return new List<Dependency>(DataSource.Dependencies);
+        if (filter != null)
+        {
+            return from item in DataSource.Dependencies
+                   where filter(item)
+                   select item;
+        }
+        return from item in DataSource.Dependencies
+               select item;
+
     }
 
     public void Update(Dependency item)//done
     {
+        var query = from Dependency in DataSource.Dependencies//A query that
+                                                            //returns all objects whose item.Id ==Engineer.Id
+                    where item.Id ==Dependency.Id
+                    select Dependency.Id;
 
-        if (!DataSource.Dependencies.Exists(p => p.Id == item.Id))
+        if (query.Any())//if exists
         {
-            throw new Exception($"Dependency with ID={item.Id} does not exist");
+            Delete(item.Id);
+            Create(item);
 
         }
-        Delete(item.Id);
-        Create(item);
+        else//if not exists
+        {
+            throw new DalAlreadyExistsException($"Dependency with ID={item.ToString} already exist");
+
+        }
     }
 }
+

@@ -104,9 +104,10 @@ public static class Initialization
 "A presentation",
 "A consultation",
 "A service"};
-        //אם נרצה לעשות מארך רשימות חלקי
+   
         string[] Difficulty = { "  Novice", " AdvancedBeginner", "Competent", "Proficient", " Expert" };
-        List<Engineer> list = s_dal!.Engineer.ReadAll();
+        List<Engineer?> list = s_dal!.Engineer.ReadAll().ToList();
+        //List<Engineer> list = s_dal!.Engineer.ReadAll();
         //s_dalStudent!.Create(newStu); //stage 1
         // s_dal!.Student.Create(newStu); //stage 2
 
@@ -139,14 +140,13 @@ public static class Initialization
         for(int i = 0; i < 250; i++) 
         {
             Dependency item= new Dependency();
-            List<Task> tasks_list = s_dal!.Task.ReadAll();//get the tasks list in order to get a random task id's that exists 
+            List<Task?> tasks_list =s_dal!.Task.ReadAll().ToList();//get the tasks list in order to get a random task id's that exists 
             int randomIndex1 = s_rand.Next(0, tasks_list.Count-1);
             int randomIndex2 = s_rand.Next(0, tasks_list.Count - 1);
             item.DependenceTask = tasks_list[randomIndex1].Id;
             item.DependenceOnTask = tasks_list[randomIndex2].Id;
             s_dal!.Dependency!.Create(item);
         }
-
     }
     public static void Do(IDal dal) //stage 2
     {

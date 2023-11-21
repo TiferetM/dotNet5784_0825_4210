@@ -8,43 +8,87 @@ internal class TaskImplementation : ITask
     public int Create(Task item)//done!!!
     {
        int newId = DataSource.Config.NextTaskId;
-        Task tempTask = item with { Id = DataSource.Config.NextTaskId };
-       DataSource.Tasks.Add(item);
+       Task tempTask = item with { Id = DataSource.Config.NextTaskId };
+       DataSource.Tasks?.Add(item);
        return newId;
-       throw new NotImplementedException();
-    } 
+      // throw new NotImplementedException();
+    }
     //
     public void Delete(int id)///done
     {
-        Task ? deleteTask = DataSource.Tasks.FirstOrDefault(obj => obj.Id == id);
-      if(deleteTask!=null)
-        {
-            DataSource.Tasks.Remove(deleteTask);
-        }
-      else
-        throw new Exception($"Task with ID={id} does not exist");
-    }//done
+        var query = from Task in DataSource.Tasks////A query that
+                                                 //returns all objects whose  Engineer.Id !=id
+                    where Task.Id !=id
+                    select Task.Id;
 
+        if (query.Any())////if exists
+        {
+            DataSource.Tasks?.RemoveAll(Task => Task.Id == id);
+
+
+        }
+        else//if not exists
+        {
+            throw new DalDoesNotExistException($"Task with ID={id} does not exist");
+        }
+
+    }
+    public Task? Read(Func<Task, bool> filter)
+    {
+        if (filter != null)
+        {
+            return (from item in DataSource.Tasks
+                    where filter(item)
+                    select item).FirstOrDefault();
+        }
+        return (from item in DataSource.Tasks
+                select item).FirstOrDefault();
+        //return new Engineer;
+    }
     public Task? Read(int id)//done
     {
-        return DataSource.Tasks.FirstOrDefault(p => p.Id == id);
-        throw new NotImplementedException();
+
+        var query = (from Task in DataSource.Tasks//A query that returns the
+                                                  //first one that meets the condition:
+                                                  //engineer.Id == id
+                     where Task.Id == id
+                     select Task).FirstOrDefault();
+
+        return query;
     }
 
-    public List<Task> ReadAll()
+    public IEnumerable<Task?> ReadAll(Func<Task, bool>? filter = null)
     {
-        return new List<Task>(DataSource.Tasks);
-    }//done
+        if (filter != null)
+        {
+            return from item in DataSource.Tasks
+                   where filter(item)
+                   select item;
+        }
+        return from item in DataSource.Tasks
+               select item;
+
+
+    }
 
     public void Update(Task item)//done
     {
-        if (!DataSource.Tasks.Exists(p => p.Id == item.Id))
+        var query = from Task in DataSource.Tasks//A query that
+                                                //returns all objects whose item.Id ==Engineer.Id
+                    where item.Id ==Task.Id
+                    select Task.Id;
+
+        if (query.Any())//if exists
         {
-            throw new Exception($"Task with ID={item.Id} does not exist");
+            Delete(item.Id);
+            Create(item);
 
         }
-        Delete(item.Id);
-        Create(item);
-       // throw new NotImplementedException();
+        else//if not exists
+        {
+            throw new DalAlreadyExistsException($"Task with ID={item.ToString} already exist");
+
+        }
     }
 }
+

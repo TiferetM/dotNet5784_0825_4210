@@ -259,7 +259,8 @@ internal class Program
     }//prints the task by it's id
     static void readAllTasks()
     {
-        List<DO.Task> tasks = s_dal.Task.ReadAll();
+        IEnumerable<Task> tasks = (IEnumerable<Task>)s_dal.Task.ReadAll();
+      //  ( IEnumerable )List<Task> tasks = s_dal.Task.ReadAll();
         if (tasks == null)
         {
             throw new Exception("הרשימה אינה קיימת");
@@ -454,12 +455,13 @@ internal class Program
 
     static void readAllEngineers()
     {
-        List<DO.Engineer> engineers = s_dal.Engineer.ReadAll();
-        if (engineers == null)
+        IEnumerable<Engineer> tasks = (IEnumerable<Engineer>)s_dal.Task.ReadAll();
+        // List<DO.Engineer> engineers = s_dal.Engineer.ReadAll();
+        if (tasks == null)
         {
             throw new Exception("הרשימה אינה קיימת");
         }
-        foreach (DO.Engineer engineer in engineers)
+        foreach (DO.Engineer engineer in tasks)
         {
             Console.WriteLine(engineer);
         }
@@ -531,7 +533,8 @@ internal class Program
 
     static void readAllDependencies()
     {
-        List<DO.Dependency> dependencies = s_dal.Dependency.ReadAll();
+        IEnumerable<Dependency> dependencies = (IEnumerable<Dependency>)s_dal.Task.ReadAll();
+     //   List<DO.Dependency> dependencies = s_dal.Dependency.ReadAll();
         if (dependencies == null)
         {
             throw new Exception("הרשימה אינה קיימת");

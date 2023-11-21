@@ -3,73 +3,110 @@ using DalApi;
 using DO;
 using System;
 using Dal;
+using System.Collections;
 
-internal  class EngineerImplementation : IEngineer
+internal class EngineerImplementation : IEngineer
 {
     public int Create(Engineer item)
     {
+        var query = from Engineer in DataSource.Engineers//A query that
+                                                         //returns all objects whose item.Id ==Engineer.Id
+                    where item.Id ==Engineer.Id
+                    select Engineer.Id;
 
-        if (DataSource.Engineers.Exists(p => p.Id == item.Id))
+        if (query.Any())//if exists
         {
-            throw new Exception($"Engineer with ID={item.ToString} already exist");
+            throw new DalAlreadyExistsException($"Engineer with ID={item.ToString} already exist");
+
+
         }
+        else//if not exists
+        {
+            DataSource.Engineers?.Add(item);
 
-        DataSource.Engineers.Add(item);
-
-        return item.Id;
-
-
+            return item.Id;
+        }
     }
-
     public void Delete(int id)
     {
-        if (DataSource.Engineers.Exists(p => p.Id != id))
+        var query = from Engineer in DataSource.Engineers////A query that
+                                                         //returns all objects whose  Engineer.Id !=id
+                    where Engineer.Id !=id
+                    select Engineer.Id;
+
+        if (query.Any())////if exists
         {
-            DataSource.Engineers.RemoveAll(engineer => engineer.Id == id);
+            DataSource.Engineers?.RemoveAll(engineer => engineer.Id == id);
+
 
         }
-        else
+        else//if not exists
         {
-            throw new Exception($"Engineer with ID={id} does not exist");
-
-}
-
-public Engineer? Read(func<Engineer, bool> filter)
-        //T? Read(func<T, bool> filter); // stage 2
-{
-      
-            var query = (from engineer in DataSource.Engineers//A query that returns the
-                                                              //first one that meets the condition:
-                                                              //engineer.Id == id
-                         where engineer.Id == id
-                         select engineer).FirstOrDefault();
-
+            throw new DalDoesNotExistException($"Engineer with ID={id} does not exist");
+        }
     }
 
     public Engineer? Read(int id)
     {
-        return DataSource.Engineers.FirstOrDefault(p => p.Id == id);
-
+        var query = (from engineer in DataSource.Engineers//A query that returns the
+                     where engineer.Id == id
+                     select engineer).FirstOrDefault();
+        return query;
     }
 
-    public List<Engineer> ReadAll()
+    public Engineer? Read(Func<Engineer, bool> filter)
     {
 
-        return new List<Engineer>(DataSource.Engineers);
+        if (filter != null)
+        {
+            return (from item in DataSource.Engineers
+                    where filter(item)
+                    select item).FirstOrDefault();
+        }
+        return (from item in DataSource.Engineers
+                select item).FirstOrDefault();
+        //return new Engineer;
+    }
+
+    public IEnumerable<Engineer> ReadAll(Func<Engineer, bool>? filter = null)
+    {
+        if (filter != null)
+        {
+            return from item in DataSource.Engineers
+                   where filter(item)
+                   select item;
+        }
+        return from item in DataSource.Engineers
+               select item;
+
+
+
 
     }
 
     public void Update(Engineer item)
     {
-        if (!DataSource.Engineers.Exists(p => p.Id == item.Id))
+        var query = from Engineer in DataSource.Engineers//A query that
+                                                         //returns all objects whose item.Id ==Engineer.Id
+                    where item.Id ==Engineer.Id
+                    select Engineer.Id;
+
+        if (query.Any())//if exists
         {
-            throw new Exception($"Engineer with ID={item.Id} does not exist");
+            Delete(item.Id);
+            Create(item);
 
         }
-        Delete(item.Id);
-        Create(item);
+        else//if not exists
+        {
+            throw new DalAlreadyExistsException($"Engineer with ID={item.ToString} already exist");
+
+        }
     }
+
+
 }
+
 
 
 
