@@ -10,4 +10,4 @@ sealed public class DalList : IDal
     public IEngineer Engineer => new EngineerImplementation();
 }
 
-//plise sucsess
+//plise sucses
