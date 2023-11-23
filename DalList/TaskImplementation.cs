@@ -82,7 +82,6 @@ internal class TaskImplementation : ITask
         {
             Delete(item.Id);
             Create(item);
-
         }
         else//if not exists
         {
