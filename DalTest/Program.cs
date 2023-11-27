@@ -7,6 +7,7 @@ using System.Xml.Linq;
 using Dal;
 using DalApi;
 using DO;
+using DalXml;
 internal class Program
 {
 
@@ -14,7 +15,9 @@ internal class Program
     //private static ITask? s_dalTask = new TaskImplementation(); //stage 1
     //private static IDependency s_dalDependency = new DependencyImplementation(); //stage 1
     private static DateTime createdate;
-    static readonly IDal s_dal = new DalList(); //stage 2
+    //  static readonly IDal s_dal = new DalList(); //stage 2
+    static readonly IDal s_dal = new DalXml(); //stage 3
+
 
     static void Main(string[] args)
     {
@@ -231,7 +234,7 @@ internal class Program
     static void createTask()
     {
         int id;
-        DO.Task new_task = ReadTaskFromUser();
+        DO.Task? new_task = ReadTaskFromUser();
         if (new_task != null)
         {
             id = s_dal.Task.Create(new_task);
@@ -246,7 +249,7 @@ internal class Program
         Console.WriteLine("הכנס מספר מזהה של המשימה שתרצה לראות:");
         int.TryParse(Console.ReadLine(), out id);
 
-        DO.Task task = s_dal.Task.Read(id);
+        DO.Task? task = s_dal.Task.Read(id);
         if (task != null)
         {
             Console.WriteLine(task);
@@ -279,7 +282,7 @@ internal class Program
         if (task != null)
         {
             Console.WriteLine(task);
-            DO.Task updatedTask = ReadTaskFromUser();
+            DO.Task? updatedTask = ReadTaskFromUser();
             FieldInfo[] fields = updatedTask.GetType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
 
             // Loop through each field
@@ -312,10 +315,10 @@ internal class Program
 
         // Input fields
         Console.Write("Description: ");
-        string description = Console.ReadLine();
+        string? description = Console.ReadLine();
 
         Console.Write("Alias: ");
-        string alias = Console.ReadLine();
+        string? alias = Console.ReadLine();
 
         Console.Write("Milestone (true/false): ");
         bool milestone;
@@ -358,10 +361,10 @@ internal class Program
         }
 
         Console.Write("Deliverables: ");
-        string deliverables = Console.ReadLine();
+        string? deliverables = Console.ReadLine();
 
         Console.Write("Remarks: ");
-        string remarks = Console.ReadLine();
+        string? remarks = Console.ReadLine();
 
         Console.Write("Engineer ID: ");
         int engineerId;
@@ -431,7 +434,7 @@ internal class Program
 
     static void createEngineer()
     {
-        DO.Engineer newEngineer = ReadEngineerFromUser();
+        DO.Engineer? newEngineer = ReadEngineerFromUser();
         if (newEngineer != null)
             s_dal.Engineer.Create(newEngineer);
     }//create a new engineer
@@ -476,8 +479,8 @@ internal class Program
         if (engineer != null)
         {
             Console.WriteLine(engineer);
-            DO.Engineer updatedEngineer = ReadEngineerFromUser();
-            FieldInfo[] fields = updatedEngineer.GetType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+            DO.Engineer? updatedEngineer = ReadEngineerFromUser();
+            FieldInfo [] fields = updatedEngineer.GetType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
 
             // Loop through each field
             foreach (FieldInfo field in fields)
@@ -595,10 +598,10 @@ internal class Program
         }
 
         Console.Write("Name: ");
-        string name = Console.ReadLine();
+        string? name = Console.ReadLine();
 
         Console.Write("Email: ");
-        string email = Console.ReadLine();
+        string? email = Console.ReadLine();
         Console.WriteLine("Choose Engineer Experience Level:");
         Console.WriteLine("1. Beginer");
         Console.WriteLine("2. Compeatative");

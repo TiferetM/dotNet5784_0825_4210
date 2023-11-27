@@ -2,9 +2,9 @@
 using Dal;
 namespace DalXml;
 
-static internal class Config
+static public class Config
 {
     static string s_data_config_xml = "data-config";
     internal static int NextDependencyId { get => XMLTools.GetAndIncreaseNextId(s_data_config_xml, "NextDependencyId"); }
-    internal static int NextLTaskId { get => XMLTools.GetAndIncreaseNextId(s_data_config_xml, "NextLTaskId"); }
+    internal static int NextLTaskId { get => XMLTools.GetAndIncreaseNextId(s_data_config_xml, "NextTaskId"); }
 }

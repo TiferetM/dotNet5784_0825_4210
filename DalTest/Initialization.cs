@@ -7,7 +7,7 @@ public static class Initialization
     //private static ITask? s_dalTask; //stage 1
     //private static IDependency? s_dalDependency; //stage 1
     private static IDal? s_dal; //stage 2
-    private static readonly Random s_rand = new();
+    private static readonly Random s_rand =  new Random();
     public static void createEngineer()
     {
        //40 nanes
@@ -143,7 +143,7 @@ public static class Initialization
             List<Task?> tasks_list =s_dal!.Task.ReadAll().ToList();//get the tasks list in order to get a random task id's that exists 
             int randomIndex1 = s_rand.Next(0, tasks_list.Count-1);
             int randomIndex2 = s_rand.Next(0, tasks_list.Count - 1);
-            item.DependenceTask = tasks_list[randomIndex1].Id;
+            item.DependenceTask  = tasks_list[randomIndex1].Id;
             item.DependenceOnTask = tasks_list[randomIndex2].Id;
             s_dal!.Dependency!.Create(item);
         }

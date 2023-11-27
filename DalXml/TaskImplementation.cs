@@ -3,8 +3,8 @@ namespace Dal;
 using System.Xml.Linq;
 using System.IO;
 using System.Xml.Serialization;
-using DalXml;
 using DO;
+using global::DalXml;
 
 internal class TaskImplementation : ITask
 {
@@ -26,7 +26,7 @@ internal class TaskImplementation : ITask
     {
         List<DO.Task> tasks = XMLTools.LoadListFromXMLSerializer<DO.Task>("Tasks.xml");
 
-        DO.Task toDelete = tasks.FirstOrDefault(t => t.Id == id);
+        DO.Task? toDelete = tasks.FirstOrDefault(t => t.Id == id);
         if (toDelete != null)
         {
             tasks.Remove(toDelete);

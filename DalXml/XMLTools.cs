@@ -77,7 +77,7 @@ static class XMLTools
     //public static void SaveListToXMLSerializer<T>(List<T?> list, string entity) where T : struct
     public static void SaveListToXMLSerializer<T>(List<T> list, string entity) where T : class
     {
-        string filePath = $"{s_xml_dir + entity}.xml";
+        string filePath = $"{s_xml_dir + entity}";
         try
         {
             using FileStream file = new(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
@@ -94,12 +94,16 @@ static class XMLTools
     //public static List<T?> LoadListFromXMLSerializer<T>(string entity) where T : struct
     public static List<T> LoadListFromXMLSerializer<T>(string entity) where T : class
     {
-        string filePath = $"{s_xml_dir + entity}.xml";
+        string filePath = $"{s_xml_dir + entity}";
         try
         {
-            if (!File.Exists(filePath)) return new();
+            if (!File.Exists(filePath))
+            {
+                return new();
+            }
             using FileStream file = new(filePath, FileMode.Open);
             XmlSerializer x = new(typeof(List<T>));
+            Console.WriteLine(x);
             return x.Deserialize(file) as List<T> ?? new();
             //XmlSerializer x = new(typeof(List<T?>));
             //return x.Deserialize(file) as List<T?> ?? new();
