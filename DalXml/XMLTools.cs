@@ -51,7 +51,7 @@ static class XMLTools
         }
         catch (Exception ex)
         {
-            throw new DalXMLFileLoadCreateException($"fail to create xml file: {s_xml_dir + filePath}, {ex.Message}");
+           throw new DalXMLFileLoadCreateException($"fail to create xml file: {s_xml_dir + filePath}, {ex.Message}");
         }
     }
 
@@ -103,7 +103,7 @@ static class XMLTools
             }
             using FileStream file = new(filePath, FileMode.Open);
             XmlSerializer x = new(typeof(List<T>));
-            Console.WriteLine(x);
+            //Console.WriteLine(x);
             return x.Deserialize(file) as List<T> ?? new();
             //XmlSerializer x = new(typeof(List<T?>));
             //return x.Deserialize(file) as List<T?> ?? new();
