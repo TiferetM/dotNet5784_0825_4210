@@ -8,6 +8,8 @@ using Dal;
 using DalApi;
 using DO;
 using DalXml;
+using System.Diagnostics;
+
 internal class Program
 {
 
@@ -15,8 +17,10 @@ internal class Program
     //private static ITask? s_dalTask = new TaskImplementation(); //stage 1
     //private static IDependency s_dalDependency = new DependencyImplementation(); //stage 1
     private static DateTime createdate;
-    //  static readonly IDal s_dal = new DalList(); //stage 2
-    static readonly IDal s_dal = new DalXml(); //stage 3
+
+
+    static readonly IDal s_dal = new DalList(); //stage 2
+ //  static readonly IDal s_dal = new DalXml(); //stage 3
 
 
     static void Main(string[] args)
