@@ -17,9 +17,14 @@ internal class Program
     //private static ITask? s_dalTask = new TaskImplementation(); //stage 1
     //private static IDependency s_dalDependency = new DependencyImplementation(); //stage 1
     private static DateTime createdate;
-  
-    static readonly IDal s_dal = new DalList(); //stage 2
-   //  static readonly IDal s_dal = new DalXml(); //stage 3
+
+
+
+
+
+    //  static readonly IDal s_dal = new DalList(); //stage 2
+    //  static readonly IDal s_dal = new DalXml(); //stage 3
+    static readonly IDal s_dal = Factory.Get; //stage 4
 
 
     static void Main(string[] args)
@@ -286,7 +291,7 @@ internal class Program
         {
             Console.WriteLine(task);
             DO.Task? updatedTask = ReadTaskFromUser();
-            FieldInfo[] fields = updatedTask.GetType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+            FieldInfo [] fields = updatedTask.GetType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
 
             // Loop through each field
             foreach (FieldInfo field in fields)
@@ -448,7 +453,7 @@ internal class Program
         Console.WriteLine("הכנס מספר מזהה של המהנדס שתרצה לראות:");
         int.TryParse(Console.ReadLine(), out id);
 
-        DO.Engineer engineer = s_dal.Engineer.Read(id);
+        DO.Engineer? engineer = s_dal.Engineer.Read(id);
         if (engineer != null)
         {
             Console.WriteLine(engineer);
@@ -511,7 +516,7 @@ internal class Program
     static void createDependency()
     {
         int id;
-        DO.Dependency newDependency = ReadDependencyFromUser();
+        DO.Dependency? newDependency = ReadDependencyFromUser();
         if (newDependency != null)
         {
             id = s_dal.Dependency.Create(newDependency);
@@ -526,7 +531,7 @@ internal class Program
         Console.WriteLine("הכנס מספר מזהה של התלות שתרצה לראות:");
         int.TryParse(Console.ReadLine(), out id);
 
-        DO.Dependency dependency = s_dal.Dependency.Read(id);
+        DO.Dependency? dependency = s_dal.Dependency.Read(id);
         if (dependency != null)
         {
             Console.WriteLine(dependency);
@@ -559,7 +564,7 @@ internal class Program
         if (dependency != null)
         {
             Console.WriteLine(dependency);
-            DO.Dependency updatedDependency = ReadDependencyFromUser();
+            DO.Dependency? updatedDependency = ReadDependencyFromUser();
             FieldInfo[] fields = updatedDependency.GetType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
 
             // Loop through each field

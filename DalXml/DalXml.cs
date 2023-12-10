@@ -6,10 +6,11 @@ namespace Dal
 {
     ////stage 3
 
-    sealed internal class DalXml : IDal
+    internal sealed partial  class DalXml : IDal
     {
         public static IDal Instance { get; } = new DalXml();
         private DalXml() { }
+    
 
         public ITask Task => new TaskImplementation();
 

@@ -21,14 +21,14 @@ public record Task
     public bool Milestone { get; set; }
     public DateTime createdat { get; set; }
     public DateTime start { get; set; }
-    DateTime schedudalDate;
-    DateTime DeadLine;
-    DateTime Complete;
-    string Delivrables;
-    string? Remarks= null;
-    int Engineerid;
-    EngineerExperience? ComplexityLevel = null;
-    public int newId;
+    DateTime schedudalDate { get; set; }
+    DateTime DeadLine { get; set; }
+    DateTime Complete { get; set; }
+    string ?Delivrables { get; set; }
+    string? Remarks { get; set; } = null;
+    int Engineerid { get; set; }
+    EngineerExperience? ComplexityLevel { get; set; } = null;
+    public int newId { get; set; }
 
     //param c-tor
     public Task(int myId,string? mydescription,string? myAlias,bool myMilestone,DateTime mycreatedat,

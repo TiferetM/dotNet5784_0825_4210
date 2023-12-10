@@ -1,16 +1,22 @@
 ﻿
-namespace Dal;
-using DalApi;
-sealed internal class DalList : IDal
+
+
+namespace Dal
 {
-    public static IDal Instance { get; } = new DalList();
-    private DalList() { }
+    using DalApi;
 
-    public ITask Task => new TaskImplementation();
+    internal sealed partial class DalList : IDal
+    {
+        private static readonly IDal instance = new DalList();
 
-    public IDependency Dependency => new DependencyImplementation();
+        public static IDal Instance { get { return instance; } }
 
-    public IEngineer Engineer => new EngineerImplementation();
+        private DalList() { }
+
+        public ITask Task => new TaskImplementation();
+
+        public IDependency Dependency => new DependencyImplementation();
+
+        public IEngineer Engineer => new EngineerImplementation();
+    }
 }
-
-//plise sucsss
