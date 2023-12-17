@@ -1,9 +1,5 @@
 ﻿using DO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace BO;
 ///<summary>
@@ -25,6 +21,7 @@ public class Engineer
     string? Email { get; set; }
     public EngineerExperience Level { get; init; }
     double Cost { get; set; }
-    BO.TaskInEngineer ?Task { get; set; }
+    BO.TaskInEngineer? Task { get; set; }
+    public override string ToString() => Tools.ToStringProperty(this);
 
 }

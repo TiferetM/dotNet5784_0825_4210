@@ -50,4 +50,16 @@ string? myRemarks,int myEngineerid, EngineerExperience myComplexityLevel)//c-tor
         ComplexityLevel = myComplexityLevel;
     }
     public Task() { }//empty c-tor
+
+    public Task(int v1, string v2, string myAlias, bool v3, DateTime createdat, DateTime start, DateTime schedudalDate, DateTime deadLine, DateTime complete, string delivrables, string remarks, int? engineerid, EngineerExperience complexityLevel)
+    {
+        this.createdat = createdat;
+        this.start = start;
+        this.schedudalDate = schedudalDate;
+        DeadLine = deadLine;
+        Complete = complete;
+        Delivrables = delivrables;
+        Remarks = remarks;
+        ComplexityLevel = complexityLevel;
+    }
 }
