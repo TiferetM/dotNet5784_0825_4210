@@ -1,6 +1,7 @@
-﻿namespace DalTest;
-using DalApi;
+﻿using DalApi;
 using DO;
+
+namespace DalTest;
 public static class Initialization
 {
     //private static IEngineer? s_dalEngineer; //stage 1
@@ -124,11 +125,17 @@ public static class Initialization
                 EngineerExperience ComplexityLevel = (EngineerExperience)s_rand.Next(0, 5);//רמת קושי
                 string Delivrables = drlivrables[s_rand.Next(0, 7)];
                 string Remarks = "remark";// למשימה הערות
-                int randID = list[s_rand.Next(0, 4)].Id;
-                int Engineerid = randID;
-                Task newTask = new(0, descriptions[i], myAlias: _task, false, createdat,
-                    start, schedudalDate, DeadLine, Complete, Delivrables, Remarks, Engineerid, ComplexityLevel);
-                s_dal!.Task.Create(newTask);
+                if (list != null)
+                {
+                    int? randID = list[s_rand.Next(0, 4)]?.Id;
+                    int? Engineerid = randID;
+                    if (Engineerid != null)
+                    {
+                        DO.Task newTask = new(0, descriptions[i], myAlias: _task, false, createdat,
+                            start, schedudalDate, DeadLine, Complete, Delivrables, Remarks, Engineerid, ComplexityLevel);
+                        s_dal!.Task.Create(newTask);
+                    }
+                }
 
                 i++;
             }
@@ -140,9 +147,10 @@ public static class Initialization
         for(int i = 0; i < 250; i++) 
         {
             Dependency item= new Dependency();
-            List<Task?> tasks_list =s_dal!.Task.ReadAll().ToList();//get the tasks list in order to get a random task id's that exists 
+            List<DO.Task?> tasks_list =s_dal!.Task.ReadAll().ToList();//get the tasks list in order to get a random task id's that exists 
             int randomIndex1 = s_rand.Next(0, tasks_list.Count-1);
             int randomIndex2 = s_rand.Next(0, tasks_list.Count - 1);
+            
             item.DependenceTask  = tasks_list[randomIndex1].Id;
             item.DependenceOnTask = tasks_list[randomIndex2].Id;
             s_dal!.Dependency!.Create(item);
@@ -164,10 +172,10 @@ public static class Initialization
         int day = s_rand.Next(1, 30);
         int month = s_rand.Next(1, 12);
         int year = 2023;
-        int howr = s_rand.Next(1, 24);
+        int hour = s_rand.Next(1, 24);
         int minute = s_rand.Next(1, 60);
         int second = s_rand.Next(1, 60);
-        DateTime newDate = new DateTime(year, month, day, howr, minute, second);
+        DateTime newDate = new DateTime(year, month, day, hour, minute, second);
         return newDate;
     }
 }

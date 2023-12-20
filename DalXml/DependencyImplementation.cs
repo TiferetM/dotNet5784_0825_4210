@@ -10,23 +10,26 @@ internal class DependencyImplementation : IDependency
         XElement dependenciesDoc = XMLTools.LoadListFromXMLElement("Dependencies.xml");
         int newId = Config.NextDependencyId;//new config number
         XElement newDep = new XElement("dependency",
-            new XElement ("Id",newId),
+            new XElement("Id", newId),
             new XElement("DependenceTask", item.DependenceTask),
             new XElement("DependenceOnTask", item.DependenceOnTask));
         dependenciesDoc.Add(newDep);//added to the Xml file
         XMLTools.SaveListToXMLElement(dependenciesDoc, "Dependencies.xml");
-           return newId;
+        return newId;
     }
 
     public void Delete(int id)//done
     {
         XElement dependenciesDoc = XMLTools.LoadListFromXMLElement("Dependencies.xml");
-        XElement? elemToDel = (XElement)dependenciesDoc.Elements("Dependency").FirstOrDefault(d => d!.Element("Id")!.Value.Equals(id));
-        if(elemToDel!=null)
+        if (dependenciesDoc != null)
         {
-            dependenciesDoc.Remove();
-            XMLTools.SaveListToXMLElement(dependenciesDoc, "Dependencies.xml");
+            XElement? elemToDel = dependenciesDoc.Elements("Dependency").FirstOrDefault(d => d!.Element("Id")!.Value.Equals(id));
+            if (elemToDel != null)
+            {
+                dependenciesDoc.Remove();
+                XMLTools.SaveListToXMLElement(dependenciesDoc, "Dependencies.xml");
 
+            }
         }
         else
             throw new DalDoesNotExistException($"אובייקט מסוג Dependency עם ID {id} לא קיים");
@@ -35,13 +38,15 @@ internal class DependencyImplementation : IDependency
     public Dependency? Read(int id)//done!!
     {
         XElement dependenciesDoc = XMLTools.LoadListFromXMLElement("Dependencies.xml");
-        XElement? elemToRead = (XElement)dependenciesDoc.Elements("Dependency").FirstOrDefault(d => d.Element("Id")!.Value.Equals(id));
+        XElement? elemToRead = dependenciesDoc.Elements("Dependency").FirstOrDefault(d => d.Element("Id")!.Value.Equals(id));
         if (elemToRead != null)
         {
-            Dependency dependencyToShow = new Dependency();
-            dependencyToShow.Id = Convert.ToInt32(elemToRead.Element("Id")!.Value);
-            dependencyToShow.DependenceTask   = Convert.ToInt32(elemToRead.Element("DependenceTask")!.Value);
-            dependencyToShow.DependenceOnTask = Convert.ToInt32(elemToRead.Element("DependenceOnTask")!.Value);
+            Dependency dependencyToShow = new Dependency
+            {
+                Id = Convert.ToInt32(elemToRead.Element("Id")!.Value),
+                DependenceTask = Convert.ToInt32(elemToRead.Element("DependenceTask")!.Value),
+                DependenceOnTask = Convert.ToInt32(elemToRead.Element("DependenceOnTask")!.Value)
+            };
         }
         throw new NotImplementedException();
     }
@@ -101,17 +106,18 @@ internal class DependencyImplementation : IDependency
     public void Update(Dependency item)
     {
         XElement dependenciesDoc = XMLTools.LoadListFromXMLElement("Dependencies.xml");
-        XElement? elemToUpdate = (XElement)dependenciesDoc?.Elements("Dependency").FirstOrDefault(d => d!.Element("Id")!.Value.Equals(item.Id));
+        XElement? elemToUpdate = dependenciesDoc?.Elements("Dependency").FirstOrDefault(d => d!.Element("Id")!.Value.Equals(item.Id));
         if (elemToUpdate != null)
         {
-            dependenciesDoc.Remove();
-            XElement update;
-            XElement updateDetailes=new XElement("dependency",
+            dependenciesDoc?.Remove();
+            // XElement update;
+            XElement updateDetailes = new XElement("dependency",
             new XElement("Id", item.Id),
             new XElement("DependenceTask", item.DependenceTask),
             new XElement("DependenceOnTask", item.DependenceOnTask));
-            dependenciesDoc.Add(updateDetailes);//added to the Xml file
-            XMLTools.SaveListToXMLElement(dependenciesDoc, "Dependencies.xml");
+            dependenciesDoc?.Add(updateDetailes);//added to the Xml file
+            if (dependenciesDoc != null)
+                XMLTools.SaveListToXMLElement(dependenciesDoc, "Dependencies.xml");
         }
         else
             throw new DalDoesNotExistException($"אובייקט מסוג Dependency עם ID {item.Id} לא קיים");

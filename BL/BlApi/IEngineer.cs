@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BlApi;
-
- public interface IEngineer
+﻿namespace BlApi;
+public interface IEngineer
 {
-
+    public IEnumerable<BO.Engineer> GetEngineersList(Func<BO.Engineer, bool>? filter = null);
+    public BO.Engineer EngineerDetailsRequest(int id);
+    public void AddEngineer(BO.Engineer engineer);
+    public void DeleteEngineer(int id);
+    public void UpdateEngineer(BO.Engineer engineer);
 }

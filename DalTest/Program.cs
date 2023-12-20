@@ -35,8 +35,8 @@ internal class Program
             Initialization.Do(s_dal); //stage 2
             Console.OutputEncoding = new UTF8Encoding();
             Console.InputEncoding = new UTF8Encoding();
-          //  Console.WriteLine("Write your input:");
-          //  string Input = Console.ReadLine();
+            //  Console.WriteLine("Write your input:");
+            //  string Input = Console.ReadLine();
             mainMenu();
         }
         catch (Exception ex)
@@ -271,7 +271,7 @@ internal class Program
     static void readAllTasks()
     {
         IEnumerable<Task> tasks = (IEnumerable<Task>)s_dal.Task.ReadAll();
-      //  ( IEnumerable )List<Task> tasks = s_dal.Task.ReadAll();
+        //  ( IEnumerable )List<Task> tasks = s_dal.Task.ReadAll();
         if (tasks == null)
         {
             throw new Exception("הרשימה אינה קיימת");
@@ -291,21 +291,25 @@ internal class Program
         {
             Console.WriteLine(task);
             DO.Task? updatedTask = ReadTaskFromUser();
-            FieldInfo [] fields = updatedTask.GetType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
-
-            // Loop through each field
-            foreach (FieldInfo field in fields)
+            FieldInfo[] fields;
+            if (updatedTask != null)
             {
+                fields = updatedTask.GetType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
 
-                object? fieldValue = field.GetValue(updatedTask);
-                if (fieldValue == null || DateTime.Equals(fieldValue, DateTime.MinValue) || fieldValue == "")
+                // Loop through each field
+                foreach (FieldInfo field in fields)
                 {
-                    field.SetValue(updatedTask, field.GetValue(task));
+
+                    object? fieldValue = field.GetValue(updatedTask);
+                    if (fieldValue == null || DateTime.Equals(fieldValue, DateTime.MinValue) || (string)fieldValue == "")
+                    {
+                        field.SetValue(updatedTask, field.GetValue(task));
+                    }
                 }
+                updatedTask.Id = id;//update the new task's id to be the same as the task the user want to update
+                s_dal.Task.Update(updatedTask);
+                Console.WriteLine(s_dal.Task.Read(id));//prints the task after the update
             }
-            updatedTask.Id = id;//update the new task's id to be the same as the task the user want to update
-            s_dal.Task.Update(updatedTask);
-            Console.WriteLine(s_dal.Task.Read(id));//prints the task after the update
         }
 
     }//update a specific task by the user's input
@@ -317,7 +321,7 @@ internal class Program
         s_dal.Task.Delete(id);
         Console.WriteLine("האובייקט נמחק בהצלחה");
     }//delete a task by it's id from the user's input
-    static  DO.Task ? ReadTaskFromUser()
+    static DO.Task? ReadTaskFromUser()
     {
         Console.WriteLine("Enter Task Data:");
 
@@ -396,13 +400,13 @@ internal class Program
             switch (levelChoice)
             {
                 case 1:
-                    complexityLevel = EngineerExperience.Beginer;
+                    complexityLevel = EngineerExperience.Beginner;
                     break;
                 case 2:
-                    complexityLevel = EngineerExperience.Compeatative;
+                    complexityLevel = EngineerExperience.Competitive;
                     break;
                 case 3:
-                    complexityLevel = EngineerExperience.Profesional;
+                    complexityLevel = EngineerExperience.Professionals;
                     break;
                 case 4:
                     complexityLevel = EngineerExperience.Export;
@@ -488,20 +492,23 @@ internal class Program
         {
             Console.WriteLine(engineer);
             DO.Engineer? updatedEngineer = ReadEngineerFromUser();
-            FieldInfo [] fields = updatedEngineer.GetType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
-
-            // Loop through each field
-            foreach (FieldInfo field in fields)
+            if (updatedEngineer != null)
             {
-                //string fieldName = field.Name;
-                object? fieldValue = field.GetValue(updatedEngineer);
-                if (fieldValue == null || fieldValue == "")
+                FieldInfo[] fields = updatedEngineer.GetType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+
+                // Loop through each field
+                foreach (FieldInfo field in fields)
                 {
-                    field.SetValue(updatedEngineer, field.GetValue(engineer));
+                    //string fieldName = field.Name;
+                    object? fieldValue = field.GetValue(updatedEngineer);
+                    if (fieldValue == null || (string)fieldValue == "")
+                    {
+                        field.SetValue(updatedEngineer, field.GetValue(engineer));
+                    }
                 }
+                s_dal.Engineer.Update(updatedEngineer);
+                Console.WriteLine(s_dal.Engineer.Read(id));//prints the updated engineer
             }
-            s_dal.Engineer.Update(updatedEngineer);
-            Console.WriteLine(s_dal.Engineer.Read(id));//prints the updated engineer
         }
     }//update a specific engineer by the user's input
 
@@ -545,7 +552,7 @@ internal class Program
     static void readAllDependencies()
     {
         IEnumerable<Dependency> dependencies = (IEnumerable<Dependency>)s_dal.Task.ReadAll();
-     //   List<DO.Dependency> dependencies = s_dal.Dependency.ReadAll();
+        //   List<DO.Dependency> dependencies = s_dal.Dependency.ReadAll();
         if (dependencies == null)
         {
             throw new Exception("הרשימה אינה קיימת");
@@ -572,7 +579,7 @@ internal class Program
             {
                 //string fieldName = field.Name;
                 object? fieldValue = field.GetValue(updatedDependency);
-                if (fieldValue == null || fieldValue == "")
+                if (fieldValue == null || (string)fieldValue == "")
                 {
                     field.SetValue(updatedDependency, field.GetValue(dependency));
                 }
@@ -592,7 +599,7 @@ internal class Program
         Console.WriteLine("האובייקט נמחק בהצלחה");
 
     }//delete a dependency by it's id from the user's input
-    static Engineer ? ReadEngineerFromUser()
+    static Engineer? ReadEngineerFromUser()
     {
         Console.WriteLine("Enter Engineer Data:");
 
@@ -625,13 +632,13 @@ internal class Program
             switch (levelChoice)
             {
                 case 1:
-                    complexityLevel = EngineerExperience.Beginer;
+                    complexityLevel = EngineerExperience.Beginner;
                     break;
                 case 2:
-                    complexityLevel = EngineerExperience.Compeatative;
+                    complexityLevel = EngineerExperience.Competitive;
                     break;
                 case 3:
-                    complexityLevel = EngineerExperience.Profesional;
+                    complexityLevel = EngineerExperience.Professionals;
                     break;
                 case 4:
                     complexityLevel = EngineerExperience.Export;
@@ -649,11 +656,11 @@ internal class Program
             Console.WriteLine("Invalid choice. Aborting.");
             return null;
         }
-
+        //todo validation input name & email
         // Create and return a new Engineer object
         return new Engineer(id, name, email, complexityLevel);
     }//reads the engineer values from the user
-    static Dependency ? ReadDependencyFromUser()
+    static Dependency? ReadDependencyFromUser()
     {
         Console.WriteLine("Enter Dependency Data:");
 

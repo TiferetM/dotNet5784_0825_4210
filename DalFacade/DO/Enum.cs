@@ -1,3 +1,3 @@
 ﻿namespace DO;
-public enum EngineerExperience { Beginer = 0, Compeatative, Profesional, Export , Proficient }
+public enum EngineerExperience { Beginner = 0, Competitive, Professionals, Export , Proficient }
        

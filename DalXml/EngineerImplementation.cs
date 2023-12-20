@@ -20,11 +20,18 @@ internal class EngineerImplementation : IEngineer
     public void Delete(int id)
     {
         List<DO.Engineer> Engineers = XMLTools.LoadListFromXMLSerializer<DO.Engineer>("Engineers.xml");
-        DO.Engineer toDelete = Engineers.FirstOrDefault(t => t.Id == id);
-        if (toDelete != null)
+        if (Engineers != null)
         {
-            Engineers.Remove(toDelete);
-            XMLTools.SaveListToXMLSerializer(Engineers, "Engineers.xml");
+            DO.Engineer? toDelete = Engineers.FirstOrDefault(t => t.Id == id);
+            if (toDelete != null)
+            {
+                Engineers.Remove(toDelete);
+                XMLTools.SaveListToXMLSerializer(Engineers, "Engineers.xml");
+            }
+            else
+            {
+                throw new DalDoesNotExistException($"Task object with ID {id} does not exist");
+            }
         }
         else
         {
