@@ -16,11 +16,11 @@ namespace BO;
 
 public class Engineer
 {
-    int ID { get; init; }
-    string? Name { get; set; }
-    string? Email { get; set; }
+    public int ID { get; init; }
+    public string? Name { get; set; }
+    public string? Email { get; set; }
     public EngineerExperience Level { get; init; }
-    double Cost { get; set; }
+    public double Cost { get; set; }
     BO.TaskInEngineer? Task { get; set; }
     public override string ToString() => Tools.ToStringProperty(this);
 

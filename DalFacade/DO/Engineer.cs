@@ -13,9 +13,10 @@ public record Engineer
     //titi
     #region characters
      public int Id { get; set; }
-    string? Name;
-    string? email;
-   public EngineerExperience level { get; set; }
+    public string? Name {  get; set; }
+    public string? email { get; set; }
+    public EngineerExperience level { get; set; }
+    public EngineerExperience Level { get; set; }
     #endregion
     public Engineer(int myId,string myName,string myEmail, EngineerExperience level)  // ctor 
     {
