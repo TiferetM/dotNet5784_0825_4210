@@ -26,31 +26,22 @@ using System.Threading.Tasks;
 
 
 namespace BO;
-
-internal class Task
-{
-      int ID {  get; init; }
-      string ? Description { get; set; }
-      string? Alias { get; set; }
-      DateTime? CreatedAtDate { get; set; }
-      BO.Status Status { get; set; }
-      BO.MilestoneTask ?Milestone { get; set; }
-      DateTime? BaselineStartDate { get; set; }
-      DateTime? StartDate {  get; set; }
-      DateTime? ScheduledStartDate { get; set; }
-      DateTime? ForecastDate { get; set; }
-      DateTime? DeadlineDate { get; set; }
-      DateTime? CompleteDate { get; set; }
-      string ?Deliverables { get; set; }
-      string ?Remarks { get; set; }
-      BO.EngineerInTask? Engineer {  get; set; }
-      public EngineerExperience CopmlexityLevel { get; set; }
-
-
-
-
-
-
-
-
-}
+public class Task
+    {
+        public int ID { get; set; }
+        public string? Description { get; set; }
+        public string? Alias { get; set; }
+        public DateTime? CreatedAtDate { get; set; }
+        public BO.Status Status { get; set; }
+        BO.MilestoneTask? Milestone { get; set; }
+        public DateTime? BaselineStartDate { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? ScheduledStartDate { get; set; }
+        public DateTime? ForecastDate { get; set; }
+        public DateTime? DeadlineDate { get; set; }
+        public DateTime? CompleteDate { get; set; }
+        public string? Deliverables { get; set; }
+        public string? Remarks { get; set; }
+        BO.EngineerInTask? Engineer { get; set; }
+        public EngineerExperience CopmlexityLevel { get; set; }
+    }

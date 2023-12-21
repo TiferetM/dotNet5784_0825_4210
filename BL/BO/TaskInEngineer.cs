@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 
 namespace BO;
 
-internal class TaskInEngineer
+public class TaskInEngineer
 {
-    int ID {  get; init; }
-    string? Name { get; set; }
+   public int ID {  get; init; }
+   public string? Name { get; set; }
 }

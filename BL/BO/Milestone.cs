@@ -36,8 +36,5 @@ internal class Milestone
     double completionPercentage { get; set; }
     string? Remaks { get; set; }
     List<BO.TaskInList> ?Dependencies { get; set; }
-    string?[] Hanging list=[]{ get; set; }
-
-
-
+    public string[]? HangingList { get; set; }
 }
