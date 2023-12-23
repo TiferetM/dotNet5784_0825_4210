@@ -1,6 +1,6 @@
 ﻿namespace BlApi;
 public interface IMilestone
 {
-    public BO.Engineer MilestoneDetailsRequest(int id);
-   // public void UpdateMilestoneData(BO.Milestone mileStone);
+    public BO.Milestone? ReadMilestoneData(int id);
+    public BO.Milestone UpdateMilestoneData(BO.Milestone item);
 }

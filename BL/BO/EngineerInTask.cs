@@ -11,8 +11,8 @@ namespace BO;
 ///</summary>
 
 
-internal class EngineerInTask
+public class EngineerInTask
 {
-    int ID {  get; init; }
-    string ?Name { get; set; }
+   public int ID {  get; init; }
+  public  string ?Name { get; set; }
 }

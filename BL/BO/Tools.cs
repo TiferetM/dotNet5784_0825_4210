@@ -26,4 +26,10 @@ public static class Tools
 
         return result;
     }
+
+    public static Status DetermineStatus(DO.Task doTask)
+    {
+        //finsh function
+        throw new NotImplementedException();
+    }
 }

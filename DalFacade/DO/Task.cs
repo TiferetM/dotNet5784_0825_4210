@@ -19,15 +19,15 @@ public record Task
     public string? description{ get; set; } = null;
     public string? Alias { get; set; } = null;
     public bool Milestone { get; set; }
-    public DateTime createdat { get; set; }
-    public DateTime start { get; set; }
-    DateTime schedudalDate { get; set; }
-    DateTime DeadLine { get; set; }
-    DateTime Complete { get; set; }
-    string ?Delivrables { get; set; }
-    string? Remarks { get; set; } = null;
-    int Engineerid { get; set; }
-    EngineerExperience? ComplexityLevel { get; set; } = null;
+    public DateTime? createdat { get; set; }
+    public DateTime? start { get; set; }
+    public DateTime? schedudalDate { get; set; }
+    public DateTime? DeadLine { get; set; }
+    public DateTime? Complete { get; set; }
+    public string ?Delivrables { get; set; }
+    public string? Remarks { get; set; } = null;
+    public int? Engineerid { get; set; }
+    public EngineerExperience? ComplexityLevel { get; set; } = null;
     public int newId { get; set; }
 
     //param c-tor
@@ -63,3 +63,4 @@ string? myRemarks,int myEngineerid, EngineerExperience myComplexityLevel)//c-tor
         ComplexityLevel = complexityLevel;
     }
 }
+

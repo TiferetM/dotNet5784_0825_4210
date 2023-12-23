@@ -17,9 +17,6 @@ namespace BO
         {
         }
 
-        public BlDoesNotExistException(string? message, Exception? innerException) : base(message, innerException)
-        {
-        }
 
         protected BlDoesNotExistException(SerializationInfo info, StreamingContext context) : base(info, context)
         {

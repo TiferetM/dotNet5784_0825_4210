@@ -22,19 +22,19 @@ namespace BO;
 ///</summary>
 
 
-internal class Milestone
+public class Milestone
 {
-     int Id { get; set; }
-    string? Description { get; set; }
-    string? Alias { get; set; }
-    DateTime? CreatedAtDate { get; set; }
-    BO.Status Status {  get; set; }
-    DateTime ? StartDate {  get; set; }
-    DateTime? ForecastDate { get; set; }
-    DateTime? DeadlineDate { get; set; }
-    DateTime? CompleteDate { get; set; }
-    double completionPercentage { get; set; }
-    string? Remaks { get; set; }
-    List<BO.TaskInList> ?Dependencies { get; set; }
+    public int Id { get; set; }
+    public string? Description { get; set; }
+    public string? Alias { get; set; }
+    public DateTime? CreatedAtDate { get; set; }
+    public BO.Status Status {  get; set; }
+    public DateTime ? StartDate {  get; set; }
+    public DateTime? ForecastDate { get; set; }
+    public DateTime? DeadlineDate { get; set; }
+    public DateTime? CompleteDate { get; set; }
+    public double completionPercentage { get; set; }
+    public string? Remaks { get; set; }
+    public List<BO.TaskInList> ?Dependencies { get; set; }
     public string[]? HangingList { get; set; }
 }

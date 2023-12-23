@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 
 namespace BO;
 
-internal class MilestoneTask
+public class MilestoneTask
 {
-    int ID { get; set; }
-    string? Alias {  get; set; }
+    public  int ID { get; set; }
+    public string? Alias {  get; set; }
 }

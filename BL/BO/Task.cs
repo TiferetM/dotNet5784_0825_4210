@@ -33,7 +33,7 @@ public class Task
         public string? Alias { get; set; }
         public DateTime? CreatedAtDate { get; set; }
         public BO.Status Status { get; set; }
-        BO.MilestoneTask? Milestone { get; set; }
+        public BO.MilestoneTask? Milestone { get; set; }
         public DateTime? BaselineStartDate { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? ScheduledStartDate { get; set; }
@@ -42,6 +42,25 @@ public class Task
         public DateTime? CompleteDate { get; set; }
         public string? Deliverables { get; set; }
         public string? Remarks { get; set; }
-        BO.EngineerInTask? Engineer { get; set; }
+        public BO.EngineerInTask? Engineer { get; set; }
         public EngineerExperience CopmlexityLevel { get; set; }
     }
+
+
+
+
+
+//public bool Milestone { get; set; }
+//int Engineerid { get; set; }
+//public int newId { get; set; }
+
+
+
+
+
+
+//public BO.Status Status { get; set; }
+//BO.MilestoneTask? Milestone { get; set; }
+//public DateTime? BaselineStartDate { get; set; }
+//public DateTime? ForecastDate { get; set; }
+//public BO.EngineerInTask? Engineer { get; set; }

@@ -12,11 +12,11 @@ using System.Threading.Tasks;
 
 namespace BO;
 
-internal class TaskInList
+public class TaskInList
 {
-    int ID {  get; init; }
-    string? Description {  get; set; }
-    string? Alias {  get; set; }
-    BO.Status Status { get; set; }
+    public int Id {  get; init; }
+    public  string? Description {  get; set; }
+    public string? Alias {  get; set; }
+    public  BO.Status Status { get; set; }
 
 }
