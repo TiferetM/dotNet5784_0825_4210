@@ -1,6 +1,8 @@
 ﻿
 using BlApi;
 using BO;
+using System.Xml.Linq;
+
 
 
 namespace BlImplementation;
@@ -14,19 +16,22 @@ internal class TaskImplementation : ITask
         //      throw new BO.BLDoesNotExistException("Invalid values");// ערך לא חוקי
         //  }
 
-        DO.Task AddedTask = new()
+        DO.Task AddedTask = new DO.Task()
         {
-           task.ID,
-            task.Description,
-           task.Alias,false,
-          task.ForecastDate,
-          task.StartDate,
-          task.ScheduledStartDate,
-          task.DeadlineDate,
-          task.CompleteDate,
-          task.Deliverables,
-          task.Remarks,,/*task.Engineer.ID,*/
-          task.CopmlexityLevel};
+            ID = task.ID,
+            Description = task.Description,
+            Alias = task.Alias,
+            Milestone = false,
+            ForCastDate = task.ForecastDate,
+            start = task.StartDate,
+            schedudalDate = task.ScheduledStartDate,
+            DeadLine = task.DeadlineDate,
+            Complete = task.CompleteDate,
+            Delivrables = task.Deliverables,
+            Remarks = task.Remarks,
+            Engineerid = task.Engineer?.ID,
+            ComplexityLevel = task.CopmlexityLevel
+        };
         try
         {
             int id = _dal.Task.Create(AddedTask);
@@ -58,44 +63,83 @@ internal class TaskImplementation : ITask
 
     public IEnumerable<BO.Task> GetTaskersList()
     {
-        ////return from e in _dal.Engineer.ReadAll()
-        ////       select new BO.Engineer()
-        ////       {
-        ////           ID = e.Id, // שימוש ב-generate property
-        ////           Name = e.Name,
-        ////           Email = e.email,
-        ////           Level = e.level,
-        ////           Cost = 0,
-        ////           Task = new BO.TaskInEngineer()
-        ////           {
-        ////               ID = _dal.Task.Read(t => t.Id == e.Id)!.Id,
-        ////               Name = _dal.Task.Read(t => t.Id == e.Id)!.Alias ?? ""
-        ////           }
-        ////       };
-        ////throw new NotImplementedException();
+        return from t in _dal.Task.ReadAll()
+               let dependencies = _dal.Dependency!.ReadAll(d => d.DependenceTask == t.Id)
+                                .Select(d => new BO.TaskInList()
+                                {
+                                    Id = d.DependenceOnTask,
+                                    Alias = _dal.Task!.Read(d.DependenceOnTask)?.Alias,
+                                    Description = _dal.Task!.Read(d.DependenceTask)?.description,
+                                    Status = Tools.DetermineStatus(_dal.Task!.Read(d.DependenceTask))
+                                })
+                                .ToList()
+               select new BO.Task()
+               {
+                   ID = t.Id,
+                   Description = t.description,
+                   Alias = t.Alias,
+                   CreatedAtDate = t.createdat,
+                   Status = Tools.DetermineStatus(t),
+                   Dependencies = dependencies,
+                   Milestone = dependencies
+                   .Where(d => _dal.Task!.Read(d.Id)!.Milestone == true)
+                   .Select(d => new BO.MilestoneTask()
+                   {
+                        ID = d.Id,
+                        Alias = d.Alias
+                   })
+                    .FirstOrDefault(),
+                   StartDate = t.start,
+                   ScheduledStartDate = t.schedudalDate,
+                   ForecastDate = DateTime.MinValue,
+                   DeadlineDate = t.DeadLine,
+                   CompleteDate = t.Complete,
+                   Deliverables = t.Delivrables,
+                   Remarks = t.Remarks,
+                   Engineer = new BO.EngineerInTask()
+                   {
+                       ID = _dal.Engineer!.Read(t.Id)!.Id,
+                       Name = _dal.Engineer!.Read(t.Id)!.Name
+                   },
+                   CopmlexityLevel = t.ComplexityLevel
 
-
-        //return from e in _dal.Task.ReadAll()
-        //        select new BO.Engineer()
-        //        {
-
-        //        };
+               };
 
 
         throw new NotImplementedException();
-    }//**לא עשוי
+    }//
 
 
 
     public BO.Task TaskDetailsRequest(int id)
-    { 
-      
+    {
 
         DO.Task? DoTask = _dal.Task.Read(id);
         if (DoTask==null)
             throw new BO.BLDoesNotExistException($"Task with ID={id} does not  exists");
 
-       Status status = Tools.DetermineStatus(DoTask);
+        List<BO.TaskInList> dependencies = (from d in _dal.Dependency!.ReadAll(d => d.DependenceTask == id)
+                                            where true
+                                            select new BO.TaskInList()
+                                            {
+                                                Id = d.DependenceOnTask,
+                                                Alias = _dal.Task!.Read(d.DependenceOnTask)?.Alias,
+                                                Description = _dal.Task!.Read(d.DependenceOnTask)?.description,
+                                                Status = Tools.DetermineStatus(_dal.Task!.Read(d.DependenceOnTask))
+                                            }
+                                              ).ToList();
+
+
+        Status status = Tools.DetermineStatus(DoTask);
+        MilestonesInTask? milestone = dependencies
+              .Where(d => _dal.Task!.Read(d.Id)!.Milestone == true)
+              .Select(d => new BO.MilestonesInTask()
+              {
+                  ID = d.Id,
+                  Alias = d.Alias
+              })
+              .FirstOrDefault();
+ 
         BO.Task BoTask = new BO.Task()
         {
             ID =id,
@@ -106,35 +150,27 @@ internal class TaskImplementation : ITask
                 ID=id,
                 Alias=DoTask.Alias
 
-            }
-            ,//צריך לבדוק מה שמים שם, יש גם בקונסרקטור בעיה עם זה
+            },
             CreatedAtDate =DoTask.createdat,
             StartDate = DoTask.start,
             ScheduledStartDate= DoTask.schedudalDate,
-             DeadlineDate= DoTask.DeadLine,
-             CompleteDate= DoTask.Complete,
+            DeadlineDate= DoTask.DeadLine,
+            CompleteDate= DoTask.Complete,
             Deliverables= DoTask.Delivrables,
             Remarks = DoTask.Remarks,
-            Status = status
-           
-            // BaselineStartDate=DoTask
-            //ForecastDate=DoTask.
-            //DoTask.Engineer?.ID=
-            //Engineerid ,
-            //  CopmlexityLevel = DoTask.ComplexityLevel
+            Status = status,
+            ForecastDate = DoTask.ForCastDate,
+            //  BaselineStartDate=DoTask.
+            Engineer = new BO.EngineerInTask
+            {
+                ID = _dal.Engineer!.Read(DoTask.Id)!.Id,
+                Name = _dal.Engineer!.Read(DoTask.Id)!.Name
+            },
+
+        CopmlexityLevel = (DO.EngineerExperience?)DoTask.ComplexityLevel
         };
         return BoTask;
-
-  
-
-
-  
- 
-
-  
-
-        throw new NotImplementedException();
-    }//**לא עשוי
+    }//  
 
 
 

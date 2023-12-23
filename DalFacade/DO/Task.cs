@@ -1,4 +1,5 @@
 ﻿namespace DO;
+
 ///<summary>
 ///<param name="Id">Personal unique ID and its a primary key</param>
 ///<param name="description"></param>description of the task
@@ -29,6 +30,9 @@ public record Task
     public int? Engineerid { get; set; }
     public EngineerExperience? ComplexityLevel { get; set; } = null;
     public int newId { get; set; }
+    public DateTime? ForCastDate { get; set; }
+    public int ID { get; set; }
+    public string? Description { get; set; }
 
     //param c-tor
     public Task(int myId,string? mydescription,string? myAlias,bool myMilestone,DateTime mycreatedat,

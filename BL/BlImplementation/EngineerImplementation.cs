@@ -14,7 +14,7 @@ internal class EngineerImplementation : IEngineer
         }
         try
         {
-            MailAddress mail = new MailAddress(eng?.Email ?? " ");
+           MailAddress mail = new MailAddress(eng?.Email ?? " ");//****
         }
         catch (Exception e)
         {
