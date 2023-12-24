@@ -5,10 +5,6 @@ namespace BO
     [Serializable]
     internal class BlDoesNotExistException : Exception
     {
-        public BlDoesNotExistException()
-        {
-        }
-
         public BlDoesNotExistException(string? message) : base(message)
         {
         }

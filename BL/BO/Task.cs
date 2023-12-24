@@ -46,21 +46,3 @@ public class Task
         public EngineerExperience CopmlexityLevel { get; set; }
     }
 
-
-
-
-
-//public bool Milestone { get; set; }
-//int Engineerid { get; set; }
-//public int newId { get; set; }
-
-
-
-
-
-
-//public BO.Status Status { get; set; }
-//BO.MilestoneTask? Milestone { get; set; }
-//public DateTime? BaselineStartDate { get; set; }
-//public DateTime? ForecastDate { get; set; }
-//public BO.EngineerInTask? Engineer { get; set; }
