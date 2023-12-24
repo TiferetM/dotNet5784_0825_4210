@@ -43,6 +43,7 @@ public class Task
         public string? Deliverables { get; set; }
         public string? Remarks { get; set; }
         public BO.EngineerInTask? Engineer { get; set; }
-        public EngineerExperience CopmlexityLevel { get; set; }
-    }
+        public EngineerExperience? CopmlexityLevel { get; set; }
+        public List<TaskInList>? Dependencies { get; set; }
+}
 
