@@ -38,7 +38,7 @@ public record Task
     //param c-tor
     public Task(int myId,string? description,string? myAlias,bool myMilestone,DateTime? createDate,
 TimeSpan TimeSpan, DateTime? start,DateTime? schedualDate,DateTime? myDeadLine,DateTime? myComplete,string myDelivrables,
-string? myRemarks,int engineerId, EngineerExperience myComplexityLevel)//c-tor
+string? myRemarks,int? engineerId, EngineerExperience? myComplexityLevel)//c-tor
     {
         Id = myId;
         Description = description;

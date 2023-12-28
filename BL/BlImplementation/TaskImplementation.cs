@@ -1,6 +1,7 @@
 ﻿
 using BlApi;
 using BO;
+using DO;
 using System.Xml.Linq;
 
 
@@ -16,9 +17,9 @@ internal class TaskImplementation : ITask
         //      throw new BO.BLDoesNotExistException("Invalid values");// ערך לא חוקי
         //  }
 
-        DO.Task AddedTask = new DO.Task()
+        DO.Task AddedTask = new DO.Task(task.ID)
         {
-            Id = task.ID,
+           
             Description = task.Description,
             Alias = task.Alias,
             Milestone = false,
@@ -67,18 +68,18 @@ internal class TaskImplementation : ITask
                let dependencies = _dal.Dependency!.ReadAll(d => d.DependenceTask == t.Id)
                                 .Select(d => new BO.TaskInList()
                                 {
-                                    Id = d.DependenceOnTask,
-                                    Alias = _dal.Task!.Read(d.DependenceOnTask)?.Alias,
-                                    Description = _dal.Task!.Read(d.DependenceTask)?.description,
-                                    Status = Tools.DetermineStatus(_dal.Task!.Read(d.DependenceTask))
+                                    Id = (int)d.DependenceOnTask!,
+                                    Alias = _dal.Task!.Read((int)d.DependenceOnTask)?.Alias,
+                                    Description = _dal.Task!.Read((int)d.DependenceTask!)?.Description,
+                                    Status = Tools.DetermineStatus(_dal.Task!.Read((int)d.DependenceTask))
                                 })
                                 .ToList()
                select new BO.Task()
                {
                    ID = t.Id,
-                   Description = t.description,
+                   Description = t.Description,
                    Alias = t.Alias,
-                   CreatedAtDate = t.createdat,
+                   CreatedAtDate = t.CreateDate,
                    Status = Tools.DetermineStatus(t),
                    Dependencies = dependencies,
                    Milestone = dependencies
@@ -89,12 +90,12 @@ internal class TaskImplementation : ITask
                        Alias = d.Alias
                    })
                     .FirstOrDefault(),
-                   StartDate = t.start,
-                   ScheduledStartDate = t.schedudalDate,
+                   StartDate = t.StartDate,
+                   ScheduledStartDate = t.SchedulableDate,
                    ForecastDate = DateTime.MinValue,
                    DeadlineDate = t.DeadLine,
-                   CompleteDate = t.Complete,
-                   Deliverables = t.Delivrables,
+                   CompleteDate = t.CreateDate,
+                   Deliverables = t.Deliverables,
                    Remarks = t.Remarks,
                    Engineer = new BO.EngineerInTask()
                    {
@@ -115,10 +116,10 @@ internal class TaskImplementation : ITask
                                             where true
                                             select new BO.TaskInList()
                                             {
-                                                Id = d.DependenceOnTask,
-                                                Alias = _dal.Task!.Read(d.DependenceOnTask)?.Alias,
-                                                Description = _dal.Task!.Read(d.DependenceOnTask)?.description,
-                                                Status = Tools.DetermineStatus(_dal.Task!.Read(d.DependenceOnTask))
+                                                Id = (int)d.DependenceOnTask,
+                                                Alias = _dal.Task!.Read((int)d.DependenceOnTask)?.Alias,
+                                                Description = _dal.Task!.Read((int)d.DependenceOnTask)?.Description,
+                                                Status = Tools.DetermineStatus(_dal.Task!.Read((int)d.DependenceOnTask))
                                             }
                                               ).ToList();
 
@@ -175,9 +176,9 @@ internal class TaskImplementation : ITask
             throw new BO.BlDoesNotExistException($"Student with ID={task.ID} does Not exist");
         try
         {
-            DO.Task updatedTask = new DO.Task()
+            DO.Task updatedTask = new DO.Task(task.ID)
             {
-                Id = task.ID,
+              
                 Description = task.Description,
                 Alias = task.Alias,
                 Milestone = false,//צריך לבדוק מה שמים שם, יש גם בקונסרקטור בעיה עם זה

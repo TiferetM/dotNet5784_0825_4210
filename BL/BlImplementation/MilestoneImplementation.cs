@@ -20,10 +20,10 @@ namespace BlImplementation
                                                     where true
                                                     select new BO.TaskInList()
                                                     {
-                                                        Id = d.DependenceOnTask,
-                                                        Alias = _dal.Task!.Read(d.DependenceOnTask)?.Alias,
-                                                        Description = _dal.Task!.Read(d.DependenceOnTask)?.description,
-                                                        Status = Tools.DetermineStatus(_dal.Task!.Read(d.DependenceOnTask))
+                                                        Id = (int)d.DependenceOnTask!,
+                                                        Alias = _dal.Task!.Read((int)d.DependenceOnTask)?.Alias,
+                                                        Description = _dal.Task!.Read((int)d.DependenceOnTask)?.Description,
+                                                        Status = Tools.DetermineStatus(_dal.Task!.Read((int)d.DependenceOnTask))
                                                     }
                                                     ).ToList();
                 return new BO.Milestone()
@@ -55,9 +55,9 @@ namespace BlImplementation
                 throw new BO.BlDoesNotExistException($"Student with ID={item.Id} does not  exists");
             }
 
-            DO.Task DOTask = new DO.Task()
+            DO.Task DOTask = new DO.Task(item.Id)
             {
-                Id = item.Id,
+              
                 Description = item.Description,
                 Alias = item.Alias,
                 //ForecastDate = prevTask.ForecastDate,
@@ -79,10 +79,10 @@ namespace BlImplementation
                                                     where true
                                                     select new BO.TaskInList()
                                                     {
-                                                        Id = d.DependenceOnTask,
-                                                        Alias = _dal.Task!.Read(d.DependenceOnTask)?.Alias,
-                                                        Description = _dal.Task!.Read(d.DependenceOnTask)?.description,
-                                                        Status = Tools.DetermineStatus(_dal.Task!.Read(d.DependenceOnTask))
+                                                        Id = (int)d.DependenceOnTask!,
+                                                        Alias = _dal.Task!.Read((int)d.DependenceOnTask)?.Alias,
+                                                        Description = _dal.Task!.Read((int)d.DependenceOnTask)?.Description,
+                                                        Status = Tools.DetermineStatus(_dal.Task!.Read((int)d.DependenceOnTask))
                                                     }
                                                     ).ToList();
                 return new BO.Milestone()
@@ -129,9 +129,8 @@ namespace BlImplementation
             List<DO.Task?> tasks = _dal.Task.ReadAll().ToList();
             foreach (var FilteredDependency in FilteredDependenciesList)//1->0, 3->[1,2], 4->3 value: parent
             {
-                int idMilestone = _dal.Task.Create(new DO.Task()
+                int idMilestone = _dal.Task.Create(new DO.Task(-1)
                 {
-                    Id = -1,
                     Description = "Description",
                     Alias = $"M{i}",
                     Milestone = true,
@@ -141,7 +140,8 @@ namespace BlImplementation
 
                 foreach (var taskItemList in groupDependencies)//1->0,2->0, 3->[1,2], 4->3, 5->3
                 {
-                    if (taskItemList._value == groupOfDepentOnTasks)
+                    if (taskItemList._value ==groupOfDepentOnTasks)
+                  //  if (taskItemList._value == FilteredDependency._value)
                         newDepsList.Add(new DO.Dependency(-1, taskItemList._key!.Value, idMilestone));
                 }
 
@@ -192,9 +192,9 @@ namespace BlImplementation
 
         private int CreateEndMilestone(List<Dependency> newDepsList)
         {
-            int IdStartMilestone = _dal.Task.Create(new DO.Task()
+            int IdStartMilestone = _dal.Task.Create(new DO.Task(-1)
             {
-                Id = -1,
+               
                 Description = "Description",
                 Alias = "end",
                 Milestone = true,
@@ -207,9 +207,9 @@ namespace BlImplementation
 
         private int CreateStartMilestone(List<Dependency> newDepsList)
         {
-            int IdStartMilestone = _dal.Task.Create(new DO.Task()
+            int IdStartMilestone = _dal.Task.Create(new DO.Task(-1)
             {
-                Id = -1,
+               
                 Description = "Description",
                 Alias = "start",
                 Milestone = true,
@@ -223,23 +223,24 @@ namespace BlImplementation
         private DateTime? UpdateDeadlines(int taskId, int endMilestoneId, List<DO.Dependency> depList)
         {
             if (taskId == endMilestoneId)
-                return _dal.EndProjectDate;
+                return _dal.EndProjectDate;//להחזיר מתי הפריקט האחרון נגמר//לדעתי צריך מתי המשימה הזאת נגמרת
             DO.Task currentTask = _dal.Task.Read(taskId) ?? throw new BO.BlNullPropertyException($"Task with Id {taskId} does not exists");
 
             List<int?> listOfDepentOnCurrentTask = (from dep in depList
                                                     where dep.DependenceOnTask == taskId
                                                     select dep.DependenceTask).ToList();
 
-            DateTime? deadline = null;
+            DateTime? deadline = null;//מתי הזמן האחרון להתחיל משימה כדי להספיק לגמור בזמן
             foreach (int? task in listOfDepentOnCurrentTask)
             {
                 DO.Task readTask = _dal.Task.Read(taskId)!;
                 if (readTask.DeadLine is null)
                     readTask = readTask with { DeadLine = UpdateDeadlines((int)task!, endMilestoneId, depList) };
                 if (deadline is null || readTask.DeadLine - readTask.RequiredEffortTime < deadline)
+                    //אם הזמן סיום של המשימה פחות הזמן שלוקחת המשימה לפני מזמן האחרון האפשרי להתחלת המשימה
                     deadline = readTask.DeadLine - readTask.RequiredEffortTime;
             }
-            if (deadline > _dal.EndProjectDate)
+            if (deadline > _dal.EndProjectDate)//אם זמן ההתחלה האחרון אחרי זמן הסיום הכללי
                 throw new BO.BlInsufficientTime("There is insufficient time to complete this task\n");
             currentTask = currentTask with { DeadLine = deadline };
 
@@ -264,10 +265,11 @@ namespace BlImplementation
                 if (readTask.SchedulableDate is null)
                     readTask = readTask with { SchedulableDate = UpdateDeadlines((int)task!, startMilestoneId, depList) };
                 if (scheduledDate is null || readTask.SchedulableDate + readTask.RequiredEffortTime > scheduledDate)
+                    //אם זמן ההתחלה המתוכנן+זמן המשימה אחרי זמן הסיום המתוכנן
                     scheduledDate = readTask.SchedulableDate + readTask.RequiredEffortTime;
             }
 
-            if (scheduledDate < _dal.StartProjectDate)
+            if (scheduledDate < _dal.StartProjectDate)//אם זמן הסיום המתוכנן לפני תחילת הפרויקט
                 throw new BO.BlInsufficientTime("There is insufficient time to complete this task\n");
             currentTask = currentTask with { SchedulableDate = scheduledDate };
 
@@ -339,7 +341,7 @@ namespace BlImplementation
                 ForecastDate = forecastDate,
                 DeadlineDate = milestoneFromDo.DeadLine,
                 CompleteDate = milestoneFromDo.CompletedDate,
-                completionPercentage = completionPercentage,
+                completionPercentage = (double)completionPercentage,
               Remarks = milestoneFromDo.Remarks
             };
             return milestone;
