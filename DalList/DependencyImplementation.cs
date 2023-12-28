@@ -67,6 +67,23 @@ internal class DependencyImplementation : IDependency
 
     }
 
+    public void Reset()
+    {
+        var deleteDependency = from Dependency in DataSource.Dependencies////A query that
+                                                                         //returns all objects whose  Engineer.Id !=id
+                               where Dependency.Id != id
+                               select Dependency.Id;
+
+        if (deleteDependency.Any())////if exists
+        {
+            DataSource.Dependencies?.RemoveAll(Dependency => Dependency.Id == id);
+        }
+        else//if not exists
+        {
+            throw new DalDoesNotExistException($"Dependency with ID={id} does not exist");
+        }
+    }
+
     public void Update(Dependency item)//done
     {
         var query = from Dependency in DataSource.Dependencies//A query that

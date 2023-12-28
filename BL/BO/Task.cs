@@ -32,7 +32,7 @@ public class Task
         public string? Description { get; set; }
         public string? Alias { get; set; }
         public DateTime? CreatedAtDate { get; set; }
-        public BO.Status Status { get; set; }
+        public BO.Status? Status { get; set; }
         public BO.MilestoneTask? Milestone { get; set; }
         public DateTime? BaselineStartDate { get; set; }
         public DateTime? StartDate { get; set; }
@@ -43,7 +43,7 @@ public class Task
         public string? Deliverables { get; set; }
         public string? Remarks { get; set; }
         public BO.EngineerInTask? Engineer { get; set; }
-        public EngineerExperience? CopmlexityLevel { get; set; }
+        public EngineerExperience? ComplexityLevel { get; set; }
         public List<TaskInList>? Dependencies { get; set; }
 }
 

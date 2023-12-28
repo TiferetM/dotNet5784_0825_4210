@@ -1,7 +1,7 @@
 ﻿namespace BlApi;
 public interface ITask
 {
-    public IEnumerable<BO.Task> GetTaskersList();
+    public IEnumerable<BO.Task> GetTasksList();
     public BO.Task TaskDetailsRequest(int id);
     public int AddTask(BO.Task task);
     public void DeleteTask(int id);

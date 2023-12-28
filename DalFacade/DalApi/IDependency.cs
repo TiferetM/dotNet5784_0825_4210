@@ -2,6 +2,9 @@
 
 using DO;
 
-public interface IDependency : ICrud<Dependency> { }
+public interface IDependency : ICrud<Dependency>
+{
+  
+}
 
 

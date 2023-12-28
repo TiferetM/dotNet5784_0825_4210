@@ -8,16 +8,14 @@
 public record Dependency
 {
     public int Id { get; set; }
-    public int DependenceTask{ get; set; }
-    public int DependenceOnTask{ get; set; }
+    public int? DependenceTask{ get; set; }
+    public int? DependenceOnTask{ get; set; }
 
-    public Dependency(int myId, int myDependenceTask, int myDependenceOnTask)  // ctor 
+    public Dependency(int myId, int? myDependenceTask, int? myDependenceOnTask)  // ctor 
     {
-        #region character
         Id = myId;
         DependenceTask= myDependenceTask;
         DependenceOnTask= myDependenceOnTask;
-        #endregion
     }
-    public Dependency() { }
+    public Dependency() { }//ctor
 }

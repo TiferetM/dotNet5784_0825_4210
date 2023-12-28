@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 ///</summary>
 
 namespace BO;
-
 public class TaskInList
 {
     public int Id {  get; init; }

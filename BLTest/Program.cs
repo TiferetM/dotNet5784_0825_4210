@@ -259,7 +259,7 @@ public class Program
     }//prints the task by it's id*
     static void readAllTasks()
     {
-        IEnumerable<BO.Task> tasks = (IEnumerable<BO.Task>)s_bl.Task.GetTaskersList();
+        IEnumerable<BO.Task> tasks = (IEnumerable<BO.Task>)s_bl.Task.GetTasksList();
         if (tasks == null)
         {
             throw new Exception("הרשימה אינה קיימת");
@@ -428,7 +428,7 @@ public class Program
             Deliverables= deliverables,
             Remarks=remarks,
             Engineer= null,
-            CopmlexityLevel=complexityLevel,
+            ComplexityLevel=complexityLevel,
             Status = (BO.Status)0
         };
     }//reads the task values from the user*
@@ -457,7 +457,7 @@ public class Program
 
     static void readAllEngineers()
     {
-        IEnumerable<BO.Engineer> tasks = (IEnumerable<BO.Engineer>)s_bl.Task.GetTaskersList();
+        IEnumerable<BO.Engineer> tasks = (IEnumerable<BO.Engineer>)s_bl.Task.GetTasksList();
         // List<DO.Engineer> engineers = s_bl.Engineer.ReadAll();
         if (tasks == null)
         {

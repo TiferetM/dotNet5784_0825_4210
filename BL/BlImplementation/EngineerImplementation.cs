@@ -76,7 +76,7 @@ internal class EngineerImplementation : IEngineer
         return BoEngineer;
     }
 
-    public IEnumerable<Engineer> GetEngineersList(Func<Engineer, bool>? filter = null)
+    public IEnumerable<Engineer> GetEngineersTasksList(Func<Engineer, bool>? filter = null)
     {
         return from e in _dal.Engineer.ReadAll()
                select new BO.Engineer()

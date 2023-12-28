@@ -17,52 +17,53 @@
 public record Task
 {
     public int Id { get; set; }
-    public string? description{ get; set; } = null;
+    public string?Description{ get; set; } = null;
     public string? Alias { get; set; } = null;
     public bool Milestone { get; set; }
-    public DateTime? createdat { get; set; }
-    public DateTime? start { get; set; }
-    public DateTime? schedudalDate { get; set; }
+    public DateTime? CreateDate { get; set; }
+    public DateTime? StartDate { get; set; }
+    public DateTime? SchedulableDate { get; set; }
     public DateTime? DeadLine { get; set; }
-    public DateTime? Complete { get; set; }
-    public string ?Delivrables { get; set; }
+    public DateTime? CompletedDate { get; set; }
+    public string ?Deliverables { get; set; }
     public string? Remarks { get; set; } = null;
-    public int? Engineerid { get; set; }
+    public int? EngineerId { get; set; }
     public EngineerExperience? ComplexityLevel { get; set; } = null;
-    public int newId { get; set; }
+    public int NewId { get; set; }
     public DateTime? ForCastDate { get; set; }
-    public int ID { get; set; }
-    public string? Description { get; set; }
+    public TimeSpan TimeSpan { get; set; }
+    // public int ID { get; set; }
+    //  public string? Description { get; set; }
 
     //param c-tor
-    public Task(int myId,string? mydescription,string? myAlias,bool myMilestone,DateTime mycreatedat,
-DateTime mystart,DateTime myschedudalDate,DateTime myDeadLine,DateTime myComplete,string myDelivrables,
-string? myRemarks,int myEngineerid, EngineerExperience myComplexityLevel)//c-tor
+    public Task(int myId,string? description,string? myAlias,bool myMilestone,DateTime? createDate,
+TimeSpan TimeSpan, DateTime? start,DateTime? schedualDate,DateTime? myDeadLine,DateTime? myComplete,string myDelivrables,
+string? myRemarks,int engineerId, EngineerExperience myComplexityLevel)//c-tor
     {
         Id = myId;
-        description = mydescription;
+        Description = description;
         Alias = myAlias;
         Milestone = myMilestone;
-        createdat = mycreatedat;
-        start= mystart;
-        schedudalDate= myschedudalDate;
+        CreateDate = CreateDate;
+        StartDate= start;
+        SchedulableDate= schedualDate;
         DeadLine= myDeadLine;
-        Complete= myComplete;
-        Delivrables= myDelivrables;
+        CompletedDate= myComplete;
+        Deliverables= myDelivrables;
         Remarks = myRemarks;
-        Engineerid=myEngineerid;
+        EngineerId=engineerId;
         ComplexityLevel = myComplexityLevel;
     }
-    public Task() { }//empty c-tor
+    public Task(int id) { }//empty c-tor
 
     public Task(int v1, string v2, string myAlias, bool v3, DateTime createdat, DateTime start, DateTime schedudalDate, DateTime deadLine, DateTime complete, string delivrables, string remarks, int? engineerid, EngineerExperience complexityLevel)
     {
-        this.createdat = createdat;
-        this.start = start;
-        this.schedudalDate = schedudalDate;
+        this.CreateDate = createdat;
+        this.StartDate = start;
+        this.SchedulableDate = schedudalDate;
         DeadLine = deadLine;
-        Complete = complete;
-        Delivrables = delivrables;
+        CompletedDate = complete;
+        Deliverables = delivrables;
         Remarks = remarks;
         ComplexityLevel = complexityLevel;
     }

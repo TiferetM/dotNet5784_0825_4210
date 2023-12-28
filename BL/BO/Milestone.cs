@@ -34,7 +34,7 @@ public class Milestone
     public DateTime? DeadlineDate { get; set; }
     public DateTime? CompleteDate { get; set; }
     public double completionPercentage { get; set; }
-    public string? Remaks { get; set; }
+    public string? Remarks { get; set; }
     public List<BO.TaskInList> ?Dependencies { get; set; }
     public string[]? HangingList { get; set; }
 }
