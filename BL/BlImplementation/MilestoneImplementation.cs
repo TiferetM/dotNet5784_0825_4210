@@ -8,7 +8,8 @@ namespace BlImplementation
 {
     internal class MilestoneImplementation : IMilestone
     {
-        #region tities functions
+        #region functions
+
         private DalApi.IDal _dal = DalApi.Factory.Get;
 
         public Milestone? ReadMilestoneData(int id)
@@ -109,8 +110,37 @@ namespace BlImplementation
 
         #endregion
 
+        public void CreateScheduledProject()
+        {
+            List<DO.Dependency?> dependenciesList = _dal.Dependency.ReadAll().ToList();
+            List<DO.Dependency> newDepsList = CreateMilestones(dependenciesList);
+            _dal.Dependency.Reset();
+            foreach (var dep in newDepsList)
+            {
+                _dal.Dependency.Create(dep);
+            }
 
-        #region private help methods
+
+            List<DO.Task?> allTasks = _dal.Task.ReadAll().ToList();
+            int startMilestoneId = allTasks.Where(task => task!.Alias == "start").Select(task => task!.Id).First();
+
+            DO.Task startMilestone = _dal.Task.Read(startMilestoneId)!;
+            if (startMilestone is not null)
+                startMilestone = startMilestone with { SchedulableDate = _dal.StartProjectDate };
+
+            int endMilestoneId = allTasks.Where(task => task!.Alias == "end").Select(task => task!.Id).First();
+
+            DO.Task endMilestone = _dal.Task.Read(endMilestoneId)!;
+            if (endMilestone is not null)
+                endMilestone = endMilestone with { DeadLine = _dal.EndProjectDate };
+
+            startMilestone = startMilestone! with { DeadLine = UpdateDeadlines(startMilestoneId, endMilestoneId, newDepsList) };
+            _dal.Task.Update(startMilestone!);
+
+            endMilestone = endMilestone! with { SchedulableDate = UpdateScheduledDates(endMilestoneId, startMilestoneId, newDepsList) };
+            _dal.Task.Update(endMilestone);
+        }
+        #region  help fuctions
         private List<DO.Dependency> CreateMilestones(List<DO.Dependency?> dependencies)//2->0,1->0, 3->[1,2], 4->3, 5->3
         {
             var groupDependencies = (from dep in dependencies
@@ -278,87 +308,54 @@ namespace BlImplementation
             return currentTask.SchedulableDate;
         }
         #endregion
+        //public BO.Milestone? Read(int id)
+        //{
+        //    DO.Task milestoneFromDo = _dal.Task.Read(id) ?? throw new BlDoesNotExistException($"An object of type Milestone with ID {id} does not exist");
+        //    //calculating the forecast date
+        //    DateTime? forecastDate = null;
+        //    if (milestoneFromDo.StartDate is not null && milestoneFromDo.RequiredEffortTime is not null)
+        //    {
+        //        TimeSpan ts = milestoneFromDo.RequiredEffortTime ?? new TimeSpan(0);
+        //        forecastDate = milestoneFromDo.StartDate?.Add(ts);
+        //    }
 
-        public void CreateScheduledProject()
-        {
-            List<DO.Dependency?> dependenciesList = _dal.Dependency.ReadAll().ToList();
-            List<DO.Dependency> newDepsList = CreateMilestones(dependenciesList);
-            _dal.Dependency.Reset();
-            foreach (var dep in newDepsList)
-            {
-                _dal.Dependency.Create(dep);
-            }
+        //   // calculating the completion percentage
+        //    double? completionPercentage = ((DateTime.Now - milestoneFromDo.StartDate) / milestoneFromDo.RequiredEffortTime) * 100;
+        //    if (completionPercentage > 100)
+        //        completionPercentage = 100;
 
+        //   // casting to BO entity of milestone
+        //    BO.Milestone milestone = new()
+        //    {
+        //        Id = milestoneFromDo.Id,
+        //        Description = milestoneFromDo.Description,
+        //        Alias = milestoneFromDo.Alias,
+        //        Status = (Status)(milestoneFromDo.SchedulableDate is null ? 0 :
+        //                           milestoneFromDo.StartDate is null ? 1 :
+        //                           milestoneFromDo.CompletedDate is null ? 2
+        //                           : 3),
+        //        CreatedAtDate = milestoneFromDo.CreateDate,
+        //        ForecastDate = forecastDate,
+        //        DeadlineDate = milestoneFromDo.DeadLine,
+        //        CompleteDate = milestoneFromDo.CompletedDate,
+        //        completionPercentage = (double)completionPercentage,
+        //      Remarks = milestoneFromDo.Remarks
+        //    };
+        //    return milestone;
+        //}
 
-            List<DO.Task?> allTasks = _dal.Task.ReadAll().ToList();
-            int startMilestoneId = allTasks.Where(task => task!.Alias == "start").Select(task => task!.Id).First();
-
-            DO.Task startMilestone = _dal.Task.Read(startMilestoneId)!;
-            if (startMilestone is not null)
-                startMilestone = startMilestone with { SchedulableDate = _dal.StartProjectDate };
-
-            int endMilestoneId = allTasks.Where(task => task!.Alias == "end").Select(task => task!.Id).First();
-
-            DO.Task endMilestone = _dal.Task.Read(endMilestoneId)!;
-            if (endMilestone is not null)
-                endMilestone = endMilestone with { DeadLine = _dal.EndProjectDate };
-
-            startMilestone = startMilestone! with { DeadLine = UpdateDeadlines(startMilestoneId, endMilestoneId, newDepsList) };
-            _dal.Task.Update(startMilestone!);
-
-            endMilestone = endMilestone! with { SchedulableDate = UpdateScheduledDates(endMilestoneId, startMilestoneId, newDepsList) };
-            _dal.Task.Update(endMilestone);
-        }
-
-      
-        public BO.Milestone? Read(int id)
-        {
-            DO.Task milestoneFromDo = _dal.Task.Read(id) ?? throw new BlDoesNotExistException($"An object of type Milestone with ID {id} does not exist");
-            //calculating the forecast date
-            DateTime? forecastDate = null;
-            if (milestoneFromDo.StartDate is not null && milestoneFromDo.RequiredEffortTime is not null)
-            {
-                TimeSpan ts = milestoneFromDo.RequiredEffortTime ?? new TimeSpan(0);
-                forecastDate = milestoneFromDo.StartDate?.Add(ts);
-            }
-
-           // calculating the completion percentage
-            double? completionPercentage = ((DateTime.Now - milestoneFromDo.StartDate) / milestoneFromDo.RequiredEffortTime) * 100;
-            if (completionPercentage > 100)
-                completionPercentage = 100;
-
-           // casting to BO entity of milestone
-            BO.Milestone milestone = new()
-            {
-                Id = milestoneFromDo.Id,
-                Description = milestoneFromDo.Description,
-                Alias = milestoneFromDo.Alias,
-                Status = (Status)(milestoneFromDo.SchedulableDate is null ? 0 :
-                                   milestoneFromDo.StartDate is null ? 1 :
-                                   milestoneFromDo.CompletedDate is null ? 2
-                                   : 3),
-                CreatedAtDate = milestoneFromDo.CreateDate,
-                ForecastDate = forecastDate,
-                DeadlineDate = milestoneFromDo.DeadLine,
-                CompleteDate = milestoneFromDo.CompletedDate,
-                completionPercentage = (double)completionPercentage,
-              Remarks = milestoneFromDo.Remarks
-            };
-            return milestone;
-        }
-
-        public void Update(BO.Milestone m)
-        {
-            DO.Task doMilestone = new(m.Id, m.Description, m.Alias, true, m.CreatedAtDate, new TimeSpan(0), null, m.ForecastDate, m.DeadlineDate, m.CompleteDate, null, m.Remarks, null, null);
-            try
-            {
-                _dal.Task.Update(doMilestone);
-            }
-            catch (DO.DalDoesNotExistException exception)
-            {
-                throw new BO.BlDoesNotExistException($"An object of type Task with ID {doMilestone.Id} does not exist", exception);
-            }
-        }
+        //public void Update(BO.Milestone m)
+        //{
+        //    DO.Task doMilestone = new(m.Id, m.Description, m.Alias, true, m.CreatedAtDate, new TimeSpan(0), null, m.ForecastDate, m.DeadlineDate, m.CompleteDate, null, m.Remarks, null, null);
+        //    try
+        //    {
+        //        _dal.Task.Update(doMilestone);
+        //    }
+        //    catch (DO.DalDoesNotExistException exception)
+        //    {
+        //        throw new BO.BlDoesNotExistException($"An object of type Task with ID {doMilestone.Id} does not exist", exception);
+        //    }
+        //}
     }
 
 }
