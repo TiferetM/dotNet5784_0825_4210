@@ -230,19 +230,19 @@ namespace BlImplementation
                                                     where dep.DependenceOnTask == taskId
                                                     select dep.DependenceTask).ToList();
 
-            DateTime? deadline = null;//מתי הזמן האחרון להתחיל משימה כדי להספיק לגמור בזמן
+            DateTime? lastDateToStart = null;//מתי הזמן האחרון להתחיל משימה כדי להספיק לגמור בזמן
             foreach (int? task in listOfDepentOnCurrentTask)
             {
                 DO.Task readTask = _dal.Task.Read(taskId)!;
                 if (readTask.DeadLine is null)
                     readTask = readTask with { DeadLine = UpdateDeadlines((int)task!, endMilestoneId, depList) };
-                if (deadline is null || readTask.DeadLine - readTask.RequiredEffortTime < deadline)
+                if (lastDateToStart is null || readTask.DeadLine - readTask.RequiredEffortTime < lastDateToStart)
                     //אם הזמן סיום של המשימה פחות הזמן שלוקחת המשימה לפני מזמן האחרון האפשרי להתחלת המשימה
-                    deadline = readTask.DeadLine - readTask.RequiredEffortTime;
+                    lastDateToStart = readTask.DeadLine - readTask.RequiredEffortTime;
             }
-            if (deadline > _dal.EndProjectDate)//אם זמן ההתחלה האחרון אחרי זמן הסיום הכללי
+            if (lastDateToStart > _dal.EndProjectDate)//אם זמן ההתחלה האחרון אחרי זמן הסיום הכללי
                 throw new BO.BlInsufficientTime("There is insufficient time to complete this task\n");
-            currentTask = currentTask with { DeadLine = deadline };
+            currentTask = currentTask with { DeadLine = lastDateToStart };
 
             _dal.Task.Update(currentTask);
             return currentTask.DeadLine;
