@@ -13,7 +13,13 @@ internal class TaskImplementation : ITask
        return newId;
       // throw new NotImplementedException();
     }
-
+    public void Reset()
+    {
+        if (DataSource.Tasks != null)
+        {
+            DataSource.Tasks.RemoveAll(tasks => true);
+        }
+    }
     public void Delete(int id)///done
     {
         var query = from Task in DataSource.Tasks////A query that
@@ -24,8 +30,6 @@ internal class TaskImplementation : ITask
         if (query.Any())////if exists
         {
             DataSource.Tasks?.RemoveAll(Task => Task.Id == id);
-
-
         }
         else//if not exists
         {

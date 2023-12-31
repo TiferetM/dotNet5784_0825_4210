@@ -103,6 +103,13 @@ internal class EngineerImplementation : IEngineer
 
         }
     }
+    public void Reset()
+    {
+        if (DataSource.Engineers != null)
+        {
+            DataSource.Engineers.RemoveAll(engineers => true);
+        }
+    }
 
 
 }

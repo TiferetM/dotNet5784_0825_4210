@@ -13,7 +13,6 @@ internal class DependencyImplementation : IDependency
         return newId;
 
     }
-
     public void Delete(int id)//done
     {
         var deleteDependency = from Dependency in DataSource.Dependencies////A query that
@@ -52,8 +51,6 @@ internal class DependencyImplementation : IDependency
         return (from item in DataSource.Dependencies
                 select item).FirstOrDefault();
     }
-
-
     public IEnumerable<Dependency?> ReadAll(Func<Dependency, bool>? filter = null)//done
     {
         if (filter != null)
@@ -66,24 +63,13 @@ internal class DependencyImplementation : IDependency
                select item;
 
     }
-
     public void Reset()
     {
-        var deleteDependency = from Dependency in DataSource.Dependencies////A query that
-                                                                         //returns all objects whose  Engineer.Id !=id
-                               where Dependency.Id != id
-                               select Dependency.Id;
-
-        if (deleteDependency.Any())////if exists
+        if(DataSource.Dependencies!=null)
         {
-            DataSource.Dependencies?.RemoveAll(Dependency => Dependency.Id == id);
-        }
-        else//if not exists
-        {
-            throw new DalDoesNotExistException($"Dependency with ID={id} does not exist");
+            DataSource.Dependencies.RemoveAll(dependency => true);
         }
     }
-
     public void Update(Dependency item)//done
     {
         var query = from Dependency in DataSource.Dependencies//A query that
