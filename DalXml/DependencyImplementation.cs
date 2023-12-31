@@ -7,27 +7,27 @@ internal class DependencyImplementation : IDependency
 {
     public int Create(Dependency item)//done
     {
-        XElement dependenciesDoc = XMLTools.LoadListFromXMLElement("Dependencies.xml");
+        XElement dependenciesDoc = XMLTools.LoadListFromXMLElement("Dependencies");
         int newId = Config.NextDependencyId;//new config number
         XElement newDep = new XElement("dependency",
             new XElement("Id", newId),
             new XElement("DependenceTask", item.DependenceTask),
             new XElement("DependenceOnTask", item.DependenceOnTask));
         dependenciesDoc.Add(newDep);//added to the Xml file
-        XMLTools.SaveListToXMLElement(dependenciesDoc, "Dependencies.xml");
+        XMLTools.SaveListToXMLElement(dependenciesDoc, "Dependencies");
         return newId;
     }
 
     public void Delete(int id)//done
     {
-        XElement dependenciesDoc = XMLTools.LoadListFromXMLElement("Dependencies.xml");
+        XElement dependenciesDoc = XMLTools.LoadListFromXMLElement("Dependencies");
         if (dependenciesDoc != null)
         {
             XElement? elemToDel = dependenciesDoc.Elements("Dependency").FirstOrDefault(d => d!.Element("Id")!.Value.Equals(id));
             if (elemToDel != null)
             {
                 dependenciesDoc.Remove();
-                XMLTools.SaveListToXMLElement(dependenciesDoc, "Dependencies.xml");
+                XMLTools.SaveListToXMLElement(dependenciesDoc, "Dependencies");
 
             }
         }
@@ -37,7 +37,7 @@ internal class DependencyImplementation : IDependency
     }
     public Dependency? Read(int id)//done!!
     {
-        XElement dependenciesDoc = XMLTools.LoadListFromXMLElement("Dependencies.xml");
+        XElement dependenciesDoc = XMLTools.LoadListFromXMLElement("Dependencies");
         XElement? elemToRead = dependenciesDoc.Elements("Dependency").FirstOrDefault(d => d.Element("Id")!.Value.Equals(id));
         if (elemToRead != null)
         {
@@ -53,7 +53,7 @@ internal class DependencyImplementation : IDependency
 
     public Dependency? Read(Func<Dependency, bool> filter)//done
     {
-        XElement dependenciesDoc = XMLTools.LoadListFromXMLElement("Dependencies.xml");
+        XElement dependenciesDoc = XMLTools.LoadListFromXMLElement("Dependencies");
         Dependency? elementToRead = dependenciesDoc?.Elements("Dependency")
       .Select(d =>
       {
@@ -72,7 +72,7 @@ internal class DependencyImplementation : IDependency
 
     public IEnumerable<Dependency?> ReadAll(Func<Dependency, bool>? filter = null)
     {
-        XElement dependenciesDoc = XMLTools.LoadListFromXMLElement("Dependencies.xml");
+        XElement dependenciesDoc = XMLTools.LoadListFromXMLElement("Dependencies");
         if (filter != null)
         {
             List<Dependency> list = dependenciesDoc!.Elements("Dependency")
@@ -103,9 +103,14 @@ internal class DependencyImplementation : IDependency
         throw new NotImplementedException();
     }
 
+    public void Reset()
+    {
+        XMLTools.ResetFile("Dependencies");
+    }
+
     public void Update(Dependency item)
     {
-        XElement dependenciesDoc = XMLTools.LoadListFromXMLElement("Dependencies.xml");
+        XElement dependenciesDoc = XMLTools.LoadListFromXMLElement("Dependencies");
         XElement? elemToUpdate = dependenciesDoc?.Elements("Dependency").FirstOrDefault(d => d!.Element("Id")!.Value.Equals(item.Id));
         if (elemToUpdate != null)
         {
@@ -117,7 +122,7 @@ internal class DependencyImplementation : IDependency
             new XElement("DependenceOnTask", item.DependenceOnTask));
             dependenciesDoc?.Add(updateDetailes);//added to the Xml file
             if (dependenciesDoc != null)
-                XMLTools.SaveListToXMLElement(dependenciesDoc, "Dependencies.xml");
+                XMLTools.SaveListToXMLElement(dependenciesDoc, "Dependencies");
         }
         else
             throw new DalDoesNotExistException($"אובייקט מסוג Dependency עם ID {item.Id} לא קיים");

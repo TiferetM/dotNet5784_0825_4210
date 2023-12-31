@@ -77,7 +77,7 @@ static class XMLTools
     //public static void SaveListToXMLSerializer<T>(List<T?> list, string entity) where T : struct
     public static void SaveListToXMLSerializer<T>(List<T> list, string entity) where T : class
     {
-        string filePath = $"{s_xml_dir + entity}";
+        string filePath = $"{s_xml_dir + entity}.xml";
         try
         {
             using FileStream file = new(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
@@ -94,7 +94,7 @@ static class XMLTools
     //public static List<T?> LoadListFromXMLSerializer<T>(string entity) where T : struct
     public static List<T> LoadListFromXMLSerializer<T>(string entity) where T : class
     {
-        string filePath = $"{s_xml_dir + entity}";
+        string filePath = $"{s_xml_dir + entity}.xml";
         try
         {
             if (!File.Exists(filePath))
@@ -115,5 +115,20 @@ static class XMLTools
         }
     }
     #endregion
+
+    public static void ResetFile(string entity)
+    {
+        string filePath = $"{s_xml_dir + entity}.xml";
+        try
+        {
+            XDocument doc = XDocument.Load(filePath);
+            doc.Root?.Elements()?.Remove();
+        }
+        catch (Exception ex)
+        {
+            throw new DalXMLFileLoadCreateException($"fail to reset xml file: {filePath}, {ex.Message}");
+        }
+    }
+
 
 }

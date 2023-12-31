@@ -9,7 +9,8 @@ namespace BlImplementation
     internal class MilestoneImplementation : IMilestone
     {
         private DalApi.IDal _dal = DalApi.Factory.Get;
-        #region functions     public Milestone? ReadMilestoneData(int id)
+        #region functions
+        public Milestone? ReadMilestoneData(int id)
         {
             try
             {
@@ -44,8 +45,7 @@ namespace BlImplementation
             }
         }
 
- 
-       public BO.Milestone UpdateMilestoneData(Milestone item)
+        public BO.Milestone UpdateMilestoneData(Milestone item)
         {
 
             DO.Task? prevTask = _dal.Task.Read(item.Id);
@@ -105,9 +105,6 @@ namespace BlImplementation
 
 
         }
-
-
-        #endregion 
 
         #endregion 
 
@@ -139,12 +136,14 @@ namespace BlImplementation
             _dal.Task.Update(startMilestone!);
 
             endMilestone = endMilestone! with { SchedulableDate = UpdateScheduledDates(endMilestoneId, startMilestoneId, newDepsList) };
-            _dal.Task.Update(end
+            _dal.Task.Update(endMilestone);
+        }
         #region  help fuctions
-        //recommend to move to tools;)o tools;)
+        //recommend to move to tools;)
         private List<DO.Dependency> CreateMilestones(List<DO.Dependency?> dependencies)//2->0,1->0, 3->[1,2], 4->3, 5->3
         {
-            var groupDependencies = (from dep in dep                                  where dep.DependenceTask is not null && dep.DependenceOnTask is not null
+            var groupDependencies = (from dep in dependencies
+                                     where dep.DependenceTask is not null && dep.DependenceOnTask is not null
                                      group dep by dep.DependenceTask into GroupByDependentTask
                                      let depList = (from dep in GroupByDependentTask
                                                     select dep).Order()
@@ -170,21 +169,26 @@ namespace BlImplementation
 
                 foreach (var taskItemList in groupDependencies)//1->0,2->0, 3->[1,2], 4->3, 5->3
                 {
-                    if (taskItemList._value == groupgroupOfDepentOnTasks                  //  if (taskItemList._value == FilteredDependency._value)
+                    if (taskItemList._value == FilteredDependenciesList)
+                        //  if (taskItemList._value == FilteredDependency._value)
                         newDepsList.Add(new DO.Dependency(-1, taskItemList._key!.Value, idMilestone));
                 }
 
-                foreach (var dep in grdepOfDegroupOfDepentOnTasks      {
-               }
+                foreach (var depGruop in FilteredDependenciesList)
+                {
+                    foreach (var dep in depGruop)
+                    {
+                        newDepsList.Add(new Dependency(-1, idMilestone, dep.Id));//check logic again
+                    }
+                }
                 i++;
             }
 
             //  Start
 
-  dep  //  create milestone of start
-            int IdStartMiles
-            //  Start
-tone = CreateStartMilestone(newDepsLisstart
+            //  create milestone of start
+            int IdStartMilestone = CreateStartMilestone(newDepsList);
+
             List<DO.Task?> oldTasks = _dal.Task.ReadAll().ToList();
 
             // find tasks that depend on start
@@ -202,14 +206,11 @@ tone = CreateStartMilestone(newDepsLisstart
 
             // End
             // create end milestone
-            in
-            // Endt IdEndMilestone = CreatenddMilestone(newDepsList);
+            int IdEndMilestone = CreateEndMilestone(newDepsList);
 
-            //find tasks that no task depend on t
-hem
+            //find tasks that no task depend on them
 
-            var endDepTasks = (from task in oldTa
-sks
+            var endDepTasks = (from task in oldTasks
                                where !(from dep in dependencies
                                        select dep.DependenceOnTask).Distinct().Any(t => t == task.Id)
                                select task.Id);
@@ -221,8 +222,7 @@ sks
             return newDepsList;
         }
 
- 
-       private int CreateEndMilestone(List<Dependency> newDepsList)
+        private int CreateEndMilestone(List<Dependency> newDepsList)
         {
             int IdStartMilestone = _dal.Task.Create(new DO.Task(-1)
             {
@@ -254,26 +254,26 @@ sks
 
         private DateTime? UpdateDeadlines(int taskId, int endMilestoneId, List<DO.Dependency> depList)//int int list
         {
-            if (taskIdinteintnlistdMilestoneId)
-                return _dal.EndProjectDי הפרויקט נגמר כי הרי זאת אבן דרך אחרונה
-            DO.Task currentTask = _dal.Task.Read(taskItyException($"Task with Id {taskId} does not exists");
+            if (taskId == endMilestoneId)
+                return _dal.EndProjectDate;//להחזיר מתי הפרויקט נגמר כי הרי זאת אבן דרך אחרונה
+            DO.Task currentTask = _dal.Task.Read(taskId) ?? throw new BO.BlNullPropertyException($"Task with Id {taskId} does not exists");
 
             List<int?> listOfDependOnCurrentTask = (from dep in depList
-                            where dep.DependencednTask == taskId
+                                                    where dep.DependenceOnTask == taskId
                                                     select dep.DependenceTask).ToList();
 
             DateTime? lastDateToStart = null;//מתי הזמן האחרון להתחיל משימה כדי להספיק לגמור בזמן
-        urrentTask)
+            foreach (int? task in listOfDependOnCurrentTask)
             {
                 DO.Task readTask = _dal.Task.Read(taskId)!;
                 if (readTask.DeadLine is null)
-           d        readTask = readTask with { DeadLine = UpdateDeadlines((int)task!, endMilestoneId, depList) };
-                if (lastDateToStart is null || readTask.DeadLine - readTask.RequiredEffortTime < lastDateToStart)
+                    readTask = readTask with { DeadLine = UpdateDeadlines((int)task!, endMilestoneId, depList) };
+                if (lastDateToStart is null || readTask.DeadLine - readTask.TimeSpan < lastDateToStart)
                     //אם הזמן סיום של המשימה פחות הזמן שלוקחת המשימה לפני מזמן האחרון האפשרי להתחלת המשימה
-     RequiredEffortTime       lastDateToStart = readTask.DeadLine - readTask.RequiredEffortTime;
+                    lastDateToStart = readTask.DeadLine - readTask.TimeSpan;
             }
             if (lastDateToStart > _dal.EndProjectDate)//אם זמן ההתחלה האחרון אחרי זמן הסיום הכללי
-       RequiredEffortTime throw new BO.BlInsufficientTime("Impossible to start, start date is later than the last date to finish\n");
+                throw new BO.BlInsufficientTime("Impossible to start, start date is later than the last date to finish\n");
             currentTask = currentTask with { DeadLine = lastDateToStart };
 
             _dal.Task.Update(currentTask);
@@ -296,12 +296,12 @@ sks
                 DO.Task readTask = _dal.Task.Read(taskId)!;
                 if (readTask.SchedulableDate is null)
                     readTask = readTask with { SchedulableDate = UpdateDeadlines((int)task!, startMilestoneId, depList) };
-                if (scheduledDate is null || readTask.SchedulableDate + readTask.RequiredEffortTime > scheduledDate)
+                if (scheduledDate is null || readTask.SchedulableDate + readTask.TimeSpan > scheduledDate)
                     //אם זמן ההתחלה המתוכנן+זמן המשימה אחרי זמן הסיום המתוכנן
-                RequiredEffortTimeduledDate = readTask.SchedulableDate + readTask.RequiredEffortTime;
+                    scheduledDate = readTask.SchedulableDate + readTask.TimeSpan;
             }
 
-            if (scheduledDate < _dal.StartProjectDate)//אם זמן הסיום המתוכנן לפני תחRequiredEffortTimeיקט
+            if (scheduledDate < _dal.StartProjectDate)//אם זמן הסיום המתוכנן לפני תחילת הפרויקט
                 throw new BO.BlInsufficientTime("There is insufficient time to complete this task\n");
             currentTask = currentTask with { SchedulableDate = scheduledDate };
 

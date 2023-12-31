@@ -32,8 +32,6 @@ public class Program
             Console.WriteLine(ex.ToString());
         }
     }
-
-
     static void mainMenu()
     {
         while (true)
@@ -194,7 +192,7 @@ public class Program
                             Console.WriteLine("יצאת מהתוכנית.");
                             return;
                         case 2:
-                            creatSchedualProject();
+                            createSchedualProject();
                             break;
                         case 3:
                             ReadMilestoneData( );
@@ -215,8 +213,10 @@ public class Program
             }
         }
     }
-    static void creatSchedualProject()
+    static void createSchedualProject()
     {
+        //צריך לבקש מהמשתמש או ממקום אחר..משהו שנראה ככה:
+        //BO.Milestone item
         return;
     }
     static void ReadMilestoneData()
@@ -226,7 +226,7 @@ public class Program
     }
     static void UpdateMilestoneData()
     {
-        //צריך לבקש מהמשתמש או ממקום אחר..משהט שנראה ככה:
+        //צריך לבקש מהמשתמש או ממקום אחר..משהו שנראה ככה:
         //BO.Milestone item
         return;
     }

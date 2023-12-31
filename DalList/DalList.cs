@@ -3,6 +3,7 @@
 
 namespace Dal
 {
+    using System;
     using DalApi;
 
     internal sealed partial class DalList : IDal
@@ -18,5 +19,9 @@ namespace Dal
         public IDependency Dependency => new DependencyImplementation();
 
         public IEngineer Engineer => new EngineerImplementation();
+
+        public DateTime StartProjectDate => throw new NotImplementedException();
+
+        public DateTime EndProjectDate => throw new NotImplementedException();
     }
 }

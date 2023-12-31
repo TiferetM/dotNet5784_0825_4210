@@ -1,6 +1,5 @@
 ﻿using DalApi;
 using DO;
-
 namespace DalTest;
 public static class Initialization
 {
@@ -150,7 +149,6 @@ public static class Initialization
             List<DO.Task?> tasks_list =s_dal!.Task.ReadAll().ToList();//get the tasks list in order to get a random task id's that exists 
             int randomIndex1 = s_rand.Next(0, tasks_list.Count-1);
             int randomIndex2 = s_rand.Next(0, tasks_list.Count - 1);
-            
             item.DependenceTask  = tasks_list[randomIndex1].Id;
             item.DependenceOnTask = tasks_list[randomIndex2].Id;
             s_dal!.Dependency!.Create(item);

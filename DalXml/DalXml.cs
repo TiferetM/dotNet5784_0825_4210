@@ -17,6 +17,10 @@ namespace Dal
         public IDependency Dependency => new DependencyImplementation();
 
         public IEngineer Engineer => new EngineerImplementation();
+
+        public DateTime StartProjectDate => throw new NotImplementedException();
+
+        public DateTime EndProjectDate => throw new NotImplementedException();
     }
 }
 
