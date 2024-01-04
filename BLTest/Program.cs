@@ -2,6 +2,7 @@
 using DalApi;
 using DO;
 using System.Reflection;
+using System.Text;
 
 namespace DalTest;
 public class Program
@@ -23,8 +24,9 @@ public class Program
              string ? ans = Console.ReadLine() ?? throw new FormatException("Wrong input");
              if (ans == "Y")
                 DalTest.Initialization.Do(s_dal);
-            //Console.OutputEncoding = new UTF8Encoding();
-            //Console.InputEncoding = new UTF8Encoding();
+            Console.OutputEncoding = new UTF8Encoding();
+            Console.InputEncoding = new UTF8Encoding();
+           
             mainMenu();
         }
         catch (Exception ex)

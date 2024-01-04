@@ -54,6 +54,7 @@ string? myRemarks,int? engineerId, EngineerExperience? myComplexityLevel)//c-tor
         EngineerId=engineerId;
         ComplexityLevel = myComplexityLevel;
     }
+    public Task() { }//empty c-tor
     public Task(int id) { }//empty c-tor
 
     public Task(int v1, string v2, string myAlias, bool v3, DateTime createdat, DateTime start, DateTime schedudalDate, DateTime deadLine, DateTime complete, string delivrables, string remarks, int? engineerid, EngineerExperience complexityLevel)

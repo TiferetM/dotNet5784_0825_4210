@@ -1,6 +1,8 @@
 ﻿using DalApi;
 using DO;
+using System.Threading.Channels;
 namespace DalTest;
+using System;
 public static class Initialization
 {
     //private static IEngineer? s_dalEngineer; //stage 1
@@ -8,11 +10,15 @@ public static class Initialization
     //private static IDependency? s_dalDependency; //stage 1
     private static IDal? s_dal; //stage 2
     private static readonly Random s_rand =  new Random();
+   
+  
+
+   
     public static void createEngineer()
     {
        //40 nanes
          string[] names = new string[]{
-    "Fazlur Rahman Khan",
+
     "Duff Abrams",
     "Bahaedin Adab",
     "Campbell W. Adams",
@@ -47,19 +53,26 @@ public static class Initialization
     "Charlie Marino",
     "Kelsey Rowe",
     "Cheryl Saldanha",
-    "Priyanka Valletta"
+    "Priyanka Valletta",
+    "sara coen",
+    "Itzhak Levi",
+    "Moshe Polak",
+    "Hani Ben-Zur",
+    "Batia Taub"
 };
         int MAX_ID = 400000000;
         int MIN_ID = 200000000;
+        int j = 0;
         foreach (var _name in names)
         {
+            Console.WriteLine(++j);
             int _id;
             do
                 _id = s_rand.Next(MIN_ID, MAX_ID);
             while (s_dal!.Engineer.Read(_id) != null);
             int cost = s_rand.Next(30, 100);
             EngineerExperience level = (EngineerExperience)s_rand.Next(0, 3);//שגיאה לתקן
-            string email = names+"@gmail.com";
+            string email = _name+"@gmail.com";
             email.Replace(" ", "");
             Engineer newEngineer = new(_id, _name, email,level);
           
@@ -106,7 +119,7 @@ public static class Initialization
 "A service"};
    
         string[] Difficulty = { "  Novice", " AdvancedBeginner", "Competent", "Proficient", " Expert" };
-        List<Engineer?> list = s_dal!.Engineer.ReadAll().ToList();
+        List<Engineer?> list = s_dal!.Engineer.ReadAll().ToList();//%
         //List<Engineer> list = s_dal!.Engineer.ReadAll();
         //s_dalStudent!.Create(newStu); //stage 1
         // s_dal!.Student.Create(newStu); //stage 2

@@ -10,11 +10,15 @@ internal class EngineerImplementation : IEngineer
     {
         if (eng.ID < 0 || eng.Name == "" || eng.Cost < 0)//תקינות קלט
         {
+            Console.WriteLine(" eng תקינות קלט ");
             throw new BO.BLDoesNotExistException("Invalid values");// ערך לא חוקי
+           
+
         }
         try
         {
-           MailAddress mail = new MailAddress(eng?.Email ?? " ");//****
+           MailAddress mail = new MailAddress(eng?.Email ?? "defult@1.com");//****
+            //חייביל  לשלוח מבנה אימייל תקין המכיל @
         }
         catch (Exception e)
         {
