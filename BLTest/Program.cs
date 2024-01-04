@@ -194,7 +194,8 @@ public class Program
                             Console.WriteLine("יצאת מהתוכנית.");
                             return;
                         case 2:
-                            createSchedualProject();
+                            //createSchedualProject();
+                            s_bl.Milestone.CreateScheduledProject();
                             break;
                         case 3:
                             ReadMilestoneData( );
@@ -223,14 +224,39 @@ public class Program
     }
     static void ReadMilestoneData()
     {
-        // IDצריל לבקש מהמשתמש
-        return;
+
+   
+        Console.Write("Enter Milestone ID to read: ");
+        if (int.TryParse(Console.ReadLine(), out int milestoneId))
+        {
+            try
+            {
+                var milestone = s_bl.Milestone.ReadMilestoneData(milestoneId);
+                Console.WriteLine(milestone);
+            }
+            catch (Exception ex) { Console.WriteLine(ex.Message); }
+
+        }
+    
     }
     static void UpdateMilestoneData()
     {
-        //צריך לבקש מהמשתמש או ממקום אחר..משהו שנראה ככה:
-        //BO.Milestone item
-        return;
+       
+            Console.Write("Enter Milestone ID to update: ");
+            if (int.TryParse(Console.ReadLine(), out int updateMilestoneId))
+            {
+                BO.Milestone updatedMileStone = GetNewMilestoneFromUserInput();
+                try
+                {
+                    // Update the milestone
+                    var updatedMilestone = s_bl.Milestone.UpdateMilestoneData(updatedMileStone);
+                    // Display updated milestone details
+                    Console.WriteLine("Milestone updated.");
+                }
+                catch (Exception ex) { Console.WriteLine(ex.Message + "\n"); }
+            }
+        
+
     }
     static void createTask()
     {
@@ -440,6 +466,22 @@ public class Program
         if (newEngineer != null)
             s_bl.Engineer.AddEngineer(newEngineer);
     }//create a new engineer*
+    static BO.Milestone GetNewMilestoneFromUserInput()
+    {
+        BO.Milestone newMilestone = new BO.Milestone();
+
+        Console.Write("Enter Description: ");
+        newMilestone.Description = Console.ReadLine();
+
+        Console.Write("Enter Alias: ");
+        newMilestone.Alias = Console.ReadLine();
+
+        Console.Write("Enter Remarks: ");
+        newMilestone.Remarks = Console.ReadLine();
+        return newMilestone;
+    }
+
+
     static void readEngineer()
     {
         int id;
