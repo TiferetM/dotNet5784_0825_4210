@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 
 static class XMLTools
 {
-    const string s_xml_dir = @"..\..\..\..\xml\";
+    const string s_xml_dir = @"..\..\xml\";
     static XMLTools()
     {
         if (!Directory.Exists(s_xml_dir))
@@ -61,7 +61,7 @@ static class XMLTools
         try
         {
             if (File.Exists(filePath))
-                return XElement.Load(filePath);
+                return XElement.Load(filePath);//הקובץ קיים כבר
             XElement rootElem = new(entity);
             rootElem.Save(filePath);
             return rootElem;
@@ -81,13 +81,19 @@ static class XMLTools
         try
         {
             using FileStream file = new(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
+            Console.WriteLine(filePath+"1");
             new XmlSerializer(typeof(List<T>)).Serialize(file, list);
+            Console.WriteLine(filePath);
+
             //new XmlSerializer(typeof(List<T?>)).Serialize(file, list);
 
         }
         catch (Exception ex)
         {
+            Console.WriteLine(filePath);
+            Console.WriteLine("HELLO");
             throw new DalXMLFileLoadCreateException($"fail to create xml file: {s_xml_dir + filePath}, {ex.Message}");
+
         }
     }
 

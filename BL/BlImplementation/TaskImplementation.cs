@@ -17,7 +17,7 @@ internal class TaskImplementation : ITask
         //      throw new BO.BLDoesNotExistException("Invalid values");// ערך לא חוקי
         //  }
 
-        DO.Task AddedTask = new DO.Task(task.ID)
+        DO.Task AddedTask = new (task.ID)
         {
            
             Description = task.Description,
@@ -134,7 +134,7 @@ internal class TaskImplementation : ITask
               })
               .FirstOrDefault();
 
-        BO.Task BoTask = new BO.Task()
+        BO.Task BoTask = new ()
         {
             ID = id,
             Description = DoTask.Description,
@@ -176,7 +176,7 @@ internal class TaskImplementation : ITask
             throw new BO.BlDoesNotExistException($"Student with ID={task.ID} does Not exist");
         try
         {
-            DO.Task updatedTask = new DO.Task(task.ID)
+            DO.Task updatedTask = new (task.ID)
             {
               
                 Description = task.Description,

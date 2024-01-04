@@ -9,12 +9,12 @@ public static class Initialization
     //private static ITask? s_dalTask; //stage 1
     //private static IDependency? s_dalDependency; //stage 1
     private static IDal? s_dal; //stage 2
-    private static readonly Random s_rand =  new Random();
+    private static readonly Random s_rand =  new ();
    
   
 
    
-    public static void createEngineer()
+    public static void CreateEngineer()
     {
        //40 nanes
          string[] names = new string[]{
@@ -62,24 +62,22 @@ public static class Initialization
 };
         int MAX_ID = 400000000;
         int MIN_ID = 200000000;
-        int j = 0;
         foreach (var _name in names)
         {
-            Console.WriteLine(++j);
-            int _id;
-            do
-                _id = s_rand.Next(MIN_ID, MAX_ID);
-            while (s_dal!.Engineer.Read(_id) != null);
-            int cost = s_rand.Next(30, 100);
-            EngineerExperience level = (EngineerExperience)s_rand.Next(0, 3);//שגיאה לתקן
-            string email = _name+"@gmail.com";
-            email.Replace(" ", "");
-            Engineer newEngineer = new(_id, _name, email,level);
-          
-            s_dal!.Engineer.Create(newEngineer);
+             int  _id = s_rand.Next(MIN_ID, MAX_ID);
+            while (s_dal!.Engineer.Read(_id) != null)
+            {
+                int cost = s_rand.Next(30, 100);
+                EngineerExperience level = (EngineerExperience)s_rand.Next(0, 3);//שגיאה לתקן
+                string email = _name + "@gmail.com";
+                email.Replace(" ", "");
+                Engineer newEngineer = new(_id, _name, email, level);
+
+                s_dal!.Engineer.Create(newEngineer);
+            }
         }
     }
-    public static void createTask()
+    public static void CreateTask()
     {
         string[] tasks = new string[]
         {"No problem.","Great job!","That's cool.",
@@ -129,8 +127,8 @@ public static class Initialization
         { 
             if(i<20)
             {
-                DateTime createdat = createRandomDate();
-                DateTime start = createRandomDate();//תאריך התחלה בפועל
+                DateTime createdat = CreateRandomDate();
+                DateTime start = CreateRandomDate();//תאריך התחלה בפועל
                 DateTime schedudalDate = start.AddDays(-3);//תאריך מתוכנן לתחילת ביצוע
                 DateTime Complete = start.AddDays(s_rand.Next(0, 35));//תאריך סיום
                 DateTime DeadLine = Complete.AddDays(3);//דד-ליין
@@ -154,11 +152,11 @@ public static class Initialization
           
         }
     }
-    private static void createDependencies()//initialize the dependency's list with random values
+    private static void CreateDependencies()//initialize the dependency's list with random values
     {
         for(int i = 0; i < 250; i++) 
         {
-            Dependency item= new Dependency();
+            Dependency item= new ();
             List<DO.Task?> tasks_list =s_dal!.Task.ReadAll().ToList();//get the tasks list in order to get a random task id's that exists 
             int randomIndex1 = s_rand.Next(0, tasks_list.Count-1);
             int randomIndex2 = s_rand.Next(0, tasks_list.Count - 1);
@@ -174,11 +172,11 @@ public static class Initialization
         //s_dalEngineer = dalEngineer ?? throw new NullReferenceException("DAL can not be null!");
         //s_dalLink = dalStudentInCourse ?? throw new NullReferenceException("DAL object can not be null!"); //stage 1
         s_dal = dal ?? throw new NullReferenceException("DAL object can not be null!"); //stage 2
-        createEngineer();
-        createTask();
-        createDependencies();
+        CreateEngineer();
+        CreateTask();
+        CreateDependencies();
     }
-    public static DateTime createRandomDate()
+    public static DateTime CreateRandomDate()
     {
         int day = s_rand.Next(1, 30);
         int month = s_rand.Next(1, 12);
@@ -186,7 +184,7 @@ public static class Initialization
         int hour = s_rand.Next(1, 24);
         int minute = s_rand.Next(1, 60);
         int second = s_rand.Next(1, 60);
-        DateTime newDate = new DateTime(year, month, day, hour, minute, second);
+        DateTime newDate = new (year, month, day, hour, minute, second);
         return newDate;
     }
 }
