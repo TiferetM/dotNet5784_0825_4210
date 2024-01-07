@@ -3,46 +3,32 @@ using DalApi;
 using DO;
 using System.Reflection;
 using System.Text;
-
 namespace DalTest;
 public class Program
-{ 
-    private static DateTime createdate;
-    static readonly IDal s_dal = Factory.Get; //stage 4
+{
+
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
-    static void Main(string[] args)
+    static void Main()
     {
-        BO.Engineer engineer = new BO.Engineer()
-        {
-            //  Level = (int)EngineerExperience.Beginner,
-        };
-        try
-        {
-             s_bl.Engineer.AddEngineer(engineer);
-             Console.Write("Would you like to create Initial data? (Y/N)");
-             //לשאול את המשתמש איך הוא רוצה להכניס את הנתונים עפ קובץ או עפ initialization
-             string ? ans = Console.ReadLine() ?? throw new FormatException("Wrong input");
-             if (ans == "Y")
-                DalTest.Initialization.Do(s_dal);
-            Console.OutputEncoding = new UTF8Encoding();
-            Console.InputEncoding = new UTF8Encoding();
-           
-            mainMenu();
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.ToString());
-        }
+        Console.OutputEncoding = new UTF8Encoding();
+        Console.InputEncoding = new UTF8Encoding();
+        Console.Write("Would you like to create Initial data? (Y/N)");
+        string? ans = Console.ReadLine() ?? throw new FormatException("Wrong input");
+        if (ans == "Y")
+            DalTest.Initialization.Do();//calling the method that initializes the databas
+        mainMenu();
+
     }
+    #region Menues
     static void mainMenu()
     {
         while (true)
         {
             Console.WriteLine("תפריט ראשי - בחר ישות שברצונך לבדוק:");
             Console.WriteLine("0. יציאה מתפריט ראשי");
-            Console.WriteLine("1. מהנדס");
-            Console.WriteLine("2. משימה");
-            Console.WriteLine("3. אבן דרך");
+            Console.WriteLine("1. Engineer");
+            Console.WriteLine("2. Task");
+            Console.WriteLine("3. Milestone");
             int choice = 0;
             if (int.TryParse(Console.ReadLine(), out choice))
             {
@@ -194,7 +180,6 @@ public class Program
                             Console.WriteLine("יצאת מהתוכנית.");
                             return;
                         case 2:
-                            //createSchedualProject();
                             s_bl.Milestone.CreateScheduledProject();
                             break;
                         case 3:
@@ -216,22 +201,17 @@ public class Program
             }
         }
     }
-    static void createSchedualProject()
-    {
-        //צריך לבקש מהמשתמש או ממקום אחר..משהו שנראה ככה:
-        //BO.Milestone item
-        return;
-    }
+    #endregion
+    #region milestone functions
     static void ReadMilestoneData()
     {
-
-   
         Console.Write("Enter Milestone ID to read: ");
         if (int.TryParse(Console.ReadLine(), out int milestoneId))
         {
             try
             {
-                var milestone = s_bl.Milestone.ReadMilestoneData(milestoneId);
+                Milestone? milestone = s_bl.Milestone.ReadMilestoneData(milestoneId);
+
                 Console.WriteLine(milestone);
             }
             catch (Exception ex) { Console.WriteLine(ex.Message); }
@@ -258,6 +238,23 @@ public class Program
         
 
     }
+    static BO.Milestone GetNewMilestoneFromUserInput()
+    {
+        BO.Milestone newMilestone = new ();
+
+        Console.Write("Enter Description: ");
+        newMilestone.Description = Console.ReadLine();
+
+        Console.Write("Enter Alias: ");
+        newMilestone.Alias = Console.ReadLine();
+
+        Console.Write("Enter Remarks: ");
+        newMilestone.Remarks = Console.ReadLine();
+        return newMilestone;
+    }
+
+    #endregion
+    #region Task Functions
     static void createTask()
     {
         int id;
@@ -440,6 +437,17 @@ public class Program
             return null;
         }
         // Create and return a new Task object
+        DateTime? createdate;
+         Console.Write("Enter Scheduled Start Date (YYYY-MM-DD HH:MM:SS): ");
+        if (DateTime.TryParse(Console.ReadLine(), out DateTime scheduledStartDate))
+        {
+            createdate = scheduledStartDate;
+        }
+        else
+        {
+            Console.WriteLine("Invalid input for Scheduled Start Date. Defaulting to null.");
+            createdate = null;
+        }
         return new BO.Task()
         {
             ID = engineerId,
@@ -449,10 +457,10 @@ public class Program
             BaselineStartDate=null,
             ScheduledStartDate=null,
             ForecastDate =null,
-            CreatedAtDate = createdate,
-            StartDate = start,
-            DeadlineDate= deadline,
-            CompleteDate=complete,
+            CreatedAtDate = null,
+            StartDate = null,
+            DeadlineDate= null,
+            CompleteDate=null,
             Deliverables= deliverables,
             Remarks=remarks,
             Engineer= null,
@@ -460,28 +468,14 @@ public class Program
             Status = (BO.Status)0
         };
     }//reads the task values from the user*
+    #endregion
+    #region engineer Functions
     static void createEngineer()
     {
         BO.Engineer? newEngineer = ReadEngineerFromUser();
         if (newEngineer != null)
             s_bl.Engineer.AddEngineer(newEngineer);
     }//create a new engineer*
-    static BO.Milestone GetNewMilestoneFromUserInput()
-    {
-        BO.Milestone newMilestone = new BO.Milestone();
-
-        Console.Write("Enter Description: ");
-        newMilestone.Description = Console.ReadLine();
-
-        Console.Write("Enter Alias: ");
-        newMilestone.Alias = Console.ReadLine();
-
-        Console.Write("Enter Remarks: ");
-        newMilestone.Remarks = Console.ReadLine();
-        return newMilestone;
-    }
-
-
     static void readEngineer()
     {
         int id;
@@ -498,7 +492,6 @@ public class Program
             throw new Exception($"אובייקט מסוג Engineer עם ID {id} לא קיים");
         }
     }//prints the engineer by it's id*
-
     static void readAllEngineers()
     {
         IEnumerable<BO.Engineer> tasks = (IEnumerable<BO.Engineer>)s_bl.Task.GetTasksList();
@@ -618,4 +611,5 @@ public class Program
             Task =null//not the real continent
         };
     }//reads the engineer values from the user
+    #endregion
 }

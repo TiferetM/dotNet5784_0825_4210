@@ -89,7 +89,7 @@ internal class DependencyImplementation : IDependency
         }
         else
         {
-            List<Dependency> list = dependenciesDoc!.Elements("Dependency")
+            List<Dependency> list = dependenciesDoc!.Elements("dependency")
             .Select(d =>
             {
                 Dependency dependency = new Dependency();
@@ -105,7 +105,9 @@ internal class DependencyImplementation : IDependency
 
     public void Reset()
     {
-        XMLTools.ResetFile("Dependencies");
+        XElement root = XMLTools.LoadListFromXMLElement("Dependencies");
+        root.Descendants("dependency").Remove();
+        XMLTools.SaveListToXMLElement(root, "Dependencies");
     }
 
     public void Update(Dependency item)

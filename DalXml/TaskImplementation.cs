@@ -13,7 +13,7 @@ internal class TaskImplementation : ITask
 
         List<DO.Task> tasks = XMLTools.LoadListFromXMLSerializer<DO.Task>("Tasks");
 
-        int newId = Config.NextLTaskId;
+        int newId = Config.NextTaskId;
         item.Id = newId;
 
         tasks.Add(item);
@@ -74,6 +74,8 @@ internal class TaskImplementation : ITask
     }
     public void Reset()
     {
-        XMLTools.ResetFile("Tasks");
+        XElement root = XMLTools.LoadListFromXMLElement("Tasks");
+        root.Descendants("Task").Remove();
+        XMLTools.SaveListToXMLElement(root, "Tasks");
     }
 }

@@ -23,5 +23,11 @@ namespace Dal
         public DateTime StartProjectDate => throw new NotImplementedException();
 
         public DateTime EndProjectDate => throw new NotImplementedException();
+
+        public void Reset()
+        {
+            DataSource.Dependencies.Clear();
+
+        }
     }
 }

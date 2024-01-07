@@ -17,27 +17,20 @@ internal class Program
     //private static ITask? s_dalTask = new TaskImplementation(); //stage 1
     //private static IDependency s_dalDependency = new DependencyImplementation(); //stage 1
     private static DateTime createdate;
-
-
-
-
-
    // static readonly IDal s_dal = new DalList(); //stage 2
     //  static readonly IDal s_dal = new DalXml(); //stage 3
     static readonly IDal s_dal = Factory.Get; //stage 4
-
-
     static void Main(string[] args)
     {
         try
         {
             //Initialization.Do(s_dalDependency, s_dalTask, s_dalEngineer);
-            Initialization.Do(s_dal); //stage 2
+            Initialization.Do(); //stage 2
             Console.OutputEncoding = new UTF8Encoding();
             Console.InputEncoding = new UTF8Encoding();
             //  Console.WriteLine("Write your input:");
             //  string Input = Console.ReadLine();
-            mainMenu();
+            MainMenu();
         }
         catch (Exception ex)
         {
@@ -46,7 +39,7 @@ internal class Program
     }
 
 
-    static void mainMenu()
+    static void MainMenu()
     {
         while (true)
         {
@@ -54,7 +47,7 @@ internal class Program
             Console.WriteLine("0. יציאה מתפריט ראשי");
             Console.WriteLine("1. מהנדס");
             Console.WriteLine("2. משימה");
-            Console.WriteLine("3. משימה");
+            Console.WriteLine("3. תלויה");
 
             int choice = 0;
             if (int.TryParse(Console.ReadLine(), out choice))
@@ -65,13 +58,13 @@ internal class Program
                         Console.WriteLine("יצאת מהתוכנית.");
                         return;
                     case 1:
-                        engineerMenu();
+                        EngineerMenu();
                         break;
                     case 2:
-                        taskMenu();
+                        TaskMenu();
                         break;
                     case 3:
-                        dependencyMenu();
+                        DependencyMenu();
                         break;
                     default:
                         Console.WriteLine("אפשרות לא חוקית. אנא בחר מהתפריט.");
@@ -85,7 +78,7 @@ internal class Program
             return;
         }
     }
-    static void engineerMenu()
+    static void EngineerMenu()
     {
         while (true)
         {
@@ -108,19 +101,19 @@ internal class Program
                             Console.WriteLine("יצאת מהתוכנית.");
                             return;
                         case 2:
-                            createEngineer();
+                            CreateEngineer();
                             break;
                         case 3:
-                            readEngineer();
+                            ReadEngineer();
                             break;
                         case 4:
-                            readAllEngineers();
+                            ReadAllEngineers();
                             break;
                         case 5:
-                            updateEngineer();
+                            UpdateEngineer();
                             break;
                         case 6:
-                            deleteEngineer();
+                            DeleteEngineer();
                             break;
 
                         default:
@@ -136,7 +129,7 @@ internal class Program
             }
         }
     }//Manages the engineer menu
-    static void dependencyMenu()
+    static void DependencyMenu()
     {
         while (true)
         {
@@ -188,7 +181,7 @@ internal class Program
         }
     }//Manages the dependency menu
 
-    static void taskMenu()
+    static void TaskMenu()
     {
         while (true)
         {
@@ -214,16 +207,16 @@ internal class Program
                             createTask();
                             break;
                         case 3:
-                            readTask();
+                            ReadTask();
                             break;
                         case 4:
-                            readAllTasks();
+                            ReadAllTasks();
                             break;
                         case 5:
-                            updateTask();
+                            UpdateTask();
                             break;
                         case 6:
-                            deleteTask();
+                            DeleteTask();
                             break;
 
                         default:
@@ -251,7 +244,7 @@ internal class Program
     }//create a new task
 
 
-    static void readTask()
+    static void ReadTask()
     {
         int id;
         Console.WriteLine("הכנס מספר מזהה של המשימה שתרצה לראות:");
@@ -268,7 +261,7 @@ internal class Program
         }
 
     }//prints the task by it's id
-    static void readAllTasks()
+    static void ReadAllTasks()
     {
         IEnumerable<Task> tasks = (IEnumerable<Task>)s_dal.Task.ReadAll();
         //  ( IEnumerable )List<Task> tasks = s_dal.Task.ReadAll();
@@ -281,7 +274,7 @@ internal class Program
             Console.WriteLine(task);
         }
     }//prits the all list of tasks
-    static void updateTask()
+    static void UpdateTask()
     {
         int id;
         Console.WriteLine("הכנס מספר מזהה של המשימה שברצונך לעדכן:");
@@ -313,7 +306,7 @@ internal class Program
         }
 
     }//update a specific task by the user's input
-    static void deleteTask()
+    static void DeleteTask()
     {
         int id;
         Console.WriteLine("הכנס מספר מזהה של המשימה שברצונך למחוק:");
@@ -443,15 +436,15 @@ internal class Program
          complexityLevel
          );
     }//reads the task values from the user
-
-    static void createEngineer()
+    #region Engineer Functions
+    static void CreateEngineer()
     {
         DO.Engineer? newEngineer = ReadEngineerFromUser();
         if (newEngineer != null)
             s_dal.Engineer.Create(newEngineer);
     }//create a new engineer
 
-    static void readEngineer()
+    static void ReadEngineer()
     {
         int id;
         Console.WriteLine("הכנס מספר מזהה של המהנדס שתרצה לראות:");
@@ -468,7 +461,7 @@ internal class Program
         }
     }//prints the engineer by it's id
 
-    static void readAllEngineers()
+    static void ReadAllEngineers()
     {
         IEnumerable<Engineer> tasks = (IEnumerable<Engineer>)s_dal.Task.ReadAll();
         // List<DO.Engineer> engineers = s_dal.Engineer.ReadAll();
@@ -482,7 +475,7 @@ internal class Program
         }
     }//prits the all list of engineers
 
-    static void updateEngineer()
+    static void UpdateEngineer()
     {
         int id;
         Console.WriteLine("הכנס מספר מזהה של המהנדס שברצונך לעדכן:");
@@ -512,7 +505,7 @@ internal class Program
         }
     }//update a specific engineer by the user's input
 
-    static void deleteEngineer()
+    static void DeleteEngineer()
     {
         int id;
         Console.WriteLine("הכנס מספר מזהה של המהנדס שברצונך למחוק:");
@@ -520,6 +513,8 @@ internal class Program
         s_dal.Engineer.Delete(id);
         Console.WriteLine("האובייקט נמחק בהצלחה");
     }//delete a engineer by it's id from the user's input
+    #endregion
+    #region dependency
     static void createDependency()
     {
         int id;
@@ -692,4 +687,5 @@ internal class Program
         };
 
     }
+    #endregion 
 }//reads the dependency values from the user

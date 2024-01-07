@@ -6,6 +6,7 @@ using System.IO;
 using System.Xml.Serialization;
 internal class EngineerImplementation : IEngineer
 {
+    
     public int Create(DO.Engineer item)
     {
 
@@ -41,7 +42,7 @@ internal class EngineerImplementation : IEngineer
 
     public DO.Engineer? Read(int id)
     {
-        List<DO.Engineer> Engineers = XMLTools.LoadListFromXMLSerializer<DO.Engineer>("Engineer");
+        List<DO.Engineer> Engineers = XMLTools.LoadListFromXMLSerializer<DO.Engineer>("Engineers");
         return Engineers.FirstOrDefault(t => t.Id == id);
     }
 
@@ -75,6 +76,8 @@ internal class EngineerImplementation : IEngineer
     }
     public void Reset()
     {
-        XMLTools.ResetFile("Engineers");
+        XElement root = XMLTools.LoadListFromXMLElement("Engineers");
+        root.Descendants("Engineer").Remove();
+        XMLTools.SaveListToXMLElement(root, "Engineers");
     }
 }

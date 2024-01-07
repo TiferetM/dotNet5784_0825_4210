@@ -1,5 +1,4 @@
 ﻿namespace Dal;
-
 using DO;
 using System.Xml;
 using System.Xml.Linq;
@@ -7,7 +6,7 @@ using System.Xml.Serialization;
 
 static class XMLTools
 {
-    const string s_xml_dir = @"..\..\xml\";
+    const string s_xml_dir = @"..\xml\";
     static XMLTools()
     {
         if (!Directory.Exists(s_xml_dir))
@@ -33,7 +32,7 @@ static class XMLTools
     public static int GetAndIncreaseNextId(string data_config_xml, string elemName)
     {
         XElement root = XMLTools.LoadListFromXMLElement(data_config_xml);
-        int nextId = root.ToIntNullable(elemName) ?? throw new FormatException($"can't convert id.  {data_config_xml}, {elemName}");
+       int nextId = root.ToIntNullable(elemName) ?? throw new FormatException($"can't convert id.  {data_config_xml}, {elemName}");
         root.Element(elemName)?.SetValue((nextId + 1).ToString());
         XMLTools.SaveListToXMLElement(root, data_config_xml);
         return nextId;
@@ -81,17 +80,13 @@ static class XMLTools
         try
         {
             using FileStream file = new(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
-            Console.WriteLine(filePath+"1");
             new XmlSerializer(typeof(List<T>)).Serialize(file, list);
-            Console.WriteLine(filePath);
 
             //new XmlSerializer(typeof(List<T?>)).Serialize(file, list);
 
         }
         catch (Exception ex)
         {
-            Console.WriteLine(filePath);
-            Console.WriteLine("HELLO");
             throw new DalXMLFileLoadCreateException($"fail to create xml file: {s_xml_dir + filePath}, {ex.Message}");
 
         }
@@ -101,6 +96,7 @@ static class XMLTools
     public static List<T> LoadListFromXMLSerializer<T>(string entity) where T : class
     {
         string filePath = $"{s_xml_dir + entity}.xml";
+
         try
         {
             if (!File.Exists(filePath))

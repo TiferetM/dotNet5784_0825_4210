@@ -15,10 +15,11 @@ internal class TaskImplementation : ITask
     }
     public void Reset()
     {
-        if (DataSource.Tasks != null)
-        {
-            DataSource.Tasks.RemoveAll(tasks => true);
-        }
+        //if (DataSource.Tasks != null)
+        //{
+        //    DataSource.Tasks.RemoveAll(tasks => true);
+        //}
+        DataSource.Tasks.Clear();
     }
     public void Delete(int id)///done
     {

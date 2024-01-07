@@ -12,5 +12,6 @@ public interface IDal
     IEngineer Engineer { get; }
     DateTime StartProjectDate { get; }
     DateTime EndProjectDate { get; }
+    public void Reset();
 }
 

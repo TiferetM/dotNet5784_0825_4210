@@ -65,11 +65,14 @@ internal class DependencyImplementation : IDependency
     }
     public void Reset()
     {
-        if(DataSource.Dependencies!=null)
-        {
-            DataSource.Dependencies.RemoveAll(dependency => true);
-        }
+        DataSource.Dependencies.Clear();
     }
+    //{
+    //    if(DataSource.Dependencies!=null)
+    //    {
+    //        DataSource.Dependencies.RemoveAll(dependency => true);
+    //    }
+    //}
     public void Update(Dependency item)//done
     {
         var query = from Dependency in DataSource.Dependencies//A query that

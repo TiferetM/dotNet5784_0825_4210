@@ -1,6 +1,9 @@
 ﻿
 
 using System.Reflection;
+using System.Text;
+using System.Xml;
+using System.Threading.Tasks;
 
 namespace BO;
 
@@ -27,9 +30,34 @@ public static class Tools
         return result;
     }
 
+    public class DistinctIntList : IEqualityComparer<List<int?>>
+    {
+        public bool Equals(List<int?>?x, List<int?>? y)
+        {
+            if (x is not null && y is not null)
+                return x.SequenceEqual(y);
+            if (x is null && y is null)
+                return true;
+            return false;
+        }
+        public int GetHashCode(List<int?> obj)
+        {
+            int sum = 0;
+            foreach(int? num in obj)
+            {
+                sum += num ?? default(int);
+            }
+            return sum;
+        }
+    }
+
     public static Status DetermineStatus(DO.Task doTask)
     {
         //finsh function
-        throw new NotImplementedException();
+        return (Status)(doTask.SchedulableDate is null ? 0 ://set the status
+                    doTask.StartDate is null ? 1 :
+                    doTask.CompletedDate is null ? 2
+                    : 3);
+        
     }
 }
