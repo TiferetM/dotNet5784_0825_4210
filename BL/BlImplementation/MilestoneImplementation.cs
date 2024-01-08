@@ -318,7 +318,4 @@ internal class MilestoneImplementation : IMilestone
 
     }
 }
-
-
-
 #endregion
