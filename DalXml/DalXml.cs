@@ -1,10 +1,12 @@
 ﻿using DalApi;
 using System.Diagnostics;
+using System.Reflection.Metadata;
+using System.Xml.Linq;
 
 
-namespace Dal
-{
-    ////stage 3
+namespace Dal;
+
+////stage 3
 
     internal sealed partial class DalXml : IDal
     {
@@ -14,29 +16,20 @@ namespace Dal
         private DalXml() { }
         public ITask Task => new TaskImplementation();
 
-        public IDependency Dependency => new DependencyImplementation();
+    public IDependency Dependency => new DependencyImplementation();
 
         public IEngineer Engineer => new EngineerImplementation();
-        public DateTime? EndProjectDate
-        {
-            get => XMLTools.GetDates("data-config", "endProjectDate");
-
-        }
-        public DateTime? StartProjectDate
-        {
-            get => XMLTools.GetDates("data-config", "startProjectDate");
-        }
 
         //public DateTime StartProjectDate => new UpdateScheduledDates(int ,m-start,m-end)
-        //internal static DateTime StartProjectDate { get => XMLTools.GetDates(data_config_xml, "startProjectDate"); }
-        //internal static DateTime EndProjectDate { get => XMLTools.GetDates(data_config_xml, "endProjectDate"); }
-
+        public DateTime StartProjectDate { get; set; } 
+        public DateTime EndProjectDate { get; set; }
 
         public void Reset()
         {
             Engineer.Reset();
             Task.Reset();
             Dependency.Reset();
+            //XMLTools.ResetFile("dependencies");
         }
     }
 }

@@ -13,5 +13,6 @@ public interface IDal
     public  DateTime? StartProjectDate { get; }
     public  DateTime? EndProjectDate { get; }
     public void Reset();
+    
 }
 

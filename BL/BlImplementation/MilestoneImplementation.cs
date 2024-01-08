@@ -136,10 +136,8 @@ internal class MilestoneImplementation : IMilestone
 
         DO.Task endMilestone = _dal.Task.Read(endMilestoneId)!;
         if (endMilestone is not null)
-        {
-            endMilestone = endMilestone with { DeadLine = _dal.StartProjectDate };
-            _dal.Task.Update(endMilestone);
-        }
+            endMilestone = endMilestone with { DeadLine = _dal.EndProjectDate };
+
         startMilestone = startMilestone! with { DeadLine = UpdateDeadlines(startMilestoneId, endMilestoneId, newDepsList) };
         //_dal.Task.Update(startMilestone!);
 
@@ -159,7 +157,7 @@ internal class MilestoneImplementation : IMilestone
                                  select new { _key = GroupByDependentTask.Key, _value = depList });//1->0,2->0, 3->[1,2], 4->3, 5->3
 
         var FilteredDependenciesList = (from dep in groupDependencies
-                                        select dep._value.ToList()).Distinct().ToList();//1->0, 3->[1,2], 4->3
+                                        select dep._value.ToList()).Distinct().ToList();//1->0, 3->[1,2], 4->3//
 
         List<DO.Dependency> newDepsList = new List<DO.Dependency>();
 
@@ -200,7 +198,7 @@ internal class MilestoneImplementation : IMilestone
                                              select taskDep._key).Any(t => t == task.Id)
                                      select task.Id);
 
-        foreach (var IndependentsTasksItem in IndependentsTasksList)//create deps for tasks that depend on start
+        foreach (var IndependentsTasksItem in IndependentsTasksList)//create deps for tasks that depend on start לבדוק כמויות
         {
             newDepsList.Add(new DO.Dependency(-1, IndependentsTasksItem, IdStartMilestone));
         }

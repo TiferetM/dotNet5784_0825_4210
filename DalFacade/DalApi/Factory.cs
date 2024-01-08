@@ -15,6 +15,10 @@ public static class Factory
             try { Assembly.Load(dal.Package ?? throw new DalConfigException($"Package {dal.Package} is null")); }
             catch (Exception ex) { throw new DalConfigException($"Failed to load {dal.Package}.dll package", ex); }
 
+            Console.WriteLine($"dal.Namespace={dal.Namespace}");
+            Console.WriteLine($"dal.Class={dal.Class}");
+            Console.WriteLine($" dal.Package={dal.Package}");
+
             Type type = Type.GetType($"{dal.Namespace}.{dal.Class}, {dal.Package}") ??
                 throw new DalConfigException($"Class {dal.Namespace}.{dal.Class} was not found in {dal.Package}.dll");
 

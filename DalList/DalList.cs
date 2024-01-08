@@ -21,13 +21,12 @@
             get => DataSource.Config.startProjectDate;
         }
 
-        public DateTime? EndProjectDate {
-            get => DataSource.Config.endProjectDate;
-        }
+        public DateTime EndProjectDate => throw new NotImplementedException();
 
         public void Reset()
         {
-            DataSource.Dependencies.Clear();
+            if (DataSource.Dependencies != null)
+                DataSource.Dependencies?.Clear();
 
         }
     }
