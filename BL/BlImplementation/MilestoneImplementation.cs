@@ -213,7 +213,7 @@ internal class MilestoneImplementation : IMilestone
     {
         int IdStartMilestone = _dal.Task.Create(new DO.Task(-1)
         {
-            Description = "Description",
+            Description = "Start",
             Alias = "start",
             Milestone = true,
             CreateDate = DateTime.Now
@@ -226,7 +226,7 @@ internal class MilestoneImplementation : IMilestone
     {
         int IdEndMilestone = _dal.Task.Create(new DO.Task(-1)
         {
-            Description = "Description",
+            Description = "End",
             Alias = "end",
             Milestone = true,
             CreateDate = DateTime.Now
