@@ -1,5 +1,6 @@
 ﻿namespace Dal;
 using DO;
+using System.Globalization;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
@@ -131,6 +132,32 @@ static class XMLTools
             throw new DalXMLFileLoadCreateException($"fail to reset xml file: {filePath}, {ex.Message}");
         }
     }
+    public static DateTime GetDates(string data_config_xml, string elemName)
+    {
+        XElement root = XMLTools.LoadListFromXMLElement(data_config_xml);
 
+        // Get the date string from the XML element
+        string? dateString = root.Element(elemName)?.Value;
 
+        if (!string.IsNullOrEmpty(dateString))
+        {
+            // Define the date format expected in the XML
+            string format = "yyyy-MM-ddTHH:mm:ss";
+
+            // Convert the string to DateTime using ParseExact or TryParseExact
+            if (DateTime.TryParseExact(dateString, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime nextDate))
+            {
+
+                return nextDate; // Return the previous date
+            }
+            else
+            {
+                throw new FormatException($"Can't convert date. {data_config_xml}, {elemName}");
+            }
+        }
+        else
+        {
+            throw new FormatException($"Date string is null or empty. {data_config_xml}, {elemName}");
+        }
+    }
 }

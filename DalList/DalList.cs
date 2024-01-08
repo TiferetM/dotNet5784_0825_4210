@@ -1,7 +1,4 @@
-﻿
-
-
-namespace Dal
+﻿namespace Dal
 {
     using System;
     using DalApi;
@@ -20,9 +17,13 @@ namespace Dal
 
         public IEngineer Engineer => new EngineerImplementation();
 
-        public DateTime StartProjectDate => throw new NotImplementedException();
+        public DateTime? StartProjectDate {
+            get => DataSource.Config.startProjectDate;
+        }
 
-        public DateTime EndProjectDate => throw new NotImplementedException();
+        public DateTime? EndProjectDate {
+            get => DataSource.Config.endProjectDate;
+        }
 
         public void Reset()
         {

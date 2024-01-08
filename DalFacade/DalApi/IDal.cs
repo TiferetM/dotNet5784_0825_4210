@@ -10,8 +10,8 @@ public interface IDal
     ITask Task { get; }
     IDependency Dependency { get; }
     IEngineer Engineer { get; }
-    DateTime StartProjectDate { get; }
-    DateTime EndProjectDate { get; }
+    public  DateTime? StartProjectDate { get; }
+    public  DateTime? EndProjectDate { get; }
     public void Reset();
 }
 

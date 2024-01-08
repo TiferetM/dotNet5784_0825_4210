@@ -5,12 +5,13 @@ using DalApi;
 using DO;
 using System.Data;
 using System.Xml.Linq;
+using static BO.Tools;
 
 namespace BlImplementation;
 
 internal class MilestoneImplementation : IMilestone
 {
-    private DalApi.IDal _dal = DalApi.Factory.Get;
+    private readonly DalApi.IDal _dal = DalApi.Factory.Get;
     #region functions
     public Milestone? ReadMilestoneData(int id)
     {
@@ -27,7 +28,7 @@ internal class MilestoneImplementation : IMilestone
                                                     Status = Tools.DetermineStatus(_dal.Task!.Read((int)d.DependenceOnTask))
                                                 }
                                                 ).ToList();
-            BO.Milestone returnedMil= new ()
+            BO.Milestone returnedMil = new()
             {
                 Id = id,
                 Description = DOTask!.Description,
@@ -112,33 +113,37 @@ internal class MilestoneImplementation : IMilestone
     #endregion 
     public void CreateScheduledProject()
     {
-        List<DO.Dependency?> dependenciesList = _dal.Dependency.ReadAll().ToList();
-        List<DO.Dependency> newDepsList = CreateMilestones(dependenciesList);
-        _dal.Dependency.Reset();
-        foreach (var dep in newDepsList)
-        {
-            _dal.Dependency.Create(dep);
-        }
+        //List<DO.Dependency?> dependenciesList = _dal.Dependency.ReadAll().ToList();
+        //List<DO.Dependency> newDepsList = CreateMilestones(dependenciesList);
+        //_dal.Dependency.Reset();
+        //foreach (var dep in newDepsList)
+        //{
+        //    _dal.Dependency.Create(dep);
+        //}
 
-
+        List<DO.Dependency> newDepsList = _dal.Dependency.ReadAll().ToList();
         List<DO.Task?> allTasks = _dal.Task.ReadAll().ToList();
         int startMilestoneId = allTasks.Where(task => task!.Alias == "start").Select(task => task!.Id).First();
 
         DO.Task startMilestone = _dal.Task.Read(startMilestoneId)!;
         if (startMilestone is not null)
+        {
             startMilestone = startMilestone with { SchedulableDate = _dal.StartProjectDate };
+            _dal.Task.Update(startMilestone);
+        }
 
         int endMilestoneId = allTasks.Where(task => task!.Alias == "end").Select(task => task!.Id).First();
 
         DO.Task endMilestone = _dal.Task.Read(endMilestoneId)!;
         if (endMilestone is not null)
-            endMilestone = endMilestone with { DeadLine = _dal.EndProjectDate };
-
+        {
+            endMilestone = endMilestone with { DeadLine = _dal.StartProjectDate };
+            _dal.Task.Update(endMilestone);
+        }
         startMilestone = startMilestone! with { DeadLine = UpdateDeadlines(startMilestoneId, endMilestoneId, newDepsList) };
-        _dal.Task.Update(startMilestone!);
+        //_dal.Task.Update(startMilestone!);
 
         endMilestone = endMilestone! with { SchedulableDate = UpdateScheduledDates(endMilestoneId, startMilestoneId, newDepsList) };
-        _dal.Task.Update(endMilestone);
     }
     #region  help fuctions
     //recommend to move to tools;)
@@ -179,7 +184,7 @@ internal class MilestoneImplementation : IMilestone
 
             foreach (var dep in FilteredDependency)
             {
-                 newDepsList.Add(new DO.Dependency(-1, idMilestone, dep));//check logic again
+                newDepsList.Add(new DO.Dependency(-1, idMilestone, dep));//check logic again
             }
             i++;
         }
@@ -287,9 +292,27 @@ internal class MilestoneImplementation : IMilestone
         _dal.Task.Update(currentTask);
         return currentTask.SchedulableDate;//return the scheduled date for the recursion
     }
-
-    #endregion
 }
+    ///// <summary>
+    ///// Rename the milestones alias to be the ids of the dependent on tasks
+    ///// </summary>
+    ///// <param name="dependenciesList"></param>
+    //public void renameMilestonesAlias(List<DO.Dependency> dependenciesList)
+    //{
+    //    if (dependenciesList.Count == 0) return;
+    //    List<DO.Task?> allTasks = _dal.Task.ReadAll().ToList();
+    //    foreach (var task in allTasks)
+    //    {
+    //        if (task?.Milestone is true)
+    //        {
+    //            string? alias = "M";
+    //            var dependsOnTaskList = renameMilestonesAlias(dependenciesList);
+
+    //        }
+    //    }
+    //}
+      #endregion
+
 //private DateTime? UpdateDeadlines(int taskId, int endMilestoneId, List<DO.Dependency> depList)//int int list
 //{
 //    if (taskId == endMilestoneId)
