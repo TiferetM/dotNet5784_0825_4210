@@ -21,7 +21,10 @@
             get => DataSource.Config.startProjectDate;
         }
 
-        public DateTime EndProjectDate => throw new NotImplementedException();
+        public DateTime? EndProjectDate
+        {
+            get => DataSource.Config.endProjectDate;
+        }
 
         public void Reset()
         {

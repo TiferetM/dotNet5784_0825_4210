@@ -251,7 +251,7 @@ internal class MilestoneImplementation : IMilestone
                                                 where dep.DependenceOnTask == taskId
                                                 select dep.DependenceTask).ToList();
 
-        DateTime? deadline = currentTask.DeadLine;
+        DateTime? deadline = currentTask.DeadLine;//null?
         foreach (int task in listOfDepentOnCurrentTask)
         {
             DO.Task readTask = _dal.Task.Read(task)!;
@@ -318,114 +318,7 @@ internal class MilestoneImplementation : IMilestone
 
     }
 }
-/// <summary>
-/// Rename the milestones alias to be the ids of the dependent on tasks
-/// </summary>
-/// <param name="dependenciesList"></param>
 
 
-//private DateTime? UpdateDeadlines(int taskId, int endMilestoneId, List<DO.Dependency> depList)//int int list
-//{
-//    if (taskId == endMilestoneId)
-//        return _dal.EndProjectDate;//להחזיר מתי הפרויקט נגמר כי הרי זאת אבן דרך אחרונה
-//    DO.Task currentTask = _dal.Task.Read(taskId) ?? throw new BO.BlNullPropertyException($"Task with Id {taskId} does not exists");
 
-//    List<int?> listOfDependOnCurrentTask = (from dep in depList
-//                                            where dep.DependenceOnTask == taskId
-//                                            select dep.DependenceTask).ToList();
-
-//    DateTime? lastDateToStart = null;//מתי הזמן האחרון להתחיל משימה כדי להספיק לגמור בזמן
-//    foreach (int? task in listOfDependOnCurrentTask)
-//    {
-//        DO.Task readTask = _dal.Task.Read(taskId)!;
-//        if (readTask.DeadLine is null)
-//            readTask = readTask with { DeadLine = UpdateDeadlines((int)task!, endMilestoneId, depList) };
-//        if (lastDateToStart is null || readTask.DeadLine - readTask.TimeSpan < lastDateToStart)
-//            //אם הזמן סיום של המשימה פחות הזמן שלוקחת המשימה לפני מזמן האחרון האפשרי להתחלת המשימה
-//            lastDateToStart = readTask.DeadLine - readTask.TimeSpan;
-//    }
-//    if (lastDateToStart > _dal.EndProjectDate)//אם זמן ההתחלה האחרון אחרי זמן הסיום הכללי
-//        throw new BO.BlInsufficientTime("Impossible to start, start date is later than the last date to finish\n");
-//    currentTask = currentTask with { DeadLine = lastDateToStart };
-
-//    _dal.Task.Update(currentTask);
-//    return currentTask.DeadLine;
-//}
-//public BO.Milestone? Read(int id)
-//{
-//    DO.Task milestoneFromDo = _dal.Task.Read(id) ?? throw new BlDoesNotExistException($"An object of type Milestone with ID {id} does not exist");
-//    //calculating the forecast date
-//    DateTime? forecastDate = null;
-//    if (milestoneFromDo.StartDate is not null && milestoneFromDo.RequiredEffortTime is not null)
-//    {
-//        TimeSpan ts = milestoneFromDo.RequiredEffortTime ?? new TimeSpan(0);
-//        forecastDate = milestoneFromDo.StartDate?.Add(ts);
-//    }
-
-//   // calculating the completion percentage
-//    double? completionPercentage = ((DateTime.Now - milestoneFromDo.StartDate) / milestoneFromDo.RequiredEffortTime) * 100;
-//    if (completionPercentage > 100)
-//        completionPercentage = 100;
-
-//   // casting to BO entity of milestone
-//    BO.Milestone milestone = new()
-//    {
-//        Id = milestoneFromDo.Id,
-//        Description = milestoneFromDo.Description,
-//        Alias = milestoneFromDo.Alias,
-//        Status = (Status)(milestoneFromDo.SchedulableDate is null ? 0 :
-//                           milestoneFromDo.StartDate is null ? 1 :
-//                           milestoneFromDo.CompletedDate is null ? 2
-//                           : 3),
-//        CreatedAtDate = milestoneFromDo.CreateDate,
-//        ForecastDate = forecastDate,
-//        DeadlineDate = milestoneFromDo.DeadLine,
-//        CompleteDate = milestoneFromDo.CompletedDate,
-//        completionPercentage = (double)completionPercentage,
-//      Remarks = milestoneFromDo.Remarks
-//    };
-//    return milestone;
-//}
-
-//public void Update(BO.Milestone m)
-//{
-//    DO.Task doMilestone = new(m.Id, m.Description, m.Alias, true, m.CreatedAtDate, new TimeSpan(0), null, m.ForecastDate, m.DeadlineDate, m.CompleteDate, null, m.Remarks, null, null);
-//    try
-//    {
-//        _dal.Task.Update(doMilestone);
-//    }
-//    catch (DO.DalDoesNotExistException exception)
-//    {
-//        throw new BO.BlDoesNotExistException($"An object of type Task with ID {doMilestone.Id} does not exist", exception);
-//    }
-//}
-//private DateTime? UpdateScheduledDates(int taskId, int startMilestoneId, List<DO.Dependency> depList)
-//{
-//    if (taskId == startMilestoneId)
-//        return _dal.StartProjectDate;
-//    DO.Task currentTask = _dal.Task.Read(taskId) ?? throw new BO.BlNullPropertyException($"Task with Id {taskId} does not exists");
-
-//    List<int?> listOfTasksThatCurrentDepsOnThem = (from dep in depList
-//                                                   where dep.DependenceTask == taskId
-//                                                   select dep.DependenceOnTask).ToList();
-
-//    DateTime? scheduledDate = null;
-//    foreach (int? task in listOfTasksThatCurrentDepsOnThem)
-//    {
-//        DO.Task readTask = _dal.Task.Read(taskId)!;
-//        if (readTask.SchedulableDate is null)
-//            readTask = readTask with { SchedulableDate = UpdateDeadlines((int)task!, startMilestoneId, depList) };
-//        if (scheduledDate is null || readTask.SchedulableDate + readTask.TimeSpan > scheduledDate)
-//            //אם זמן ההתחלה המתוכנן+זמן המשימה אחרי זמן הסיום המתוכנן
-//            scheduledDate = readTask.SchedulableDate + readTask.TimeSpan;
-//    }
-
-//    if (scheduledDate < _dal.StartProjectDate)//אם זמן הסיום המתוכנן לפני תחילת הפרויקט
-//        throw new BO.BlInsufficientTime("There is insufficient time to complete this task\n");
-//    currentTask = currentTask with { SchedulableDate = scheduledDate };
-
-
-//    _dal.Task.Update(currentTask);
-//    return currentTask.SchedulableDate;
-//}
 #endregion
