@@ -79,8 +79,13 @@ static class XMLTools
         string filePath = $"{s_xml_dir + entity}.xml";
         try
         {
-            using FileStream file = new(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
-            new XmlSerializer(typeof(List<T>)).Serialize(file, list);
+            //using FileStream file = new(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
+            //new XmlSerializer(typeof(List<T>)).Serialize(file, list);
+
+            using (FileStream file = new(filePath, FileMode.Create, FileAccess.Write, FileShare.None))
+            {
+                new XmlSerializer(typeof(List<T>)).Serialize(file, list);
+            }
 
             //new XmlSerializer(typeof(List<T?>)).Serialize(file, list);
 
@@ -101,15 +106,14 @@ static class XMLTools
         {
             if (!File.Exists(filePath))
             {
-                return new();
+                return new List<T>();
             }
-            using FileStream file = new(filePath, FileMode.Open);
-            XmlSerializer x = new(typeof(List<T>));
-            //Console.WriteLine(x);
-            return x.Deserialize(file) as List<T> ?? new();
-            //XmlSerializer x = new(typeof(List<T?>));
-            //return x.Deserialize(file) as List<T?> ?? new();
 
+            using (FileStream file = new(filePath, FileMode.Open))
+            {
+                XmlSerializer x = new(typeof(List<T>));
+                return x.Deserialize(file) as List<T> ?? new List<T>();
+            }
         }
         catch (Exception ex)
         {

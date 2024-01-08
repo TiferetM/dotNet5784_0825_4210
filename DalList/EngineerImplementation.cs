@@ -78,10 +78,6 @@ internal class EngineerImplementation : IEngineer
         }
         return from item in DataSource.Engineers
                select item;
-
-
-
-
     }
 
     public void Update(Engineer item)
@@ -105,11 +101,9 @@ internal class EngineerImplementation : IEngineer
     }
     public void Reset()
     {
-        //if (DataSource.Engineers != null)
-        //{
-        //    DataSource.Engineers.RemoveAll(engineers => true);
-        //}
-        DataSource.Engineers.Clear();
+        if (DataSource.Engineers != null)
+            DataSource.Engineers?.Clear();
+        
     }
 
 

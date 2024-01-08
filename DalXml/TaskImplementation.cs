@@ -6,6 +6,9 @@ using System.Xml.Serialization;
 using DO;
 using global::DalXml;
 
+
+//using global::DalXml;
+
 internal class TaskImplementation : ITask
 {
     public int Create(DO.Task item)
@@ -14,6 +17,7 @@ internal class TaskImplementation : ITask
         List<DO.Task> tasks = XMLTools.LoadListFromXMLSerializer<DO.Task>("Tasks");
 
         int newId = Config.NextTaskId;
+      
         item.Id = newId;
 
         tasks.Add(item);

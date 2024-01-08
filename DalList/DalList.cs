@@ -20,13 +20,14 @@ namespace Dal
 
         public IEngineer Engineer => new EngineerImplementation();
 
-        public DateTime StartProjectDate => throw new NotImplementedException();
+        public DateTime? StartProjectDate => throw new NotImplementedException();
 
-        public DateTime EndProjectDate => throw new NotImplementedException();
+        public DateTime? EndProjectDate => throw new NotImplementedException();
 
         public void Reset()
         {
-            DataSource.Dependencies.Clear();
+            if (DataSource.Dependencies != null)
+                DataSource.Dependencies?.Clear();
 
         }
     }

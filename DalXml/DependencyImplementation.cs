@@ -105,6 +105,7 @@ internal class DependencyImplementation : IDependency
 
     public void Reset()
     {
+   
         XElement root = XMLTools.LoadListFromXMLElement("Dependencies");
         root.Descendants("dependency").Remove();
         XMLTools.SaveListToXMLElement(root, "Dependencies");
