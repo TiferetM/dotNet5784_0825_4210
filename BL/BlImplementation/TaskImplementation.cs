@@ -31,7 +31,7 @@ internal class TaskImplementation : ITask
             Deliverables = task.Deliverables,
             Remarks = task.Remarks,
             EngineerId = task.Engineer?.ID,
-            ComplexityLevel = task.ComplexityLevel
+            ComplexityLevel = (DO.EngineerExperience?)task.ComplexityLevel
         };
         try
         {
@@ -102,7 +102,7 @@ internal class TaskImplementation : ITask
                        ID = _dal.Engineer!.Read(t.Id)!.Id,
                        Name = _dal.Engineer!.Read(t.Id)!.Name
                    },
-                   ComplexityLevel = t.ComplexityLevel
+                   ComplexityLevel = (BO.EngineerExperience?)t.ComplexityLevel
                };
         throw new NotImplementedException();
     }
@@ -161,7 +161,7 @@ internal class TaskImplementation : ITask
                 Name = _dal.Engineer!.Read(DoTask.Id)!.Name
             },
 
-            ComplexityLevel = (DO.EngineerExperience?)DoTask.ComplexityLevel
+            ComplexityLevel = (BO.EngineerExperience?)(DO.EngineerExperience?)DoTask.ComplexityLevel
         };
         return BoTask;
     }
@@ -190,7 +190,7 @@ internal class TaskImplementation : ITask
                 Deliverables = task.Deliverables,
                 Remarks = task.Remarks,
                 EngineerId = task.Engineer?.ID,
-                ComplexityLevel = task.ComplexityLevel
+                ComplexityLevel = (DO.EngineerExperience?)task.ComplexityLevel
             };
             _dal.Task!.Update(updatedTask);
         }

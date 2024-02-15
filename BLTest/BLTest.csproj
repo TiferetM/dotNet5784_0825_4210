@@ -16,6 +16,11 @@
   <ItemGroup>
     <ProjectReference Include="..\BL\BL.csproj" />
     <ProjectReference Include="..\DalTest\DalTest.csproj" />
+	  
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="BO\" />
   </ItemGroup>
 
 </Project>

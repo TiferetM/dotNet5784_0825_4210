@@ -406,25 +406,25 @@ public class Program
 
         Console.Write("Enter the corresponding number: ");
 
-        EngineerExperience complexityLevel;
+        DO.EngineerExperience complexityLevel;
         if (int.TryParse(Console.ReadLine(), out int levelChoice))
         {
             switch (levelChoice)
             {
                 case 1:
-                    complexityLevel = EngineerExperience.Beginner;
+                    complexityLevel = DO.EngineerExperience.Beginner;
                     break;
                 case 2:
-                    complexityLevel = EngineerExperience.Competitive;
+                    complexityLevel = DO.EngineerExperience.Competitive;
                     break;
                 case 3:
-                    complexityLevel = EngineerExperience.Professionals;
+                    complexityLevel = DO.EngineerExperience.Professionals;
                     break;
                 case 4:
-                    complexityLevel = EngineerExperience.Export;
+                    complexityLevel = DO.EngineerExperience.Export;
                     break;
                 case 5:
-                    complexityLevel = EngineerExperience.Proficient;
+                    complexityLevel = DO.EngineerExperience.Proficient;
                     break;
                 default:
                     Console.WriteLine("Invalid choice. Aborting.");
@@ -464,7 +464,7 @@ public class Program
             Deliverables= deliverables,
             Remarks=remarks,
             Engineer= null,
-            ComplexityLevel=complexityLevel,
+            ComplexityLevel = (BO.EngineerExperience?)complexityLevel,
             Status = (BO.Status)0
         };
     }//reads the task values from the user*
@@ -569,25 +569,25 @@ public class Program
 
         Console.Write("Enter the corresponding number: ");
 
-        EngineerExperience complexityLevel;
+        DO.EngineerExperience complexityLevel;
         if (int.TryParse(Console.ReadLine(), out int levelChoice))
         {
             switch (levelChoice)
             {
                 case 1:
-                    complexityLevel = EngineerExperience.Beginner;
+                    complexityLevel = DO.EngineerExperience.Beginner;
                     break;
                 case 2:
-                    complexityLevel = EngineerExperience.Competitive;
+                    complexityLevel = DO.EngineerExperience.Competitive;
                     break;
                 case 3:
-                    complexityLevel = EngineerExperience.Professionals;
+                    complexityLevel = DO.EngineerExperience.Professionals;
                     break;
                 case 4:
-                    complexityLevel = EngineerExperience.Export;
+                    complexityLevel = DO.EngineerExperience.Export;
                     break;
                 case 5:
-                    complexityLevel = EngineerExperience.Proficient;
+                    complexityLevel = DO.EngineerExperience.Proficient;
                     break;
                 default:
                     Console.WriteLine("Invalid choice. Aborting.");
@@ -606,7 +606,7 @@ public class Program
             ID = id,
             Name = name,
             Email=email,
-            Level=complexityLevel,
+            Level= (BO.EngineerExperience)complexityLevel,
             Cost=0,//not the real continent
             Task =null//not the real continent
         };

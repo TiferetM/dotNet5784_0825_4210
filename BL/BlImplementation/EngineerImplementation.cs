@@ -29,7 +29,7 @@ internal class EngineerImplementation : IEngineer
             Id = eng!.ID,
             Name = eng.Name,
             email = eng.Email,
-            level = eng.Level,
+            level = (DO.EngineerExperience)eng.Level,
         };
         try
         {
@@ -69,7 +69,7 @@ internal class EngineerImplementation : IEngineer
             ID = id,
             Name = DoEngineer.Name,
             Email = DoEngineer.email,
-            Level = DoEngineer.level,
+            Level = (EngineerExperience)DoEngineer.level,
             Cost = 0,
             Task = new BO.TaskInEngineer()
             {
@@ -80,22 +80,20 @@ internal class EngineerImplementation : IEngineer
         return BoEngineer;
     }
 
-    public IEnumerable<Engineer> GetEngineersTasksList(Func<Engineer, bool>? filter = null)
+    public IEnumerable<Engineer> ReadAllEngineer(Func<Engineer, bool>? filter = null)
     {
-        return from e in _dal.Engineer.ReadAll()
-               select new BO.Engineer()
+        //var x = _dal.Engineer.ReadAll();
+            return from e in _dal.Engineer.ReadAll()
+                   let taskEngineer = _dal!.Task!.Read(t => t.EngineerId == e.Id && t.Milestone)
+                   select new BO.Engineer()
                {
                    ID = e.Id, // שימוש ב-generate property
                    Name = e.Name,
                    Email = e.email,
-                   Level = e.level,
+                   Level = (EngineerExperience)e.level,
                    Cost = 0,
-                   Task = new BO.TaskInEngineer()
-                   {
-                       ID = _dal.Task.Read(t => t.Id == e.Id)!.Id,
-                       Name = _dal.Task.Read(t => t.Id == e.Id)!.Alias ?? ""
-                   }
-               };
+                       Task = taskEngineer != null ? new BO.TaskInEngineer { ID = taskEngineer.Id, Name = taskEngineer.Alias } : null
+                   };
         throw new NotImplementedException();
     }// החזרת משימות המהנדס
 
@@ -118,7 +116,7 @@ internal class EngineerImplementation : IEngineer
                 Id = engineer!.ID,
                 Name = engineer.Name,
                 email = engineer.Email,
-                level = engineer.Level,
+                level = (DO.EngineerExperience)engineer.Level,
             };
             _dal.Engineer.Update(DOEngineer);
     }
