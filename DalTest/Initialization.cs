@@ -11,9 +11,6 @@ public static class Initialization
     private static IDal? s_dal; //stage 2
     private static readonly Random s_rand =  new ();
    
-  
-
-   
     public static void CreateEngineer()
     {
        //40 nanes
@@ -240,4 +237,13 @@ public static class Initialization
         return newDate;
     }
 
+    public static void Reset()
+    {
+        if (s_dal != null)
+        {
+            s_dal.Engineer.Reset();
+            s_dal.Task.Reset();
+            s_dal.Dependency.Reset();
+        }
+    }
 }

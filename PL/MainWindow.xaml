@@ -7,6 +7,8 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <Button Click="btnEngineer_Click" Content="show list" Height="50" Margin="350,192,380,192"/>
+        <Button Click="btnInitialization_Click"  Content="initialization" Margin="494,217,233,192"/>
+        <Button Click ="btnReset_Click" Content="reset" Margin="230,217,507,192"/>
     </Grid>
 </Window>
