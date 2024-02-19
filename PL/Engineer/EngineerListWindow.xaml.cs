@@ -27,7 +27,7 @@ namespace PL.Engineer
 
         public EngineerListWindow()
         {
-            InitializeComponent();
+        InitializeComponent();//יש פה שגיאת קומפלציה
             InitializeEngineerList();
         }//בנאי
 
