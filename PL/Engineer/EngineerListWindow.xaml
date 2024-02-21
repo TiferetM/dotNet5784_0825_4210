@@ -30,13 +30,13 @@
             <ComboBox Grid.Column="1" SelectedValue="{Binding experience, Mode=TwoWay}"
                     ItemsSource="{Binding Source={StaticResource EngineerCollectionKey}}"/>
         </Grid>
-        <ListView Margin="5,46,5,5" Grid.Row="1" ItemsSource="{Binding EngineerList}">
-            <ListView.View>
+        <ListView  MouseDoubleClick=" engineerMouseDoubleClick "     Margin="5,46,5,5" Grid.Row="1" ItemsSource="{Binding EngineerList}"  >
+            <ListView.View  >
                 <GridView>
                     <GridViewColumn/>
-                </GridView>
+                </GridView  >
             </ListView.View>
         </ListView>
-        <Button Click="AddEngineerButton_Click" Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100"/>
+        <Button Click=" AddEngineerButton_Click " Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100"/>
     </Grid>
 </Window>

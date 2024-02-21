@@ -22,17 +22,25 @@ namespace PL.Engineer
     {
         public Mode Mode { get; private set; }
         static readonly IBl s_bl = Factory.Get();
-        public static readonly DependencyProperty CurrentEngineerProperty =//הגדרת משתנה תלויות
-                     DependencyProperty.Register("CurrentEngineer", typeof(IEnumerable<BO.Engineer>), typeof(EngineerWindow), new PropertyMetadata(null));
+        //public static readonly DependencyProperty CurrentEngineerProperty =//הגדרת משתנה תלויות
+        //             DependencyProperty.Register("CurrentEngineer", typeof(IEnumerable<BO.Engineer>), typeof(EngineerWindow), new PropertyMetadata(null));
+
+        public static readonly DependencyProperty CurrentEngineerProperty =
+    DependencyProperty.Register("CurrentEngineer", typeof(BO.Engineer), typeof(EngineerWindow), new PropertyMetadata(null));
+
+
+
+
         public BO.Engineer? CurrentEngineer
         {
             get { return (BO.Engineer)GetValue(CurrentEngineerProperty); }
             set { SetValue(CurrentEngineerProperty, value); }
+           
         }
         public EngineerWindow(int Id = 0)
         {
 
-            InitializeComponent();
+           // InitializeComponent();
             if (Id == 0)
             {
                 CurrentEngineer = new BO.Engineer();
@@ -42,7 +50,7 @@ namespace PL.Engineer
             }
             else
             {
-                 Mode = Mode.update;
+                Mode = Mode.update;
                 try
                 {
                     CurrentEngineer = s_bl.Engineer.EngineerDetailsRequest(Id);
@@ -53,6 +61,8 @@ namespace PL.Engineer
                 }
             }
         }//c-tor
+
+
 
         private void addNupdateButton_Click(object sender, RoutedEventArgs e)
         {
@@ -83,6 +93,8 @@ namespace PL.Engineer
                     MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }//update
+
+
         }
     }
 }

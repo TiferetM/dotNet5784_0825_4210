@@ -82,7 +82,7 @@ internal class EngineerImplementation : IEngineer
 
     public IEnumerable<Engineer> ReadAllEngineer(Func<Engineer, bool>? filter = null)
     {
-        //var x = _dal.Engineer.ReadAll();
+        var x = _dal.Engineer.ReadAll();
             return from e in _dal.Engineer.ReadAll()
                    let taskEngineer = _dal!.Task!.Read(t => t.EngineerId == e.Id && t.Milestone)
                    select new BO.Engineer()

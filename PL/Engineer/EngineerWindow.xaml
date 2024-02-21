@@ -22,28 +22,28 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-   
+
         <!-- TextBox for Engineer id -->
         <Label Grid.Row="1" Content="Id:" Grid.Column="0" VerticalAlignment="Center"/>
         <TextBox Grid.Row="1" Grid.Column="1" 
            Text="{Binding Id , Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  
            HorizontalAlignment="Left" Height="NaN" Margin="3"  VerticalAlignment="Center" Width="120"
            IsEnabled="{Binding Id, Converter={StaticResource ConverIdToEnableKey}}"/>
-        
-        
-        
+
+
+
         <!-- TextBox for Engineer name -->
         <Label Grid.Row="2" Content="Name:"  Grid.Column="0" VerticalAlignment="Center"/>
         <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Name , Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  HorizontalAlignment="Left" Height="NaN" Margin="3"  VerticalAlignment="Center" Width="120"/>
-        
-        
-        
+
+
+
         <!-- TextBox for Engineer email -->
         <Label Content="Email:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
         <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Email , Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  HorizontalAlignment="Left" Height="NaN" Margin="3"  VerticalAlignment="Center" Width="120"/>
-        
-        
-        
+
+
+
         <!-- ComboBox for experience Enum Property -->
         <Label Content="Level:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"/>
         <ComboBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" Height="NaN" Margin="3" 
@@ -58,8 +58,8 @@
             NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  HorizontalAlignment="Left"
             Height="NaN" Margin="3"  VerticalAlignment="Center" Width="120"/>
 
-        
-        
+
+
         <!-- Button for Add/Update Action -->
         <Button Content="{Binding Id, Mode=OneTime, Converter={StaticResource ConvertIdToContentKey}}"
                 Click="addNupdateButton_Click"
@@ -67,5 +67,5 @@
                 HorizontalAlignment="Left"
                 Margin="115,55,0,-35" Height="30"/>
     </Grid>
-    
+
 </Window>

@@ -16,6 +16,7 @@ using PL.Engineer;
 using BlApi;
 namespace PL
 {
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -27,6 +28,13 @@ namespace PL
         {
             InitializeComponent();
         }
+
+        private void engineerWindow_Closed(object sender, EventArgs e)
+        {
+ 
+           // InitializeEngineerList();
+        }
+
         private void btnEngineer_Click(object sender, RoutedEventArgs e)
         { new EngineerListWindow().Show(); }
         private void btnInitialization_Click(object sender, RoutedEventArgs e)
