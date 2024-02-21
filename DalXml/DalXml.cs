@@ -2,10 +2,7 @@
 using System.Diagnostics;
 using System.Reflection.Metadata;
 using System.Xml.Linq;
-
-
 namespace Dal;
-
 //stage 3
 
 internal sealed partial class DalXml : IDal
