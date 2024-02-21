@@ -3,40 +3,44 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-          xmlns:local="clr-namespace:PL.Engineer"
-        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"
         mc:Ignorable="d"
-        Title="EngineerListWindow" Height="450" Width="800">
-
-    <!--Extrnal Grid-->
+        Title="TaskListWindow" Height="640" Width="800"
+        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="40*"/>
-            <RowDefinition Height="500*"/>
             <RowDefinition Height="Auto"/>
+            <!-- Row for engineer selection -->
+            <RowDefinition Height="*"/>
+            <!-- Row for ListView -->
+            <RowDefinition Height="60"/>
+            <!-- Row for Add button -->
         </Grid.RowDefinitions>
 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <!-- Engineer selection -->
+        <Label Grid.Row="0" Grid.Column="0" Content="Select engineer experience level:" HorizontalAlignment="Left" VerticalAlignment="Top" />
 
-        <!--Internal, Upper Grid-->
-        <Grid HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <!--label no.1-->
-            <Label Content="Label" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="59,10,0,0" Grid.Column="0"/>
-            <!--combo box grid column no.1-->
-
-            <ComboBox Grid.Column="1" SelectedValue="{Binding experience, Mode=TwoWay}"
-                    ItemsSource="{Binding Source={StaticResource EngineerCollectionKey}}"/>
-        </Grid>
-        <ListView Margin="5,46,5,5" Grid.Row="1" ItemsSource="{Binding EngineerList}">
+        <!-- ComboBox on the right -->
+        <ComboBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center"
+              SelectedValue="{Binding Experience, Mode=TwoWay}" 
+              ItemsSource="{Binding Source={StaticResource EngineerExperienceKey}}" 
+              SelectionChanged="cbExperienceSelector_SelectionChanged"/>
+        <!-- ListView -->
+        <ListView Grid.ColumnSpan="2"  MouseDoubleClick="EngineersList_MouseDoubleClick" ItemsSource="{Binding EngineerList}" Grid.Row="1" Margin="10,10,10,0" VerticalAlignment="Top">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn/>
+                    <!-- Your GridViewColumns -->
+                    <GridViewColumn Header="Engineers"/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Click="AddEngineerButton_Click" Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100"/>
+
+        <!-- Add button -->
+        <Button  Click="Handle_Add_Click" Content="Add" Grid.Row="2" HorizontalAlignment="Center" Width="200" Margin="10,10,0,10"/>
     </Grid>
 </Window>
+
+
