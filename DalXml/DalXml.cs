@@ -6,7 +6,7 @@ using System.Xml.Linq;
 
 namespace Dal;
 
-////stage 3
+//stage 3
 
 internal sealed partial class DalXml : IDal
 {
