@@ -33,7 +33,7 @@ namespace PL.Engineer
         {
 
             InitializeComponent();
-            if (Id == 0)
+            if (id == 0)
             {
                 Mode = Mode.add;
                 CurrentEngineer = new BO.Engineer();
