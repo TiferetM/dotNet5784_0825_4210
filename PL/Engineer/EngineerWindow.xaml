@@ -6,13 +6,15 @@
         xmlns:conv="clr-namespace:PL.Engineer"
         xmlns:local="clr-namespace:PL.Engineer"
         mc:Ignorable="d"
-        DataContext="{Binding CurrentEngineer, RelativeSource={RelativeSource Self}, Mode=TwoWay}">
-    <!--Extrnal Grid-->
+        DataContext="{Binding CurrentEngineer, RelativeSource={RelativeSource Self}, Mode=TwoWay}"
+         Width="500" Height="300">
+    <!-- External Grid -->
     <Grid HorizontalAlignment="Center" Width="400" Height="215">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -26,24 +28,22 @@
         <!-- TextBox for Engineer id -->
         <Label Grid.Row="1" Content="Id:" Grid.Column="0" VerticalAlignment="Center"/>
         <TextBox Grid.Row="1" Grid.Column="1" 
-           Text="{Binding Id , Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  
-           HorizontalAlignment="Left" Height="NaN" Margin="3"  VerticalAlignment="Center" Width="120"
-           IsEnabled="{Binding Id, Converter={StaticResource ConverIdToEnableKey}}"/>
-
-
+                 Text="{Binding ID , Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  
+                 HorizontalAlignment="Left" Height="NaN" Margin="3"  VerticalAlignment="Center" Width="120"
+                 IsEnabled="{Binding ID, Converter={StaticResource ConvertIdToContentKey}}"/>
 
         <!-- TextBox for Engineer name -->
         <Label Grid.Row="2" Content="Name:"  Grid.Column="0" VerticalAlignment="Center"/>
         <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Name , Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  HorizontalAlignment="Left" Height="NaN" Margin="3"  VerticalAlignment="Center" Width="120"/>
-
-
-
+        
+        
+        
         <!-- TextBox for Engineer email -->
         <Label Content="Email:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
         <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Email , Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  HorizontalAlignment="Left" Height="NaN" Margin="3"  VerticalAlignment="Center" Width="120"/>
-
-
-
+        
+        
+        
         <!-- ComboBox for experience Enum Property -->
         <Label Content="Level:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"/>
         <ComboBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" Height="NaN" Margin="3" 
@@ -54,18 +54,18 @@
 
         <!-- TextBox for Engineer cost -->
         <Label Content="Cost:" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center"/>
-        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding co , Mode=TwoWay, 
+        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Cost , Mode=TwoWay, 
             NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  HorizontalAlignment="Left"
             Height="NaN" Margin="3"  VerticalAlignment="Center" Width="120"/>
 
-
-
+        
+        
         <!-- Button for Add/Update Action -->
-        <Button Content="{Binding Id, Mode=OneTime, Converter={StaticResource ConvertIdToContentKey}}"
+        <Button Content="{Binding ID, Mode=OneTime, Converter={StaticResource ConvertIdToContentKey}}"
                 Click="addNupdateButton_Click"
-                Grid.Row="5" Grid.Column="1"
-                HorizontalAlignment="Left"
-                Margin="115,55,0,-35" Height="30"/>
+                Grid.Row="6" Grid.Column="0"
+                HorizontalAlignment="Left" Width="50"
+                Height="30"/>
     </Grid>
-
+    
 </Window>

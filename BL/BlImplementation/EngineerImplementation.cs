@@ -59,25 +59,58 @@ internal class EngineerImplementation : IEngineer
         //engineer deleted!
     }
 
-    public Engineer EngineerDetailsRequest(int id)//החזרת פרטי מהנדס
+    //public Engineer EngineerDetailsRequest(int id)//החזרת פרטי מהנדס
+    //{
+    //    DO.Engineer? DoEngineer = _dal.Engineer.Read(id);
+    //    if(DoEngineer==null)
+    //        throw new BO.BLDoesNotExistException($"Engineer with ID={id} does not  exists");
+    //    BO.Engineer BoEngineer = new Engineer()
+    //    {
+    //        ID = id,
+    //        Name = DoEngineer.Name,
+    //        Email = DoEngineer.email,
+    //        Level = (BO.EngineerExperience)DoEngineer.level,
+    //        Cost = 0,
+    //        Task = new BO.TaskInEngineer()
+    //        {
+    //            ID = _dal.Task.Read(t => t.Id == id)!.Id,
+    //            Name = _dal.Task.Read(t => t.Id == id)!.Alias ?? ""
+    //        }
+    //    };
+    //    return BoEngineer;
+    //}
+    public Engineer EngineerDetailsRequest(int id)
     {
-        DO.Engineer? DoEngineer = _dal.Engineer.Read(id);
-        if(DoEngineer==null)
-            throw new BO.BLDoesNotExistException($"Engineer with ID={id} does not  exists");
-        BO.Engineer BoEngineer = new Engineer()
+        // Check if the engineer exists
+        DO.Engineer? doEngineer = _dal.Engineer.Read(id);
+        if (doEngineer == null)
+        {
+            throw new BO.BLDoesNotExistException($"Engineer with ID={id} does not exist");
+        }
+
+        // Search for the task that the engineer is working on
+        BO.TaskInEngineer? engineerTask = new BO.TaskInEngineer()
+        {
+            ID = _dal.Task.Read(t => t.Id == id)?.Id ?? 0,
+            Name = _dal.Task.Read(t => t.Id == id)?.Alias ?? ""
+        };
+
+        // The engineer doesn't work on a task now
+        if (engineerTask.ID == 0 || string.IsNullOrEmpty(engineerTask.Name))
+        {
+            engineerTask = null;
+        }
+
+        // Create and return the BO.Engineer object
+        return new BO.Engineer()
         {
             ID = id,
-            Name = DoEngineer.Name,
-            Email = DoEngineer.email,
-            Level = (EngineerExperience)DoEngineer.level,
+            Name = doEngineer.Name,
+            Email = doEngineer.email,
+            Level = (BO.EngineerExperience)doEngineer.level!,
             Cost = 0,
-            Task = new BO.TaskInEngineer()
-            {
-                ID = _dal.Task.Read(t => t.Id == id)!.Id,
-                Name = _dal.Task.Read(t => t.Id == id)!.Alias ?? ""
-            }
+            Task = engineerTask
         };
-        return BoEngineer;
     }
 
     public IEnumerable<Engineer> ReadAllEngineer(Func<Engineer, bool>? filter = null)
