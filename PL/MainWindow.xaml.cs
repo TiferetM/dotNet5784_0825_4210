@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using PL.Engineer;
 using BlApi;
+using PL.Manager;
 namespace PL;
 
 
@@ -66,6 +67,8 @@ public partial class MainWindow : Window
     }
     private void btnReset_Click(object sender, RoutedEventArgs e)
     {
+
+       
         var result = MessageBox.Show("Do you want to reset?", "Confirmation", MessageBoxButton.YesNoCancel);
 
         if (result == MessageBoxResult.Yes)
@@ -85,7 +88,9 @@ public partial class MainWindow : Window
 
     private void ManagerView_Click(object sender, RoutedEventArgs e)
     {
-        //לקרוא לדף של המנהל
+
+        new ManagerWindow().Show();
+
 
     }
 

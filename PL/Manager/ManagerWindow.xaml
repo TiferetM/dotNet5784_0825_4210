@@ -1,0 +1,19 @@
+﻿<Window x:Class="PL.Manager.ManagerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL.Manager"
+        mc:Ignorable="d"
+        Title="ManagerWindow" Height="640" Width="800">
+
+    <Grid>
+
+        <Button Click="ListOfEngineers_Click" Content="List of engineers" Margin="205,115,262,459"/>
+
+        <Button Click="TaskForList_Click" Content="Task for list" Margin="205,195,262,379"/>
+        <Button Click="GanttChart_Click" Content="Creating a Gantt chart:" Margin="205,262,262,312"/>
+        <!--<Button  Click="Handle_Add_Click" Content="Add Engineers" HorizontalAlignment="Left" Width="333" Margin="205,193,0,391"/>-->
+    </Grid>
+
+</Window>
