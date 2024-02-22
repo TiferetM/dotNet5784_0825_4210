@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+
 namespace PL.Manager;
 
 /// <summary>
@@ -39,4 +40,16 @@ public partial class ManagerWindow : Window
 
 
 
+
+
+
+
+
+    private void ProjectSchedule_Click(object sender, RoutedEventArgs e)
+    {
+
+        //var milestoneImplementation = new MilestoneImplementation("");
+
+        //milestoneImplementation.CreateScheduledProject();
+    }
 }

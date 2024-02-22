@@ -16,6 +16,7 @@
 
         <Button Click="TaskForList_Click" Content="Task for list" Margin="205,195,262,379"/>
         <Button Click="GanttChart_Click" Content="Creating a Gantt chart:" Margin="205,262,262,312"/>
+        <Button Click="ProjectSchedule_Click" Content="Project schedule" Margin="205,262,262,312"/>
         <!--<Button  Click="Handle_Add_Click" Content="Add Engineers" HorizontalAlignment="Left" Width="333" Margin="205,193,0,391"/>-->
     </Grid>
 
