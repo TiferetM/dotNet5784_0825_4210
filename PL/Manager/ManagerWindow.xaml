@@ -12,11 +12,12 @@
             <ImageBrush ImageSource="/Manager/צילום מסך 2024-02-22 120927.png"/>
         </Grid.Background>
 
-        <Button Click="ListOfEngineers_Click" Content="List of engineers" Margin="205,115,262,459"/>
+        <Button Click="ListOfEngineers_Click" Content="List of engineers" Margin="205,159,262,389" RenderTransformOrigin="0.521,2.339"/>
 
-        <Button Click="TaskForList_Click" Content="Task for list" Margin="205,195,262,379"/>
-        <Button Click="GanttChart_Click" Content="Creating a Gantt chart:" Margin="205,262,262,312"/>
-        <Button Click="ProjectSchedule_Click" Content="Project schedule" Margin="205,262,262,312"/>
+        <Button Click="TaskForList_Click" Content="Task for list" Margin="205,240,262,334"/>
+        <Button Click="GanttChart_Click" Content="Creating a Gantt chart:" Margin="205,295,262,279"/>
+        <Button Click="ProjectSchedule_Click" Content="Project schedule" Margin="205,350,262,219"/>
+        <Button Click="Milestone_Click" Content="Milestone" Margin="205,410,262,157"/>
         <!--<Button  Click="Handle_Add_Click" Content="Add Engineers" HorizontalAlignment="Left" Width="333" Margin="205,193,0,391"/>-->
     </Grid>
 

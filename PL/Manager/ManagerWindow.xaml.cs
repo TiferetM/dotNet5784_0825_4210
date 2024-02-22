@@ -1,4 +1,6 @@
-﻿using PL.Engineer;
+﻿using BlApi;
+using BO;
+using PL.Engineer;
 using PL.GanttChart;
 using PL.Task;
 using System;
@@ -23,6 +25,10 @@ namespace PL.Manager;
 /// </summary>
 public partial class ManagerWindow : Window
 {
+
+    static readonly IBl s_bl = Factory.Get();
+    //public BO.EngineerExperience? Experience { get; set; } = BO.EngineerExperience.none;
+
     public ManagerWindow()
     {
         InitializeComponent();
@@ -37,19 +43,18 @@ public partial class ManagerWindow : Window
     private void GanttChart_Click(object sender, RoutedEventArgs e)
     { new GanttChartWindow().Show(); }
 
-
-
-
-
-
-
-
-
+    
     private void ProjectSchedule_Click(object sender, RoutedEventArgs e)
     {
-
-        //var milestoneImplementation = new MilestoneImplementation("");
-
-        //milestoneImplementation.CreateScheduledProject();
+        s_bl?.Milestone.CreateScheduledProject();//קריאה לפונקציה של לו"ז פרויקט
+    }
+    private void Milestone_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is BO.Milestone milestone)
+        {
+            int id = milestone.Id;
+            s_bl?.Milestone.ReadMilestoneData(id); //קריאה לפונקציה של  רשימת אבני דרך
+        }
+       
     }
 }
