@@ -7,36 +7,43 @@ xmlns:local="clr-namespace:PL"
 mc:Ignorable="d"
 Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/images.jpg"/>
+        </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="461*"/>
             <ColumnDefinition Width="339*"/>
         </Grid.ColumnDefinitions>
-        <Button Click="ManagerView_Click" Content="ManagerView" Margin="207,225,141,163" RenderTransformOrigin="0.5,0.5">
+        <Button Click="ManagerView_Click" Content="ManagerView👨‍💼" Margin="11,331,230,12" RenderTransformOrigin="0.5,0.5" Background="#FFCB7B7B">
 
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="-0.363"/>
+                    <SkewTransform AngleX="0.301"/>
+                    <RotateTransform Angle="-0.242"/>
                     <TranslateTransform/>
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <TextBlock x:Name="txtTime" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="451,27,0,0" FontSize="24" Height="93" RenderTransformOrigin="0.5,0.5" Width="220" Grid.ColumnSpan="2">
+        <TextBlock x:Name="txtTime" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="9,82,0,0" FontSize="24" Height="173" RenderTransformOrigin="0.703,1.351" Width="312" Grid.Column="1" Foreground="#FFF7F1F1">
+            <TextBlock.TextEffects>
+                <TextEffect Foreground="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}"/>
+            </TextBlock.TextEffects>
+            <TextBlock.Background>
+                <ImageBrush Opacity="0.5" Stretch="None"/>
+            </TextBlock.Background>
 
             <TextBlock.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1" ScaleY="1"/>
-                    <SkewTransform AngleX="-5.141"/>
-                    <RotateTransform Angle="359.618"/>
                     <TranslateTransform X="-4.828" Y="0.033"/>
                 </TransformGroup>
             </TextBlock.RenderTransform>
         </TextBlock>
-        <Button Click="btnEngineer_Click" Content="show list" Margin="205,115,27,272"/>
-        <Button Click="btnInitialization_Click" Content="initialization" Margin="325,167,27,218"/>
-        <Button Click ="btnReset_Click" Content="reset" Margin="205,167,141,217"/>
-        <Button Click="btnHour_Click" Content="Advance Time (Hour)" Margin="205,24,27,367" RenderTransformOrigin="0.5,0.5">
+        <Button Click="btnEngineer_Click" Content="show list📄" Margin="8,161,12,179" Background="#FFDF9E9E"/>
+        <Button Click="btnInitialization_Click" Content="initialization✏️" Margin="240,262,12,110" Background="#FFB16464"/>
+        <Button Click ="btnReset_Click" Content="reset🗑️" Margin="11,262,230,109" Background="#FFEBD2D2"/>
+        <Button Click="btnHour_Click" Content="Advance Hour➕⏱️" Margin="229,11,12,279" RenderTransformOrigin="0.5,0.5" Background="#FFEBD2D2">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -46,14 +53,13 @@ Title="MainWindow" Height="450" Width="800">
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <Button Click="btnDay_Click" Content="Advance Time (Day)" Margin="205,72,27,324"/>
-        <Button Click="btnEngineer_Click" Content="Engineer'sView" Margin="327,222,25,163" RenderTransformOrigin="0.5,0.5">
+        <Button Click="btnDay_Click" Content="Advance Day➕⏱️" Margin="8,11,239,279" Background="#FFC8B8B8"/>
+        <Button Click="btnEngineer_Click" Content="Engineer'sView😎" Margin="240,331,12,10" RenderTransformOrigin="0.5,0.5" Background="#FFEBD2D2">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
-                    <SkewTransform AngleX="-1.624"/>
-                    <RotateTransform Angle="-0.501"/>
-                    <TranslateTransform X="-0.638"/>
+
+
                 </TransformGroup>
             </Button.RenderTransform>
 

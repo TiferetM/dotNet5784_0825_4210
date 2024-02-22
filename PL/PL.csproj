@@ -12,9 +12,28 @@
 		<AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
 		<UseCommonOutputDirectory>true</UseCommonOutputDirectory>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="20240125_115246.jpg" />
+	  <None Remove="Engineer\images.jpg" />
+	  <None Remove="Engineer\צילום מסך 2023-04-02 175944.png" />
+	  <None Remove="Engineer\צילום מסך 2024-02-22 120927.png" />
+	  <None Remove="images.jpg" />
+	  <None Remove="Manager\צילום מסך 2024-02-22 120927.png" />
+	  <None Remove="צילום מסך 2024-02-22 120927.png" />
+	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\BLTest\BLTest.csproj" />
 	  <ProjectReference Include="..\BL\BL.csproj" />
 	  
+	</ItemGroup>
+	<ItemGroup>
+	  <Resource Include="20240125_115246.jpg" />
+	  <Resource Include="Engineer\images.jpg" />
+	  <Resource Include="Engineer\צילום מסך 2023-04-02 175944.png" />
+	  <Resource Include="Engineer\צילום מסך 2024-02-22 120927.png" />
+	  <Resource Include="images.jpg" />
+	  <Resource Include="Manager\צילום מסך 2024-02-22 120927.png" />
+	  <Resource Include="צילום מסך 2024-02-22 120927.png" />
 	</ItemGroup>
 </Project>

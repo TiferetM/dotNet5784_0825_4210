@@ -7,7 +7,10 @@
         mc:Ignorable="d"
         Title="ManagerWindow" Height="640" Width="800">
 
-    <Grid>
+    <Grid Margin="-178,0,0,0">
+        <Grid.Background>
+            <ImageBrush ImageSource="/Manager/צילום מסך 2024-02-22 120927.png"/>
+        </Grid.Background>
 
         <Button Click="ListOfEngineers_Click" Content="List of engineers" Margin="205,115,262,459"/>
 
